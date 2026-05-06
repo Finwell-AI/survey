@@ -13,6 +13,7 @@
     "test:report": "playwright show-report"
   },
   "devDependencies": {
+    "@fontsource-variable/inter": "^5.2.6",
     "@playwright/test": "^1.49.1"
   }
 }
