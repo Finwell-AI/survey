@@ -59,14 +59,26 @@ test('contact email is alex@finwellai.com (NOT .com.au)', async ({ request }) =>
   expect(html).not.toContain('alex@finwellai.com.au');
 });
 
-test('reCAPTCHA + Cookiebot scripts are deferred until consent', async ({ request }) => {
-  // Regression: an early version installed reCAPTCHA unconditionally, which
-  // would have been a privacy disclosure issue under the APPs.
-  const html = await (await request.get('/')).text();
-  expect(html).toContain('cookiebot.com');
-  expect(html).toContain('google.com/recaptcha/api.js');
-  expect(html).toMatch(/data-cookieconsent="security"/);
-  expect(html).toMatch(/data-cookieconsent="statistics"/);
+test('reCAPTCHA loads only on /survey, never on the home/thanks/privacy/terms', async ({ request }) => {
+  // Performance: reCAPTCHA's gstatic.com payload is ~370KB. We only need it
+  // on the form page. Loading it on the home page wrecked LCP.
+  for (const path of ['/', '/thanks', '/privacy', '/terms']) {
+    const html = await (await request.get(path)).text();
+    expect(html, `unexpected reCAPTCHA on ${path}`).not.toContain('google.com/recaptcha/api.js');
+  }
+  const survey = await (await request.get('/survey')).text();
+  expect(survey).toContain('google.com/recaptcha/api.js');
+});
+
+test('Cookiebot is loaded on every page, gating GA4 + reCAPTCHA via consent attrs', async ({ request }) => {
+  for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
+    const html = await (await request.get(path)).text();
+    expect(html, `${path} missing Cookiebot`).toContain('consent.cookiebot.com');
+  }
+  const home = await (await request.get('/')).text();
+  expect(home, 'GA4 must be gated by Cookiebot statistics consent').toMatch(/data-cookieconsent="statistics"/);
+  const survey = await (await request.get('/survey')).text();
+  expect(survey, 'reCAPTCHA must be gated by Cookiebot security consent').toMatch(/data-cookieconsent="security"/);
 });
 
 test('consent default is "denied" before user opt-in', async ({ page }) => {

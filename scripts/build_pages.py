@@ -105,8 +105,18 @@ def rewrite_nav(html: str) -> str:
     return html
 
 
-def build_head(*, title: str, description: str, canonical: str, og_image_path: str = "/assets/og-image.png") -> str:
-    """Shared <head> template. Variables substituted per page."""
+def build_head(*, title: str, description: str, canonical: str,
+               og_image_path: str = "/assets/og-image.png",
+               extra_preloads: tuple[tuple[str, str], ...] = ()) -> str:
+    """Shared <head> template. Variables substituted per page.
+
+    `extra_preloads` is a tuple of (as_value, href) — e.g. ("image",
+    "/assets/images/hero.webp") — for per-page LCP hints.
+    """
+    extra_preload_html = "\n".join(
+        f'<link rel="preload" as="{as_}" href="{href}"/>'
+        for as_, href in extra_preloads
+    )
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -153,6 +163,7 @@ def build_head(*, title: str, description: str, canonical: str, og_image_path: s
 <!-- Preload critical assets -->
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png"/>
+{extra_preload_html}
 
 <!-- Stylesheet -->
 <link rel="stylesheet" href="/assets/css/styles.css"/>
@@ -408,11 +419,29 @@ def page(
     modal: bool = False,
     include_footer: bool = True,
     home_already_has_footer: bool = False,
+    include_recaptcha: bool = False,
+    extra_preloads: tuple[tuple[str, str], ...] = (),
 ) -> str:
-    """Compose a full page from head + shared shell + body."""
-    head = build_head(title=title, description=description, canonical=canonical)
+    """Compose a full page from head + shared shell + body.
+
+    `include_recaptcha` is True only on /survey — the form is the only page
+    that needs the v3 token. Loading it elsewhere is ~370KB of wasted
+    bandwidth and ~1.7s of unused JS per Lighthouse.
+
+    `extra_preloads` are per-page LCP hints — e.g. the home page preloads
+    the hero phone image, the survey preloads the survey card decoration.
+    """
+    head = build_head(
+        title=title, description=description, canonical=canonical,
+        extra_preloads=extra_preloads,
+    )
     modal_html = WELCOME_MODAL if modal else ""
     footer_html = "" if home_already_has_footer or not include_footer else SHARED_FOOTER
+    recaptcha_script = (
+        '<!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->\n'
+        '<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"\n'
+        '        type="text/plain" data-cookieconsent="security" defer></script>'
+    ) if include_recaptcha else ""
     body = f"""<body data-page="{canonical.strip('/') or 'home'}">
 {URGENT_BANNER}
 
@@ -425,9 +454,7 @@ def page(
 {modal_html}
 
 <script src="/assets/js/app.js" defer></script>
-<!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->
-<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"
-        type="text/plain" data-cookieconsent="security" defer></script>
+{recaptcha_script}
 </body>
 </html>
 """
@@ -442,6 +469,11 @@ INDEX_HTML = page(
     body_inner=HOME_INNER,
     modal=True,
     home_already_has_footer=True,
+    # LCP candidate on the home page is the hero phone image. Preloading it
+    # gets the browser fetching it before the CSS is parsed.
+    extra_preloads=(
+        ("image", "/assets/images/img-45547e3aac.webp"),
+    ),
 )
 (ROOT / "index.html").write_text(INDEX_HTML, encoding="utf-8")
 
@@ -451,6 +483,7 @@ SURVEY_HTML = page(
     description="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member.",
     canonical="/survey",
     body_inner=SURVEY_INNER,
+    include_recaptcha=True,
 )
 (ROOT / "survey.html").write_text(SURVEY_HTML, encoding="utf-8")
 
