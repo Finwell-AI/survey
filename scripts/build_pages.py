@@ -249,8 +249,11 @@ def build_head(*, title: str, description: str, canonical: str,
 <link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png" fetchpriority="high"/>
 {extra_preload_html}
 
-<!-- Stylesheet -->
-<link rel="stylesheet" href="/assets/css/styles.css"/>
+<!-- Stylesheet — preload + onload swap so it doesn't block first paint
+     on slow mobile connections. Browsers without JS still get the
+     stylesheet via <noscript>. -->
+<link rel="preload" as="style" href="/assets/css/styles.css" onload="this.onload=null;this.rel='stylesheet'"/>
+<noscript><link rel="stylesheet" href="/assets/css/styles.css"/></noscript>
 
 <!-- Cookiebot consent banner (CBID injected at deploy time) -->
 <!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->

@@ -46,10 +46,33 @@
   to = "/terms.html"
   status = 200
 
-# Cache strategy:
-#  - Hash-fingerprinted images (img-<hash>.{png,jpg,webp}) and fonts → 1y immutable.
-#  - Un-fingerprinted CSS/JS at fixed paths → short cache + ETag revalidation,
-#    so a deploy actually reaches the browser without forcing a hard reload.
+# Self-host gtag.js and Cookiebot via Netlify edge proxy. Pulls them onto
+# our origin so the browser doesn't pay a separate TLS handshake per
+# script, and lets Netlify's edge cache the response. The `force = true`
+# ensures the rewrite applies even when files at these paths exist.
+[[redirects]]
+  from = "/_proxy/gtag.js"
+  to = "https://www.googletagmanager.com/gtag/js"
+  status = 200
+  force = true
+  [redirects.query]
+    id = ":id"
+[[redirects]]
+  from = "/_proxy/cookiebot/uc.js"
+  to = "https://consent.cookiebot.com/uc.js"
+  status = 200
+  force = true
+
+# ============================================================================
+# Cache strategy
+# ============================================================================
+#  - Hash-fingerprinted images and fonts → 1y immutable.
+#  - Un-fingerprinted CSS/JS at fixed paths → 5min + must-revalidate +
+#    stale-while-revalidate so deploys reach the browser without a hard
+#    reload, and repeat visits never wait for revalidation.
+#  - HTML → no browser cache, but s-maxage lets Netlify's CDN serve cached
+#    HTML for 60s and revalidate in the background for the next 24h.
+
 [[headers]]
   for = "/assets/images/*"
   [headers.values]
@@ -63,29 +86,38 @@
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate"
+    Cache-Control = "public, max-age=300, must-revalidate, stale-while-revalidate=86400"
 
 [[headers]]
   for = "/assets/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate"
+    Cache-Control = "public, max-age=300, must-revalidate, stale-while-revalidate=86400"
 
 [[headers]]
   for = "/*.html"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=86400"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=(), browsing-topics=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Cross-Origin-Opener-Policy = "same-origin"
 
 [[headers]]
   for = "/"
   [headers.values]
-    Cache-Control = "public, max-age=0, must-revalidate"
+    Cache-Control = "public, max-age=0, must-revalidate, s-maxage=60, stale-while-revalidate=86400"
     X-Frame-Options = "DENY"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=(), interest-cohort=(), browsing-topics=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
+    Cross-Origin-Opener-Policy = "same-origin"
+
+# Service worker has its own cache rule — short, must-revalidate, NO immutable.
+# A stale SW that's cached forever can prevent users ever seeing updates.
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "public, max-age=0, must-revalidate"

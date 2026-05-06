@@ -466,6 +466,15 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     });
   }
 
+  // ------------------------------------------------------------- service worker
+  // Register on idle so it doesn't fight the LCP path. The SW caches
+  // /assets/* and serves repeat visits from cache.
+  function registerSW() {
+    if (!('serviceWorker' in navigator)) return;
+    if (location.protocol !== 'https:' && location.hostname !== 'localhost') return;
+    try { navigator.serviceWorker.register('/sw.js'); } catch (e) { /* swallow */ }
+  }
+
   // ------------------------------------------------------------- boot
   document.addEventListener('DOMContentLoaded', function () {
     setupWelcomeModal();
@@ -474,5 +483,11 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     wireNavEvents();
     wireFaqEvents();
     setupSurveyForm();
+    var idleSW = function () { registerSW(); };
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(idleSW, { timeout: 4000 });
+    } else {
+      setTimeout(idleSW, 1500);
+    }
   });
 })();
