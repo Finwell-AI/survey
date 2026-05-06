@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Take the 2-minute survey — Finwell AI</title>
+<meta name="description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<meta name="theme-color" content="#0B1F3B"/>
+<link rel="canonical" href="https://finwellai.com.au/survey"/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/images/img-f5ef1fbf38.png"/>
+<link rel="apple-touch-icon" href="/assets/images/img-f5ef1fbf38.png"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Finwell AI"/>
+<meta property="og:title" content="Take the 2-minute survey — Finwell AI"/>
+<meta property="og:description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<meta property="og:url" content="https://finwellai.com.au/survey"/>
+<meta property="og:image" content="https://finwellai.com.au/assets/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Take the 2-minute survey — Finwell AI"/>
+<meta name="twitter:description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<meta name="twitter:image" content="https://finwellai.com.au/assets/og-image.png"/>
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Finwell AI",
+  "url": "https://finwellai.com.au",
+  "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
+  "description": "Finwell AI is the bookkeeper in your pocket. AI-powered receipt capture and tax-time automation for Australian sole traders, PAYG earners and small business owners.",
+  "sameAs": []
+}
+</script>
+
+<!-- Preload critical assets -->
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
+<link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png"/>
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="/assets/css/styles.css"/>
+
+<!-- Cookiebot consent banner (CBID injected at deploy time) -->
+<!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="__COOKIEBOT_CBID__"
+        data-blockingmode="auto" type="text/javascript"></script>
+
+<!-- Google Analytics 4 (gated by Cookiebot consent for `statistics`) -->
+<!-- TODO_GA4: replace `__GA4_MEASUREMENT_ID__` with the live G-XXXXXXXXXX -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+  gtag('js', new Date());
+  // GA4 config fires only when Cookiebot reports statistics consent.
+  window.addEventListener('CookiebotOnAccept', function () {
+    if (window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      gtag('config', '__GA4_MEASUREMENT_ID__', { anonymize_ip: true });
+    }
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"
+        data-cookieconsent="statistics"></script>
+</head>
+<body data-page="survey">
+<div class="urgent-banner" id="urgentBanner">
+<div class="urgent-banner-inner">
+<span class="pulse-dot"></span>
+<span><strong>Tax time is just around the corner.</strong> Be a founding member, join the waitlist, get 6 months free Premium.</span>
+<a class="banner-cta" href="/survey" data-event="cta_click" data-cta-label="urgent_banner">Claim my spot</a>
+</div>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>
+
+<header class="site-header">
+<div class="header-inner">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag">Financial Wellness</div>
+</div>
+</a>
+<a class="btn-back" href="/" data-event="nav_click" data-cta-label="survey_back_home">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back to home
+</a>
+</div>
+</header>
+
+<form name="finwellai-waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thanks" id="surveyForm" novalidate>
+<input type="hidden" name="form-name" value="finwellai-waitlist"/>
+<input type="hidden" name="g-recaptcha-response" id="recaptchaToken"/>
+<p class="hp-field" hidden>
+  <label>Don’t fill this out: <input name="bot-field"/></label>
+</p>
+<!-- Hidden inputs populated by app.js from button data-q selections -->
+<input type="hidden" name="income_type"/>
+<input type="hidden" name="salary_range"/>
+<input type="hidden" name="lost_receipt"/>
+<input type="hidden" name="tax_stress"/>
+<input type="hidden" name="deduction_confidence"/>
+<input type="hidden" name="top_feature"/>
+<input type="hidden" name="trust_builder"/>
+<input type="hidden" name="fair_price"/>
+<input type="hidden" name="points_willingness"/>
+<main class="survey-main">
+<div class="survey-card">
+
+<div class="survey-progress">
+<span class="of">Question <em id="stepLbl">01</em> of 08</span>
+<span class="ticks">
+<span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+</span>
+</div>
+<div class="founding500-banner">
+<div class="f500-icon">★</div>
+<div class="f500-text"><strong>Founding 500.</strong> Complete this 2-minute survey and you are in line for 6 months free at launch. We will email you when Finwell AI is live.</div>
+</div>
+
+<!-- Q1: Income type -->
+<div class="step-pane on" data-step="1">
+<span class="eb">About you</span>
+<h1>How do you primarily <em>earn your income?</em></h1>
+<p class="sub">This routes everything that follows. Pick the one that fits best.</p>
+<div class="survey-options">
+<button class="opt" data-q="income_type" data-v="payg"><span class="check"></span><span class="label">PAYG employee<span class="desc">I work for someone and receive a payslip</span></span></button>
+<button class="opt" data-q="income_type" data-v="sole_trader"><span class="check"></span><span class="label">ABN sole trader<span class="desc">I run my own show, BAS and all</span></span></button>
+<button class="opt" data-q="income_type" data-v="both"><span class="check"></span><span class="label">Both, PAYG plus a side hustle<span class="desc">A regular job plus freelance, contract or side income</span></span></button>
+<button class="opt" data-q="income_type" data-v="business_owner"><span class="check"></span><span class="label">Business owner with employees<span class="desc">I run a company that employs others</span></span></button>
+<button class="opt" data-q="income_type" data-v="property_owner"><span class="check"></span><span class="label">Investment property owner<span class="desc">My main income is rental and capital</span></span></button>
+</div>
+<div class="survey-actions">
+<span class="gap"></span>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next1" data-event="survey_step_completed" data-step-number="1">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q2: Salary range -->
+<div class="step-pane" data-step="2">
+<span class="eb">Income range</span>
+<h1>Roughly, what is your <em>annual income</em>?</h1>
+<p class="sub">This helps us understand which features matter most to which earners. Single-select. Prefer not to say is fine.</p>
+<div class="survey-options">
+<button class="opt" data-q="salary_range" data-v="under_50k"><span class="check"></span><span class="label">Under $50,000</span></button>
+<button class="opt" data-q="salary_range" data-v="50_80k"><span class="check"></span><span class="label">$50,000 to $80,000</span></button>
+<button class="opt" data-q="salary_range" data-v="80_120k"><span class="check"></span><span class="label">$80,000 to $120,000</span></button>
+<button class="opt" data-q="salary_range" data-v="120_180k"><span class="check"></span><span class="label">$120,000 to $180,000</span></button>
+<button class="opt" data-q="salary_range" data-v="over_180k"><span class="check"></span><span class="label">Over $180,000</span></button>
+<button class="opt" data-q="salary_range" data-v="prefer_not_say"><span class="check"></span><span class="label">Prefer not to say</span></button>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next2" data-event="survey_step_completed" data-step-number="2">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q3: Lost receipts -->
+<div class="step-pane" data-step="3">
+<span class="eb">The receipt struggle</span>
+<h1>In the last 12 months, have you <em>lost or forgotten</em> a receipt that mattered for tax?</h1>
+<p class="sub">No judgement. Most people answer yes.</p>
+<div class="survey-options">
+<button class="opt" data-q="lost_receipt" data-v="frequent"><span class="check"></span><span class="label">Yes, frequently</span></button>
+<button class="opt" data-q="lost_receipt" data-v="occasional"><span class="check"></span><span class="label">Yes, once or twice</span></button>
+<button class="opt" data-q="lost_receipt" data-v="never"><span class="check"></span><span class="label">No, my system works perfectly</span></button>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next3" data-event="survey_step_completed" data-step-number="3">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q4: Tax stress -->
+<div class="step-pane" data-step="4">
+<span class="eb">Tax-time stress</span>
+<h1>How stressful is preparing your tax <em>or BAS?</em></h1>
+<p class="sub">Pick the number that feels closest. 1 is &#x201C;not stressful at all&#x201D;, 10 is &#x201C;extremely stressful&#x201D;.</p>
+<div class="scale-row" id="scale_stress">
+<button class="scale-btn" data-q="tax_stress" data-v="1">1</button>
+<button class="scale-btn" data-q="tax_stress" data-v="2">2</button>
+<button class="scale-btn" data-q="tax_stress" data-v="3">3</button>
+<button class="scale-btn" data-q="tax_stress" data-v="4">4</button>
+<button class="scale-btn" data-q="tax_stress" data-v="5">5</button>
+<button class="scale-btn" data-q="tax_stress" data-v="6">6</button>
+<button class="scale-btn" data-q="tax_stress" data-v="7">7</button>
+<button class="scale-btn" data-q="tax_stress" data-v="8">8</button>
+<button class="scale-btn" data-q="tax_stress" data-v="9">9</button>
+<button class="scale-btn" data-q="tax_stress" data-v="10">10</button>
+</div>
+<div class="scale-labels"><span>not stressful</span><span>extremely stressful</span></div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next4" data-event="survey_step_completed" data-step-number="4">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q5: Deduction confidence -->
+<div class="step-pane" data-step="5">
+<span class="eb">Deduction confidence</span>
+<h1>How confident are you that you claim <em>every deduction you are entitled to?</em></h1>
+<p class="sub">Be honest. 1 is &#x201C;leaving money on the table&#x201D;. 10 is &#x201C;100 percent confident&#x201D;.</p>
+<div class="scale-row" id="scale_confidence">
+<button class="scale-btn" data-q="deduction_confidence" data-v="1">1</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="2">2</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="3">3</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="4">4</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="5">5</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="6">6</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="7">7</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="8">8</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="9">9</button>
+<button class="scale-btn" data-q="deduction_confidence" data-v="10">10</button>
+</div>
+<div class="scale-labels"><span>leaving money on the table</span><span>100 percent confident</span></div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next5" data-event="survey_step_completed" data-step-number="5">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q5: Top features (multi-select with star) -->
+<div class="step-pane" data-step="6">
+<span class="eb">What matters most</span>
+<h1>If we built this, <em>which features</em> would matter most to you?</h1>
+<p class="sub">Tick all that genuinely apply. Multiple choices fine.</p>
+<div class="multi-status" id="status6"><span class="dot"></span><span><span class="label-key" id="count6">0 selected</span></span></div>
+<div class="survey-options">
+<button class="opt multi" data-q="top_feature" data-v="auto_capture"><span class="check"></span><span class="label">Automatic receipt capture at the till</span></button>
+<button class="opt multi" data-q="top_feature" data-v="live_ledger"><span class="check"></span><span class="label">A live, real-time tax ledger</span></button>
+<button class="opt multi" data-q="top_feature" data-v="invoice_storage"><span class="check"></span><span class="label">Every invoice stored, organised, searchable</span></button>
+<button class="opt multi" data-q="top_feature" data-v="bas_prep"><span class="check"></span><span class="label">Automated BAS preparation</span></button>
+<button class="opt multi" data-q="top_feature" data-v="accountant_handoff"><span class="check"></span><span class="label">Clean handoff to my accountant or bookkeeper</span></button>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next6" data-event="survey_step_completed" data-step-number="6">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q6: Trust builder (multi-select with star) -->
+<div class="step-pane" data-step="7">
+<span class="eb">The trust barrier</span>
+<h1>To automate this, the platform needs to connect to your spending data. <em>What would build trust?</em></h1>
+<p class="sub">Tick all the signals that would matter to you. Multiple choices fine.</p>
+<div class="multi-status" id="status7"><span class="dot"></span><span><span class="label-key" id="count7">0 selected</span></span></div>
+<div class="survey-options">
+<button class="opt multi" data-q="trust_builder" data-v="ato_accreditation"><span class="check"></span><span class="label">ATO accreditation</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="bank_partnership"><span class="check"></span><span class="label">Direct partnership with my bank</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="accountant_endorsement"><span class="check"></span><span class="label">An endorsement from my accountant</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="free_trial"><span class="check"></span><span class="label">A genuine free trial period</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="security_review"><span class="check"></span><span class="label">Independent security reviews</span></button>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next7" data-event="survey_step_completed" data-step-number="7">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q7: Pricing tiers + points + email -->
+<div class="step-pane" data-step="8">
+<span class="eb">Almost there</span>
+<h1>If Finwell AI did all of this for you, <em>what feels fair to pay each month?</em></h1>
+<p class="sub">For a fully automated bookkeeper plus accountant access at tax time. The tiers below are starting points, we want to know which feels right.</p>
+
+<div class="q7-tier-grid">
+<button class="tier-card" data-q="fair_price" data-v="20">
+<div class="price">$20<em> / month</em></div>
+<div class="name">Lite</div>
+<div class="features">Receipt capture, AI categorisation, year-round tax view, every invoice stored.</div>
+</button>
+<button class="tier-card" data-q="fair_price" data-v="30">
+<div class="price">$30<em> / month</em></div>
+<div class="name">Standard</div>
+<div class="features">Everything in Lite plus accountant desktop access, BAS pre-collation, deduction surfacing.</div>
+</button>
+<button class="tier-card" data-q="fair_price" data-v="40">
+<div class="price">$40<em> / month</em></div>
+<div class="name">Full</div>
+<div class="features">Everything in Standard plus AI search bar, priority support, real-time refund tracking.</div>
+</button>
+</div>
+
+<div class="q7-section-divider"><span>One more thing</span></div>
+
+<h1 style="font-size: 22px; margin-bottom: 8px;">Would you pay <em>a little more</em> to earn points?</h1>
+<p class="sub">Some platforms reward you for using them. We want to know if that matters to you.</p>
+<div class="survey-options">
+<button class="opt" data-q="points_willingness" data-v="yes_definitely"><span class="check"></span><span class="label">Yes, definitely<span class="desc">I would pay a bit more if I earned points back</span></span></button>
+<button class="opt" data-q="points_willingness" data-v="depends"><span class="check"></span><span class="label">Depends on the value<span class="desc">If the points are actually useful, then yes</span></span></button>
+<button class="opt" data-q="points_willingness" data-v="no"><span class="check"></span><span class="label">No, just keep the price low<span class="desc">I would rather pay less and skip the points</span></span></button>
+</div>
+
+<div class="q7-section-divider"><span>Your details</span></div>
+<div class="f500-final">
+<strong>★ Founding 500.</strong> Drop your email below to lock in your spot. We will alert you the moment Finwell AI goes live, and your first 6 months are on us.
+</div>
+
+
+<div class="q7-input-group">
+<label for="name">Your name <span class="opt-tag">(optional)</span></label>
+<input type="text" id="name" name="name" placeholder="What should we call you?"/>
+</div>
+<div class="q7-input-group">
+<label for="email">Email *</label>
+<input type="email" id="email" name="email" placeholder="you@example.com" required/>
+</div>
+
+<label class="consent-row">
+<input type="checkbox" id="consent" name="consent" value="yes"/>
+<span>I am happy to receive launch updates from Finwell AI. Unsubscribe anytime.</span>
+</label>
+
+
+
+
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="submit" class="btn btn-primary btn-arrow" id="submitBtn" disabled data-event="survey_completed">Submit
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+</div>
+</main>
+</form>
+
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="footer_logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name" style="color: white;">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag" style="color: rgba(219, 234, 254, 0.7);">Financial Wellness</div>
+</div>
+</a>
+<p class="tagline">Financial Wellness. Smarter Future. Built in Melbourne for Australians dealing with the financial pressure of today.</p>
+</div>
+<div class="footer-links">
+<a href="/#what">What it does</a>
+<a href="/#how">How it works</a>
+<a href="/#tax">Tax automation</a>
+<a href="/#trust">Trust</a>
+<a href="/survey" data-event="cta_click" data-cta-label="footer_survey">Take the survey</a>
+<a href="/#faq">FAQ</a>
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2026 Finwell AI Pty Ltd. ABN pending. Made in Melbourne.</span>
+<span>ATO DSP accreditation in progress.</span>
+</div>
+</footer>
+
+
+<button class="chat-fab" id="chatFab" onclick="window.fwToggleChat()" aria-label="Open chat">
+<span class="pulse-ring"></span>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+<div class="chat-header">
+<div class="chat-avatar">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6a3 3 0 0 1 6 0v12a3 3 0 0 1-6 0V6Z"/><path d="M14 7a3 3 0 1 1 3 5 3 3 0 1 1-3 5"/></svg>
+</div>
+<div class="chat-meta">
+<div class="chat-name">Finwell AI</div>
+<div class="chat-status">Online, always</div>
+</div>
+</div>
+<div class="chat-body" id="chatBody">
+<div class="chat-msg bot">G'day. Happy to answer anything about Finwell AI. Try one of the questions below, or type your own.</div>
+</div>
+<div class="chat-suggestions">
+<button onclick="window.fwAsk('Is it safe?')">Is it safe?</button>
+<button onclick="window.fwAsk('How much will it cost?')">How much?</button>
+<button onclick="window.fwAsk('When do you launch?')">When does it launch?</button>
+<button onclick="window.fwAsk('Will it replace my accountant?')">My accountant?</button>
+<button onclick="window.fwAsk('Does it give financial advice?')">Advice?</button>
+</div>
+<form class="chat-input-row" onsubmit="window.fwSendChat(event)">
+<input type="text" id="chatInput" placeholder="Ask anything..." autocomplete="off"/>
+<button type="submit">Send</button>
+</form>
+</div>
+
+
+
+<script src="/assets/js/app.js" defer></script>
+<!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->
+<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"
+        type="text/plain" data-cookieconsent="security" defer></script>
+</body>
+</html>

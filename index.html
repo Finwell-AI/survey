@@ -1,0 +1,933 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>Finwell AI — Financial wellness, smarter future.</title>
+<meta name="description" content="Finwell AI is the bookkeeper in your pocket. Tax time is around the corner — help us shape what we are building. Take the 2-minute survey and join the founding 500 for 6 months free Premium."/>
+<meta name="theme-color" content="#0B1F3B"/>
+<link rel="canonical" href="https://finwellai.com.au/"/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/images/img-f5ef1fbf38.png"/>
+<link rel="apple-touch-icon" href="/assets/images/img-f5ef1fbf38.png"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Finwell AI"/>
+<meta property="og:title" content="Finwell AI — Financial wellness, smarter future."/>
+<meta property="og:description" content="Finwell AI is the bookkeeper in your pocket. Tax time is around the corner — help us shape what we are building. Take the 2-minute survey and join the founding 500 for 6 months free Premium."/>
+<meta property="og:url" content="https://finwellai.com.au/"/>
+<meta property="og:image" content="https://finwellai.com.au/assets/og-image.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="Finwell AI — Financial wellness, smarter future."/>
+<meta name="twitter:description" content="Finwell AI is the bookkeeper in your pocket. Tax time is around the corner — help us shape what we are building. Take the 2-minute survey and join the founding 500 for 6 months free Premium."/>
+<meta name="twitter:image" content="https://finwellai.com.au/assets/og-image.png"/>
+
+<!-- JSON-LD Organization -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "Finwell AI",
+  "url": "https://finwellai.com.au",
+  "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
+  "description": "Finwell AI is the bookkeeper in your pocket. AI-powered receipt capture and tax-time automation for Australian sole traders, PAYG earners and small business owners.",
+  "sameAs": []
+}
+</script>
+
+<!-- Preload critical assets -->
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
+<link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png"/>
+
+<!-- Stylesheet -->
+<link rel="stylesheet" href="/assets/css/styles.css"/>
+
+<!-- Cookiebot consent banner (CBID injected at deploy time) -->
+<!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="__COOKIEBOT_CBID__"
+        data-blockingmode="auto" type="text/javascript"></script>
+
+<!-- Google Analytics 4 (gated by Cookiebot consent for `statistics`) -->
+<!-- TODO_GA4: replace `__GA4_MEASUREMENT_ID__` with the live G-XXXXXXXXXX -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+  gtag('js', new Date());
+  // GA4 config fires only when Cookiebot reports statistics consent.
+  window.addEventListener('CookiebotOnAccept', function () {
+    if (window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      gtag('config', '__GA4_MEASUREMENT_ID__', { anonymize_ip: true });
+    }
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"
+        data-cookieconsent="statistics"></script>
+</head>
+<body data-page="home">
+<div class="urgent-banner" id="urgentBanner">
+<div class="urgent-banner-inner">
+<span class="pulse-dot"></span>
+<span><strong>Tax time is just around the corner.</strong> Be a founding member, join the waitlist, get 6 months free Premium.</span>
+<a class="banner-cta" href="/survey" data-event="cta_click" data-cta-label="urgent_banner">Claim my spot</a>
+</div>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>
+
+<div class="page active" data-page="home">
+
+<!-- HEADER -->
+<header class="site-header dark" id="siteHeader">
+<div class="header-inner">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag">Financial Wellness</div>
+</div>
+</a>
+<div class="header-trust-pill">
+<span class="dot"></span>
+ATO accreditation in progress
+</div>
+
+<nav class="nav-links">
+<a onclick="document.getElementById('what').scrollIntoView({behavior:'smooth'})">What it does</a>
+<a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</a>
+<a onclick="document.getElementById('tax').scrollIntoView({behavior:'smooth'})">Tax automation</a>
+<a onclick="document.getElementById('trust').scrollIntoView({behavior:'smooth'})">Trust</a>
+<a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
+</nav>
+<div class="header-cta">
+<a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Claim my spot
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</div>
+</div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+<div class="hero-wave-image"></div>
+<div class="hero-particles">
+<span></span><span></span><span></span><span></span><span></span><span></span>
+</div>
+<div class="hero-inner">
+<div>
+<div class="hero-eyebrow">
+<span class="dot"></span> Founding members · waitlist open </div>
+<h1 class="h-display">Financial Wellness.<br/><span class="accent">Smarter Future.</span></h1>
+<div class="hero-feature-pill">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+<span>Every line item captured instantly. <strong>No typing. No manual entry.</strong></span>
+</div>
+<p class="hero-lede">AI-powered insights and automation that help you understand your finances, stay tax-ready, and build a better future. We are at the build stage. <strong style="color: var(--light-blue);">Be a founding member. Get 6 months free Premium when we launch.</strong></p>
+<div class="hero-ctas">
+<a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Join waitlist · 6 months free Premium
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+<button class="btn btn-secondary" onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">See how it works</button>
+</div>
+<div class="hero-meta">
+<div class="stat"><div class="v">14M</div><div class="k">PAYG taxpayers in Australia</div></div>
+<div class="stat"><div class="v">2.8M</div><div class="k">Sole traders managing BAS</div></div>
+<div class="stat"><div class="v">$9.7B</div><div class="k">Deductions missed each year</div></div>
+</div>
+</div>
+
+<!-- HERO VISUAL: Glowing F-mark + floating phone mockup -->
+<div class="hero-visual">
+<div class="hero-fmark">
+<div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div>
+<div class="hero-fmark-glow"></div>
+</div>
+
+<!-- Phone mockup (real product image) -->
+<img class="hero-phone-image" src="/assets/images/img-45547e3aac.webp" alt="Finwell AI app showing Financial Wellness Score, Cash Flow and Tax Estimation" />
+</div>
+
+</div>
+
+</section>
+
+<!-- POWERED BY AI -->
+<section class="powered-by-ai" id="how">
+<div class="pba-inner">
+
+<div class="pba-content reveal">
+<div class="pba-mark">
+<div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div>
+</div>
+<h2>Your financial journey,<br/><span class="accent">powered by AI.</span></h2>
+<p class="lede">From transactions to tax, Finwell AI does the heavy lifting, so you can focus on what matters. Built for everyday Australians, designed around the work you would rather not do.</p>
+
+<div class="pba-pillars">
+
+<div class="pba-pillar">
+<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></div>
+<div class="name">Capture</div>
+<div class="desc">Transactions automatically</div>
+</div>
+
+<div class="pba-pillar">
+<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="9" y1="6" x2="15" y2="6"/><line x1="7.5" y1="8.5" x2="10.5" y2="15.5"/><line x1="16.5" y1="8.5" x2="13.5" y2="15.5"/></svg></div>
+<div class="name">Categorise</div>
+<div class="desc">With AI accuracy you can trust</div>
+</div>
+
+<div class="pba-pillar">
+<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l6-6 4 4 7-7"/><polyline points="14 8 20 8 20 14"/></svg></div>
+<div class="name">Get Insights</div>
+<div class="desc">Understand your financial picture</div>
+</div>
+
+<div class="pba-pillar">
+<div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/><path d="m9 12 2 2 4-5"/></svg></div>
+<div class="name">Stay Tax-Ready</div>
+<div class="desc">Maximise deductions and minimise stress</div>
+</div>
+
+</div>
+</div>
+
+<!-- POWERED BY AI HERO IMAGE -->
+<div class="pba-visual reveal">
+<div class="section-img-pba" role="img" aria-label="Person using Finwell AI on their phone"></div>
+</div>
+
+</div>
+</section>
+
+<!-- §All-in-one-place -->
+<section class="aiop">
+<div class="aiop-inner">
+<div class="aiop-content reveal">
+<span class="eb-pill light">All your finances</span>
+<h2 class="aiop-h">All your finances. <span class="accent">All in one place.</span></h2>
+<p class="aiop-lede">Connect your accounts, track spending, monitor cash flow and get AI powered insights to improve your financial wellness. One dashboard. One platform. Every dollar accounted for.</p>
+<ul class="aiop-bullets">
+<li><span class="aiop-check">✓</span>Net worth, income and expenses in one view</li>
+<li><span class="aiop-check">✓</span>Real time cash flow tracking</li>
+<li><span class="aiop-check">✓</span>AI insights that show where your money goes</li>
+<li><span class="aiop-check">✓</span>Budget progress at a glance</li>
+</ul>
+</div>
+<div class="aiop-visual reveal">
+<img class="aiop-image" alt="Finwell AI on laptop and phone showing the unified financial dashboard" src="/assets/images/img-aac41dbfb2.webp" />
+</div>
+</div>
+</section>
+
+
+<!-- DIGITAL RECEIPTS (rebuilt) -->
+<section class="section-rebuilt dark digital-receipts" id="receipts">
+<div class="section-rebuilt-inner">
+<div class="dr-grid">
+
+<!-- Left: text content -->
+<div class="dr-content reveal-block">
+<span class="eb-pill dark">Digital Receipts</span>
+<h2 class="h-rebuilt dark">Receipts are <span class="accent">becoming data.</span></h2>
+<p class="lede-rebuilt dark">The true power of Finwell AI is the instant pass through of a receipt. You do not need to do a thing but pay for your item. Finwell AI receives the itemised SKU receipt detail straight from the terminal, in real time.</p>
+<div class="dr-bullets">
+<div class="dr-bullet">
+<div class="dr-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Capture from emails, uploads or merchant integrations</span>
+</div>
+<div class="dr-bullet">
+<div class="dr-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Every line item captured automatically — no typing, no manual entry</span>
+</div>
+<div class="dr-bullet">
+<div class="dr-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Match receipts to bank transactions automatically</span>
+</div>
+<div class="dr-bullet">
+<div class="dr-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>AI categorises and flags every deduction</span>
+</div>
+<div class="dr-bullet">
+<div class="dr-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Store securely, access from anywhere, anytime</span>
+</div>
+</div>
+</div>
+
+<!-- Middle: Shell receipt (paper docket) -->
+<div class="dr-receipt-wrap reveal-block">
+<div class="dr-stars">
+<span class="dr-star" style="top: 10%; left: 8%; animation-delay: 0s;"></span>
+<span class="dr-star" style="top: 25%; right: 5%; animation-delay: -1s;"></span>
+<span class="dr-star" style="bottom: 30%; left: 4%; animation-delay: -2s;"></span>
+<span class="dr-star" style="bottom: 12%; right: 10%; animation-delay: -1.5s;"></span>
+<span class="dr-star" style="top: 50%; right: 0%; animation-delay: -0.5s;"></span>
+</div>
+<div class="dr-receipt">
+<div class="dr-receipt-logo">
+<svg viewBox="0 0 60 56" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<linearGradient id="shellYellow" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#FFE600"/>
+<stop offset="100%" stop-color="#FFA500"/>
+</linearGradient>
+</defs>
+<path d="M30 4 C18 4, 6 12, 6 26 C6 38, 12 48, 22 52 L30 54 L38 52 C48 48, 54 38, 54 26 C54 12, 42 4, 30 4 Z" fill="url(#shellYellow)" stroke="#DD1D21" stroke-width="2.5"/>
+<line x1="14" y1="22" x2="12" y2="42" stroke="#DD1D21" stroke-width="1.2" opacity="0.7"/>
+<line x1="22" y1="14" x2="20" y2="50" stroke="#DD1D21" stroke-width="1.2" opacity="0.7"/>
+<line x1="30" y1="10" x2="30" y2="54" stroke="#DD1D21" stroke-width="1.2" opacity="0.7"/>
+<line x1="38" y1="14" x2="40" y2="50" stroke="#DD1D21" stroke-width="1.2" opacity="0.7"/>
+<line x1="46" y1="22" x2="48" y2="42" stroke="#DD1D21" stroke-width="1.2" opacity="0.7"/>
+</svg>
+</div>
+<div class="dr-receipt-merchant">Shell Service Station</div>
+<div class="dr-receipt-address">123 Main Road<br/>Melbourne VIC 3000<br/>ABN: 12 345 678 901</div>
+<div class="dr-receipt-divider"></div>
+<div class="dr-receipt-meta">
+<span class="dr-receipt-meta-label">Date:</span><span class="dr-receipt-meta-value">23 Apr 2026</span>
+<span class="dr-receipt-meta-label">Time:</span><span class="dr-receipt-meta-value">12:45 PM</span>
+<span class="dr-receipt-meta-label">Receipt #:</span><span class="dr-receipt-meta-value">123456</span>
+</div>
+<div class="dr-receipt-divider"></div>
+<div class="dr-receipt-items-header">
+<span>Item</span><span>Amount</span>
+</div>
+
+<div class="dr-receipt-item dr-item-1">
+<div class="dr-item-flag deductible">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+</div>
+<div class="dr-item-body">
+<div class="dr-item-name">V-Power Unleaded 91</div>
+<div class="dr-item-detail">50.00 L &times; $1.70/L</div>
+</div>
+<div class="dr-item-pricing">
+<div class="dr-item-amount">$85.00</div>
+<div class="dr-item-tag deductible">DEDUCTIBLE</div>
+</div>
+</div>
+
+<div class="dr-receipt-item dr-item-2">
+<div class="dr-item-flag non-deductible">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</div>
+<div class="dr-item-body">
+<div class="dr-item-name">Chocolate Big M</div>
+</div>
+<div class="dr-item-pricing">
+<div class="dr-item-amount">$3.60</div>
+<div class="dr-item-tag non-deductible">NON-DEDUCTIBLE</div>
+</div>
+</div>
+
+<div class="dr-receipt-item dr-item-3">
+<div class="dr-item-flag non-deductible">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</div>
+<div class="dr-item-body">
+<div class="dr-item-name">Four'n Twenty Pie</div>
+</div>
+<div class="dr-item-pricing">
+<div class="dr-item-amount">$4.50</div>
+<div class="dr-item-tag non-deductible">NON-DEDUCTIBLE</div>
+</div>
+</div>
+
+<div class="dr-receipt-divider"></div>
+<div class="dr-receipt-total">
+<span>TOTAL</span><span>$93.10</span>
+</div>
+<div class="dr-receipt-payment">
+EFTPOS<br/>
+Card &middot;&middot;&middot;&middot; 4242<br/>
+Shell Card
+</div>
+<div class="dr-receipt-footer">
+Thank you for choosing Shell<br/>Drive safe
+</div>
+</div>
+</div>
+
+<!-- Right: Receipt Details (dark glass card) -->
+<div class="dr-details reveal-block">
+<h3>Receipt Details</h3>
+<div class="dr-details-row">
+<div class="dr-details-label">Merchant</div>
+<div class="dr-details-value">Shell Service Station</div>
+</div>
+<div class="dr-details-row">
+<div class="dr-details-label">Date</div>
+<div class="dr-details-value">23 Apr 2026</div>
+</div>
+<div class="dr-details-row">
+<div class="dr-details-label">Amount</div>
+<div class="dr-details-value">$93.10</div>
+</div>
+<div class="dr-details-row">
+<div class="dr-details-label">Category</div>
+<div class="dr-category-row">
+<span class="dr-category-dot deductible"></span>
+<span class="dr-category-text">Fuel (Deductible)</span>
+</div>
+<div class="dr-category-row">
+<span class="dr-category-dot non-deductible"></span>
+<span class="dr-category-text">Food &amp; Snacks (Non-deductible)</span>
+</div>
+</div>
+<div class="dr-details-row">
+<div class="dr-details-label">Deductible</div>
+<div class="dr-details-value">Yes (Partial)</div>
+</div>
+<div class="dr-details-row">
+<div class="dr-confidence">
+<div class="dr-confidence-head">
+<span class="dr-details-label" style="margin: 0;">AI Confidence</span>
+<span class="dr-confidence-pct">94%</span>
+</div>
+<div class="dr-confidence-bar">
+<div class="dr-confidence-fill" id="drConfidenceFill"></div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- §01 PROBLEMS, what tax time actually looks like -->
+<section class="section" id="what">
+<div class="section-inner">
+<div class="s-title">
+<span class="eb">The problem</span>
+<h2 class="h-section">Tax time should not feel like this.</h2>
+<p class="body">Glove boxes full of fading petrol receipts. The accountant&#x2019;s invoice climbing every year. BAS overdue. Subscriptions you forgot you had. We have spoken to enough Australians to know none of it is working as it should.</p>
+</div>
+
+<div class="card-grid cols-4">
+
+<div class="card reveal">
+<div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h5"/></svg></div>
+<h3>Lost receipts, lost money</h3>
+<p>Most Australians lose at least one receipt that would have been deductible every year. Faded petrol slips. Bunnings dockets that went through the wash. Email confirmations buried in three different inboxes.</p>
+</div>
+
+<div class="card reveal">
+<div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2 3 14h8l-1 8 10-12h-8Z"/></svg></div>
+<h3>The annual scramble</h3>
+<p>30 June arrives. The shoebox comes out. Three weekends disappear into manual receipt sorting before you even get to your accountant. Most people leave deductions on the table just to be done with it.</p>
+</div>
+
+<div class="card reveal">
+<div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7h18v13H3z"/><path d="M16 12h5v4h-5a2 2 0 0 1 0-4Z"/><path d="M3 7l3-4h12l3 4"/></svg></div>
+<h3>Data scattered everywhere</h3>
+<p>Bank statements in one app. Receipts in a folder somewhere. Subscription invoices in email. BAS records in Xero. None of it joined up. Tax time becomes an archaeology project.</p>
+</div>
+
+<div class="card reveal">
+<div class="icon-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6a3 3 0 0 1 6 0v12a3 3 0 0 1-6 0V6Z"/><path d="M14 7a3 3 0 1 1 3 5 3 3 0 1 1-3 5"/><path d="M8 7a3 3 0 1 0-3 5 3 3 0 1 0 3 5"/></svg></div>
+<h3>You should not need a spreadsheet</h3>
+<p>The tools that exist either ask you to photograph every receipt or to learn an accounting system. Most people give up. They want the platform to do the work. We agree.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- §03 FEATURES (rebuilt) -->
+<section class="section-rebuilt light" id="what">
+<div class="section-rebuilt-inner">
+
+<div class="features-header">
+<span class="eb-pill light">Features</span>
+<h2 class="h-rebuilt light">Powerful features for <span class="accent">financial clarity.</span></h2>
+<p class="lede-rebuilt light">Everything you need to capture, understand and stay on top of your finances. Built around the work you would rather not do.</p>
+</div>
+
+<div class="features-grid">
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="13" x2="15" y2="13"/><line x1="9" y1="17" x2="15" y2="17"/></svg>
+</div>
+<h3>Digital Receipts</h3>
+<p>Every receipt and tax invoice stored permanently. Capture from email, upload, or merchant feeds.</p>
+</div>
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8" y1="8" x2="11" y2="15"/><line x1="16" y1="8" x2="13" y2="15"/></svg>
+</div>
+<h3>AI Categorisation</h3>
+<p>Every line item categorised against ATO guidelines. Personal, deductible, GST, all detected automatically.</p>
+</div>
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="8" x2="16" y2="8"/><line x1="8" y1="12" x2="16" y2="12"/><line x1="8" y1="16" x2="13" y2="16"/></svg>
+</div>
+<h3>Tax-Ready Records</h3>
+<p>Stay organised with deduction-ready data. ATO record-keeping covered for the full five-year window.</p>
+</div>
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+</div>
+<h3>Itemised Data</h3>
+<p>See the milk, the bread, the dog food, not just &quot;Coles $87.&quot; Item-level detail across every receipt.</p>
+</div>
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.5" y2="16.5"/></svg>
+</div>
+<h3>Smart Search</h3>
+<p>Ask plain-English questions. &quot;What did I spend at petrol stations this year?&quot; Real answers, real data.</p>
+</div>
+
+<div class="feature-card-r">
+<div class="feature-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M9 14l3 3 5-5"/></svg>
+</div>
+<h3>Accountant Export</h3>
+<p>Hand your accountant a clean, pre-categorised dataset, not a shoebox. Desktop access for fine-tuning.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- SOLUTIONS (rebuilt) -->
+<section class="section-rebuilt dark" id="solutions">
+<div class="section-rebuilt-inner">
+
+<div class="solutions-header">
+<span class="eb-pill dark">Solutions</span>
+<h2 class="h-rebuilt dark">Solutions for every <span class="accent">financial journey.</span></h2>
+<p class="lede-rebuilt dark">Built for individuals, sole traders, accountants, merchants and POS partners. One platform, multiple paths.</p>
+</div>
+
+<div class="solutions-grid">
+
+<div class="solution-card-r">
+<div class="solution-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a7 7 0 0 1 14 0v1"/></svg>
+</div>
+<h3>Individuals</h3>
+<p>Take control of your expenses and tax records. Built for everyday Australians who want clarity, not spreadsheets.</p>
+</div>
+
+<div class="solution-card-r">
+<div class="solution-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+</div>
+<h3>Sole Traders</h3>
+<p>Simplify business expenses and stay BAS-compliant. Item-level detail, automated quarterly prep, accountant-ready.</p>
+</div>
+
+<div class="solution-card-r">
+<div class="solution-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><line x1="8" y1="9" x2="16" y2="9"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>
+</div>
+<h3>Accountants</h3>
+<p>Save time and get better organised client data. Desktop access to review, categorise and prepare lodgements faster.</p>
+</div>
+
+<div class="solution-card-r">
+<div class="solution-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9 5 4h14l2 5"/><path d="M3 9v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V9"/><path d="M3 9h18"/><line x1="9" y1="14" x2="15" y2="14"/></svg>
+</div>
+<h3>Merchants</h3>
+<p>Delight customers with digital receipts. Reduce paper waste, capture loyalty data, integrate at the transaction layer.</p>
+</div>
+
+<div class="solution-card-r">
+<div class="solution-icon-r">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><rect x="9" y="9" width="6" height="6"/><line x1="9" y1="3" x2="9" y2="6"/><line x1="15" y1="3" x2="15" y2="6"/><line x1="9" y1="18" x2="9" y2="21"/><line x1="15" y1="18" x2="15" y2="21"/><line x1="3" y1="9" x2="6" y2="9"/><line x1="3" y1="15" x2="6" y2="15"/><line x1="18" y1="9" x2="21" y2="9"/><line x1="18" y1="15" x2="21" y2="15"/></svg>
+</div>
+<h3>POS Partners</h3>
+<p>Power the future of receipts and financial data. Open APIs, white-label options, share in the transaction layer.</p>
+</div>
+
+</div>
+
+<p class="solutions-tagline"><span class="strong">Stronger together.</span> Better outcomes for everyone.</p>
+
+</div>
+</section>
+
+<!-- §04 TAX AUTOMATION (rebuilt) -->
+<section class="section-rebuilt light" id="tax">
+<div class="section-rebuilt-inner">
+<div class="ta-grid">
+
+<div class="ta-content reveal-block">
+<span class="eb-pill light">Tax Automation</span>
+<h2 class="h-rebuilt light">Tax time, <span class="accent">made easier.</span></h2>
+<p class="lede-rebuilt light">Finwell AI helps you capture, categorise and prepare the records you need before tax time arrives. Year-round readiness, BAS pre-collated, accountant-ready.</p>
+<div class="ta-bullets">
+<div class="ta-bullet">
+<div class="ta-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Identify potential deductions automatically</span>
+</div>
+<div class="ta-bullet">
+<div class="ta-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Separate work and personal expenses</span>
+</div>
+<div class="ta-bullet">
+<div class="ta-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Store supporting evidence for every claim</span>
+</div>
+<div class="ta-bullet">
+<div class="ta-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Generate tax summaries on demand</span>
+</div>
+<div class="ta-bullet">
+<div class="ta-bullet-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></div>
+<span>Export clean, organised reports for your accountant</span>
+</div>
+</div>
+<button class="ta-cta" onclick="document.getElementById('faq').scrollIntoView({behavior: 'smooth'})">Learn more
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+
+<div class="ta-phone-stage reveal-block">
+<div class="ta-phone">
+<div class="ta-phone-screen">
+
+<div class="ta-phone-header">
+<svg class="ta-phone-back" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+<div class="ta-phone-title">
+<div class="ta-phone-title-main">Tax Summary</div>
+<div class="ta-phone-title-sub">FY 2025-2026</div>
+</div>
+</div>
+
+<div class="ta-phone-section">
+<div class="ta-phone-section-label">Total Deductions</div>
+<div class="ta-deduct-amount">$4,892</div>
+<div class="ta-deduct-vs">12.4% vs last year</div>
+</div>
+
+<div class="ta-phone-section">
+<div class="ta-bars">
+<div class="ta-bar b1"></div>
+<div class="ta-bar b2"></div>
+<div class="ta-bar b3"></div>
+<div class="ta-bar b4"></div>
+<div class="ta-bar b5"></div>
+<div class="ta-bar b6"></div>
+</div>
+<div class="ta-bars-labels">
+<div>Jan</div><div>Feb</div><div>Mar</div><div>Apr</div><div>May</div><div>Jun</div>
+</div>
+</div>
+
+<div class="ta-phone-section">
+<div class="ta-phone-section-label">Top Categories</div>
+<div class="ta-cat-list">
+<div class="ta-cat-row"><span class="ta-cat-name">Work Expenses</span><span class="ta-cat-amount">$1,850</span></div>
+<div class="ta-cat-row"><span class="ta-cat-name">Vehicle</span><span class="ta-cat-amount">$1,240</span></div>
+<div class="ta-cat-row"><span class="ta-cat-name">Home Office</span><span class="ta-cat-amount">$980</span></div>
+<div class="ta-cat-row"><span class="ta-cat-name">Tools &amp; Equipment</span><span class="ta-cat-amount">$622</span></div>
+<div class="ta-cat-row"><span class="ta-cat-name">Other</span><span class="ta-cat-amount">$200</span></div>
+</div>
+</div>
+
+<button class="ta-export-btn">Export Report</button>
+
+</div>
+</div>
+
+<div class="ta-badge">
+<svg class="ta-badge-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+<div class="ta-badge-text">Ready for<br/>Tax Time</div>
+</div>
+
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- STAT STRIP -->
+<section class="stat-strip">
+<div class="stat-strip-inner">
+
+<div class="stat-tile reveal">
+<div class="icon-row">
+<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+<div class="big">$9.7B<em></em></div>
+</div>
+<div class="name">Lost in unclaimed deductions</div>
+<div class="desc">Australians leave billions behind every year because tracking receipts is too hard. We change that.</div>
+</div>
+
+<div class="stat-tile reveal">
+<div class="icon-row">
+<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg></div>
+<div class="big">99%<em></em></div>
+</div>
+<div class="name">Secure and private</div>
+<div class="desc">Bank-grade encryption, Australian-hosted infrastructure. Your data stays yours, full stop.</div>
+</div>
+
+<div class="stat-tile reveal">
+<div class="icon-row">
+<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg></div>
+<div class="big">10+<em>hrs</em></div>
+</div>
+<div class="name">Saved every month</div>
+<div class="desc">Projected time you save not chasing receipts, sorting transactions, or stressing over tax records.</div>
+</div>
+
+<div class="stat-tile reveal">
+<div class="icon-row">
+<div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 9.5 9.5 2 12l7.5 2.5L12 22l2.5-7.5L22 12l-7.5-2.5Z"/></svg></div>
+<div class="big">AI</div>
+</div>
+<div class="name">You can trust</div>
+<div class="desc">Built with accuracy, transparency and ATO-aligned compliance at the core. AI accreditation in progress.</div>
+</div>
+
+</div>
+</section>
+
+<!-- §06 SECURITY & TRUST (rebuilt) -->
+<section class="section-rebuilt light" id="trust">
+<div class="section-rebuilt-inner">
+<div class="st-grid">
+
+<div class="st-content reveal-block">
+<span class="eb-pill light">Security &amp; Trust</span>
+<h2 class="h-rebuilt light">Your data. <span class="accent">Your control.</span></h2>
+<p class="lede-rebuilt light">Security and privacy built in from day one. Australian-hosted, encrypted end-to-end, designed around the principle that your data stays yours.</p>
+<div class="st-bullets">
+<div class="st-bullet">
+<div class="st-bullet-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="m9 12 2 2 4-4"/></svg>
+</div>
+<span>Bank-grade encryption (AES-256 at rest, TLS 1.3 in transit)</span>
+</div>
+<div class="st-bullet">
+<div class="st-bullet-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><circle cx="12" cy="11" r="2"/><path d="M12 13v3"/></svg>
+</div>
+<span>Multi-factor authentication on every account</span>
+</div>
+<div class="st-bullet">
+<div class="st-bullet-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><circle cx="12" cy="12" r="2"/></svg>
+</div>
+<span>You control what you share, who sees it, and when</span>
+</div>
+<div class="st-bullet">
+<div class="st-bullet-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="M9 11h6"/><path d="M9 14h6"/></svg>
+</div>
+<span>Compliant with Australian privacy principles</span>
+</div>
+<div class="st-bullet">
+<div class="st-bullet-icon">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2 4 6v6c0 5 3.5 9 8 10 4.5-1 8-5 8-10V6z"/><path d="M8 12h8"/><path d="M12 8v8"/></svg>
+</div>
+<span>Secure Australian cloud infrastructure, hosted locally</span>
+</div>
+</div>
+<button class="st-cta" onclick="document.getElementById('faq').scrollIntoView({behavior: 'smooth'})">Security overview
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+
+<div class="st-shield-stage reveal-block">
+<img class="st-shield-image" src="/assets/images/img-2980485374.webp" alt="Bank-grade security shield with padlock on pedestal" />
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- §07 FAQ -->
+<section class="section section-50" id="faq">
+<div class="section-inner">
+<div class="s-title">
+<span class="eb">FAQ</span>
+<h2 class="h-section">The honest answers.</h2>
+</div>
+
+<div class="faq-list">
+
+<details>
+<summary><span>Why are you asking for survey responses instead of just launching?</span></summary>
+<p>Because we are not done building yet. The survey takes 2 minutes and the answers shape what we prioritise. Sole traders get one set of features ranked first. PAYG taxpayers another. We would rather hear from you now than guess and rebuild later.</p>
+</details>
+
+<details>
+<summary><span>Does Finwell AI give me financial advice?</span></summary>
+<p>No. We organise your spending and report it back. We will tell you what you bought, when, how often, and how it is categorised. We will not tell you what to buy, what to cut, or what to invest in. Decisions stay with you. For advice on your circumstances, see a registered tax agent or licensed financial adviser.</p>
+</details>
+
+<details>
+<summary><span>Does it replace my accountant?</span></summary>
+<p>No. It makes them faster and cheaper. You hand them a clean, pre-categorised dataset instead of a shoebox. Your accountant gets desktop access to fine-tune categories and prepare your lodgement. They focus on judgement calls, not data entry.</p>
+</details>
+
+<details>
+<summary><span>Is it safe? Is my financial data protected?</span></summary>
+<p>Yes, and this is not marketing speak. Account setup runs through licensed Australian infrastructure. We never see card numbers. We cannot move money. We receive transaction data only, encrypted in transit and at rest. You can disconnect anytime. You can export or delete everything you have given us, anytime.</p>
+</details>
+
+<details>
+<summary><span>What does &#x201C;item-level&#x201D; mean?</span></summary>
+<p>Bank apps see &#x201C;Coles, $87.&#x201D; Finwell AI sees the milk, the bread, the dog food, the chocolate bar that made up that $87. The difference is whether you actually know where the money goes, or just guess.</p>
+</details>
+
+<details>
+<summary><span>I do not pay much tax. Is this still for me?</span></summary>
+<p>Yes. Plenty of people use Finwell AI just as a budget tool. You get taxable item breakdowns, the AI search bar to ask anything, and one clean record across everything you spend. The day your tax position changes, your history is already there.</p>
+</details>
+
+<details>
+<summary><span>When does it actually launch?</span></summary>
+<p>Public launch in 2026. Founding members who take the survey get early beta access before then. Take the survey, you are in line.</p>
+</details>
+
+<details>
+<summary><span>Is this just for big-city types?</span></summary>
+<p>No. Sparky in Geelong, teacher in Cairns, side hustle in Hobart, fishing charter out of Port Douglas. Same platform, same way. Built for any Australian who has to deal with tax, BAS, or just keeping track of where the money goes.</p>
+</details>
+
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name" style="color: white;">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag" style="color: rgba(219, 234, 254, 0.7);">Financial Wellness</div>
+</div>
+</a>
+<p class="tagline">Financial Wellness. Smarter Future. Built in Melbourne for Australians dealing with the financial pressure of today.</p>
+</div>
+<div class="footer-links">
+<a onclick="document.getElementById('what').scrollIntoView({behavior:'smooth'})">What it does</a>
+<a onclick="document.getElementById('how').scrollIntoView({behavior:'smooth'})">How it works</a>
+<a onclick="document.getElementById('tax').scrollIntoView({behavior:'smooth'})">Tax automation</a>
+<a onclick="document.getElementById('trust').scrollIntoView({behavior:'smooth'})">Trust</a>
+<a href="/survey" data-event="cta_click" data-cta-label="footer_survey">Take the survey</a>
+<a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2026 Finwell AI Pty Ltd. ABN pending. Made in Melbourne.</span>
+<span>ATO DSP accreditation in progress.</span>
+</div>
+</footer>
+
+</div>
+<!-- end home page -->
+
+
+
+<button class="chat-fab" id="chatFab" onclick="window.fwToggleChat()" aria-label="Open chat">
+<span class="pulse-ring"></span>
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+</button>
+
+<div class="chat-panel" id="chatPanel">
+<div class="chat-header">
+<div class="chat-avatar">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6a3 3 0 0 1 6 0v12a3 3 0 0 1-6 0V6Z"/><path d="M14 7a3 3 0 1 1 3 5 3 3 0 1 1-3 5"/></svg>
+</div>
+<div class="chat-meta">
+<div class="chat-name">Finwell AI</div>
+<div class="chat-status">Online, always</div>
+</div>
+</div>
+<div class="chat-body" id="chatBody">
+<div class="chat-msg bot">G'day. Happy to answer anything about Finwell AI. Try one of the questions below, or type your own.</div>
+</div>
+<div class="chat-suggestions">
+<button onclick="window.fwAsk('Is it safe?')">Is it safe?</button>
+<button onclick="window.fwAsk('How much will it cost?')">How much?</button>
+<button onclick="window.fwAsk('When do you launch?')">When does it launch?</button>
+<button onclick="window.fwAsk('Will it replace my accountant?')">My accountant?</button>
+<button onclick="window.fwAsk('Does it give financial advice?')">Advice?</button>
+</div>
+<form class="chat-input-row" onsubmit="window.fwSendChat(event)">
+<input type="text" id="chatInput" placeholder="Ask anything..." autocomplete="off"/>
+<button type="submit">Send</button>
+</form>
+</div>
+
+<div class="welcome-modal-backdrop" id="welcomeModal" role="dialog" aria-modal="true" aria-labelledby="welcomeTitle">
+<div class="welcome-modal">
+
+<button class="close-btn" onclick="window.fwCloseWelcome()" aria-label="Close">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+</button>
+
+<div class="welcome-modal-eyebrow">
+<span class="pulse-dot-mini"></span>
+<span>Tax time is just around the corner</span>
+</div>
+
+<h2 id="welcomeTitle">Tax time is just around the corner. <span class="accent">Get 6 months free.</span></h2>
+
+<p>Be a founding member. Join the waitlist with a 2-minute survey and get 6 months free Premium when Finwell AI launches. We will alert you the moment we are live.</p>
+
+<div class="perks">
+<div class="perks-row">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+<span>2 minutes, 7 questions, no email required to start</span>
+</div>
+<div class="perks-row">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+<span>6 months free Premium when Finwell AI launches</span>
+</div>
+<div class="perks-row">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+<span>Early beta access before public launch</span>
+</div>
+</div>
+
+<div class="welcome-modal-actions">
+<a class="btn btn-primary btn-arrow" href="/survey" onclick="if(window.fwCloseWelcome)window.fwCloseWelcome();" data-event="cta_click" data-cta-label="welcome_modal_primary">Join waitlist · 6 months free
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+<button class="btn-secondary" onclick="window.fwCloseWelcome()">Maybe later</button>
+</div>
+
+</div>
+</div>
+
+<script src="/assets/js/app.js" defer></script>
+<!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->
+<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"
+        type="text/plain" data-cookieconsent="security" defer></script>
+</body>
+</html>

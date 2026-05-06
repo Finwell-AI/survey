@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*~
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Netlify
+.netlify/
+
+# Local env
+.env
+.env.*
+!.env.example
+
+# Build/dev artefacts
+*.log
+.cache/
+dist/
+build/
+
+# Python (build scripts)
+__pycache__/
+*.pyc
+scripts/manifest.json
