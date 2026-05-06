@@ -419,9 +419,11 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
 
     // Trigger reCAPTCHA load on first interaction so the 370KB script isn't
     // on the critical render path. By the time the user reaches step 8 and
-    // clicks Submit, grecaptcha has had plenty of time to download.
+    // clicks Submit, grecaptcha has had plenty of time to download. We use
+    // the bubble phase (no capture) so the option-button click handlers fire
+    // first and the step transition isn't held up by the script append.
     var loadOnce = function () { loadRecaptchaIfNeeded(); };
-    form.addEventListener('click', loadOnce, { once: true, passive: true, capture: true });
+    form.addEventListener('click', loadOnce, { once: true, passive: true });
     form.addEventListener('focusin', loadOnce, { once: true, passive: true });
 
     form.addEventListener('submit', function (e) {
