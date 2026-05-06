@@ -1,7 +1,10 @@
 [build]
   publish = "."
   functions = "netlify/functions"
-  command = "bash scripts/inject_env.sh"
+  # Regenerate HTML from prototype + content sources, then substitute env vars
+  # into the placeholders. Doing it in this order makes the build idempotent —
+  # repeated deploys do not stack MISSING_* strings on top of one another.
+  command = "python3 scripts/build_pages.py && python3 scripts/build_legal_pages.py && bash scripts/inject_env.sh"
 
 # Local dev: skip the env-injection step (it mutates HTML in place).
 # Netlify CLI serves the files as-is and proxies through its own router so
