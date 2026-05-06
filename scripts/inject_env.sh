@@ -34,13 +34,19 @@ for f in *.html; do
 done
 
 # Inject site key into app.js too — it reads window.__RECAPTCHA_SITE_KEY__.
+# Idempotent: if a previous run already prepended a key line, replace it
+# rather than stacking another one on top.
 APP_JS="assets/js/app.js"
 if [ -f "$APP_JS" ]; then
-  # Prepend a single-line set so we don't disturb the rest of the file.
-  TMP="$(mktemp)"
-  echo "window.__RECAPTCHA_SITE_KEY__ = '${RECAPTCHA_KEY}';" > "$TMP"
-  cat "$APP_JS" >> "$TMP"
-  mv "$TMP" "$APP_JS"
+  if /usr/bin/head -1 "$APP_JS" | /usr/bin/grep -q '^window\.__RECAPTCHA_SITE_KEY__ = '; then
+    /usr/bin/sed -i.bak "1s|^window\.__RECAPTCHA_SITE_KEY__ = .*|window.__RECAPTCHA_SITE_KEY__ = '${RECAPTCHA_KEY}';|" "$APP_JS"
+    /bin/rm -f "${APP_JS}.bak"
+  else
+    TMP="$(mktemp)"
+    echo "window.__RECAPTCHA_SITE_KEY__ = '${RECAPTCHA_KEY}';" > "$TMP"
+    cat "$APP_JS" >> "$TMP"
+    mv "$TMP" "$APP_JS"
+  fi
 fi
 
 echo "Env injection complete."
