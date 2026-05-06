@@ -357,6 +357,30 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     });
   }
 
+  // Inject the reCAPTCHA v3 script once, on first user interaction with the
+  // survey form. Saves ~370KB of unused JS on initial paint. Respects
+  // Cookiebot consent: when Cookiebot is loaded with a real CBID, we wait
+  // for the user to accept the `security` cookie category before loading.
+  var _recaptchaLoaded = false;
+  function loadRecaptchaIfNeeded() {
+    if (_recaptchaLoaded) return;
+    if (!window.__RECAPTCHA_LAZY__) return; // not on this page
+    var key = window.__RECAPTCHA_SITE_KEY__ || '';
+    if (!key || key.indexOf('MISSING_') === 0) return;
+    if (window.Cookiebot && window.Cookiebot.consent && !window.Cookiebot.consent.security) {
+      // Cookiebot is active and security consent not granted yet — defer
+      // until user accepts. This event fires once consent is updated.
+      window.addEventListener('CookiebotOnAccept', loadRecaptchaIfNeeded);
+      return;
+    }
+    _recaptchaLoaded = true;
+    var s = document.createElement('script');
+    s.src = 'https://www.google.com/recaptcha/api.js?render=' + encodeURIComponent(key);
+    s.async = true;
+    s.defer = true;
+    document.head.appendChild(s);
+  }
+
   // Get reCAPTCHA v3 token and write it into the hidden form field.
   // Robust to: missing site key, deploy-time MISSING_* placeholders, grecaptcha
   // not loaded, sync exceptions from grecaptcha.execute, and stuck promises —
@@ -392,6 +416,13 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     bindSurveyOptions();
     var form = document.getElementById('surveyForm');
     if (!form) return;
+
+    // Trigger reCAPTCHA load on first interaction so the 370KB script isn't
+    // on the critical render path. By the time the user reaches step 8 and
+    // clicks Submit, grecaptcha has had plenty of time to download.
+    var loadOnce = function () { loadRecaptchaIfNeeded(); };
+    form.addEventListener('click', loadOnce, { once: true, passive: true, capture: true });
+    form.addEventListener('focusin', loadOnce, { once: true, passive: true });
 
     form.addEventListener('submit', function (e) {
       e.preventDefault();

@@ -21,10 +21,11 @@ test('welcome modal "Join waitlist" CTA navigates to /survey', async ({ page }) 
 
 test('hero CTA from home navigates to /survey', async ({ page }) => {
   await page.goto('/');
-  // Dismiss the modal so it doesn't intercept clicks
   await page.locator('#welcomeModal').waitFor({ state: 'visible', timeout: 5_000 }).catch(() => {});
   await page.evaluate(() => window.fwCloseWelcome && window.fwCloseWelcome());
-  await page.locator('.hero a[href="/survey"]').first().click();
+  // Wait for modal to fully hide (transition).
+  await expect(page.locator('#welcomeModal')).not.toHaveClass(/show/);
+  await page.locator('.hero a[href="/survey"]').first().click({ force: true });
   await expect(page).toHaveURL(/\/survey/);
 });
 

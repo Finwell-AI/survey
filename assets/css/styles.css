@@ -38,7 +38,12 @@
 .brand-fmark-img {
   width: 100%;
   height: 100%;
-  background-image: url(../images/img-2cdc2770ac.webp);
+  /* AVIF first, WebP fallback. image-set() lets the browser pick the
+     smallest format it can decode without us shipping multiple rules. */
+  background-image: image-set(
+    url(../images/img-2cdc2770ac.avif) type("image/avif"),
+    url(../images/img-2cdc2770ac.webp) type("image/webp")
+  );
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -50,7 +55,10 @@
 .section-img-pba {
   width: 100%;
   aspect-ratio: 1200 / 778;
-  background-image: url(../images/img-289e15f2a1.webp);
+  background-image: image-set(
+    url(../images/img-289e15f2a1.avif) type("image/avif"),
+    url(../images/img-289e15f2a1.webp) type("image/webp")
+  );
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center right;
@@ -581,7 +589,10 @@ body {
         rgba(255, 255, 255, 0.55) 60%,
         rgba(255, 255, 255, 0) 90%
       ),
-      url(../images/img-289e15f2a1.webp);
+      image-set(
+        url(../images/img-289e15f2a1.avif) type("image/avif"),
+        url(../images/img-289e15f2a1.webp) type("image/webp")
+      );
     background-repeat: no-repeat, no-repeat;
     background-position: 0 0, bottom right;
     /* Gradient overlay covers full section; image is capped at 760px tall. */
@@ -603,7 +614,10 @@ body {
         rgba(255, 255, 255, 0.45) 65%,
         rgba(255, 255, 255, 0) 92%
       ),
-      url(../images/img-289e15f2a1.webp);
+      image-set(
+        url(../images/img-289e15f2a1.avif) type("image/avif"),
+        url(../images/img-289e15f2a1.webp) type("image/webp")
+      );
   }
   .powered-by-ai .pba-content { max-width: 56%; }
 }
@@ -1393,7 +1407,10 @@ body {
 .hero-wave-image {
   position: absolute;
   inset: 0;
-  background-image: url(../images/img-6f54687d6c.webp);
+  background-image: image-set(
+    url(../images/img-6f54687d6c.avif) type("image/avif"),
+    url(../images/img-6f54687d6c.webp) type("image/webp")
+  );
   background-size: cover;
   background-position: center bottom;
   background-repeat: no-repeat;

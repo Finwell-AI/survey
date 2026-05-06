@@ -59,26 +59,39 @@ test('contact email is alex@finwellai.com (NOT .com.au)', async ({ request }) =>
   expect(html).not.toContain('alex@finwellai.com.au');
 });
 
-test('reCAPTCHA loads only on /survey, never on the home/thanks/privacy/terms', async ({ request }) => {
+test('reCAPTCHA is set up to lazy-load, only on /survey', async ({ request }) => {
   // Performance: reCAPTCHA's gstatic.com payload is ~370KB. We only need it
-  // on the form page. Loading it on the home page wrecked LCP.
+  // on the form page, and only after first user interaction. The static
+  // HTML must NOT contain a reCAPTCHA <script> tag — app.js injects it
+  // on demand via loadRecaptchaIfNeeded().
   for (const path of ['/', '/thanks', '/privacy', '/terms']) {
     const html = await (await request.get(path)).text();
     expect(html, `unexpected reCAPTCHA on ${path}`).not.toContain('google.com/recaptcha/api.js');
+    expect(html, `unexpected lazy flag on ${path}`).not.toContain('__RECAPTCHA_LAZY__');
   }
+  // /survey arms the lazy loader by setting window.__RECAPTCHA_LAZY__.
   const survey = await (await request.get('/survey')).text();
-  expect(survey).toContain('google.com/recaptcha/api.js');
+  expect(survey).toContain('window.__RECAPTCHA_LAZY__');
+  expect(survey, 'reCAPTCHA script must NOT be inline — app.js injects it').not.toContain('google.com/recaptcha/api.js');
 });
 
-test('Cookiebot is loaded on every page, gating GA4 + reCAPTCHA via consent attrs', async ({ request }) => {
+test('reCAPTCHA loader respects Cookiebot security consent', async ({ request }) => {
+  // The lazy loader must wait for Cookiebot's `security` consent before
+  // injecting the reCAPTCHA script — otherwise we'd bypass user consent.
+  const js = await (await request.get('/assets/js/app.js')).text();
+  expect(js).toContain('Cookiebot.consent.security');
+  expect(js).toContain('CookiebotOnAccept');
+});
+
+test('Cookiebot is loaded on every page', async ({ request }) => {
   for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
     const html = await (await request.get(path)).text();
     expect(html, `${path} missing Cookiebot`).toContain('consent.cookiebot.com');
   }
+  // GA4 still uses the static data-cookieconsent attr because the gtag tag
+  // is in <head>; reCAPTCHA's gating is done in JS instead.
   const home = await (await request.get('/')).text();
   expect(home, 'GA4 must be gated by Cookiebot statistics consent').toMatch(/data-cookieconsent="statistics"/);
-  const survey = await (await request.get('/survey')).text();
-  expect(survey, 'reCAPTCHA must be gated by Cookiebot security consent').toMatch(/data-cookieconsent="security"/);
 });
 
 test('consent default is "denied" before user opt-in', async ({ page }) => {

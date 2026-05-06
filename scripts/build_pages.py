@@ -38,6 +38,82 @@ def replace_data_uris(html: str) -> str:
     return DATA_URI_RE.sub(repl, html)
 
 
+# Set of digests where AVIF is *smaller* than WebP — the build script's
+# AVIF generator drops AVIFs that don't beat WebP, so this reflects what
+# is actually on disk. Anything in here gets a <source type="image/avif">
+# in front of the WebP fallback.
+AVIF_DIGESTS = {
+    "289e15f2a1",
+    "2980485374",
+    "2cdc2770ac",
+    "45547e3aac",
+    "6f54687d6c",
+    "f5ef1fbf38",
+}
+
+# Image classes that are above the fold on every page they appear on. They
+# should NOT be lazy-loaded, and the LCP candidate among them gets
+# fetchpriority="high".
+ABOVE_FOLD_CLASSES = {"hero-phone-image"}
+LCP_CLASSES = {"hero-phone-image"}
+
+CONTENT_IMG_RE = re.compile(
+    r'<img\b'
+    r'(?P<pre>[^>]*?)'
+    r'\bsrc="(?P<src>/assets/images/img-(?P<digest>[0-9a-f]+)\.webp)"'
+    r'(?P<post>[^>]*?)'
+    r'\s*/?>',
+    re.DOTALL,
+)
+
+
+def _attr(attrs: str, name: str) -> str | None:
+    m = re.search(rf'\b{name}="([^"]*)"', attrs)
+    return m.group(1) if m else None
+
+
+def wrap_imgs_in_picture(html: str) -> str:
+    """Replace bare <img src="/assets/images/img-XXX.webp" ...> tags with a
+    <picture> that prefers AVIF when available, plus loading="lazy" on
+    below-fold images and fetchpriority="high" on the LCP image."""
+    def repl(m: re.Match) -> str:
+        digest = m.group("digest")
+        src = m.group("src")
+        attrs = (m.group("pre") or "") + (m.group("post") or "")
+        attrs = re.sub(r"\s+", " ", attrs).strip()
+        cls = _attr(attrs, "class") or ""
+        cls_set = set(cls.split())
+        is_above = bool(cls_set & ABOVE_FOLD_CLASSES)
+        is_lcp = bool(cls_set & LCP_CLASSES)
+
+        # Compose the <img>, normalising the loading + decoding attrs.
+        # If the original already had `loading=`, respect it; else default.
+        loading = _attr(attrs, "loading") or ("eager" if is_above else "lazy")
+        decoding = _attr(attrs, "decoding") or "async"
+        # Strip any existing loading/decoding attrs to avoid duplicates.
+        attrs_clean = re.sub(r'\s*\bloading="[^"]*"', "", attrs)
+        attrs_clean = re.sub(r'\s*\bdecoding="[^"]*"', "", attrs_clean)
+        attrs_clean = re.sub(r'\s*\bsrc="[^"]*"', "", attrs_clean).strip()
+        fetch_attr = ' fetchpriority="high"' if is_lcp else ""
+        img_tag = (
+            f'<img src="{src}" loading="{loading}" decoding="{decoding}"'
+            f'{fetch_attr} {attrs_clean}/>'
+        )
+
+        if digest not in AVIF_DIGESTS:
+            return img_tag
+        avif_src = src.replace(".webp", ".avif")
+        return (
+            "<picture>"
+            f'<source type="image/avif" srcset="{avif_src}"/>'
+            f'<source type="image/webp" srcset="{src}"/>'
+            f"{img_tag}"
+            "</picture>"
+        )
+
+    return CONTENT_IMG_RE.sub(repl, html)
+
+
 def strip_inline_styles_scripts(html: str) -> str:
     """Remove inline <style>...</style> and inline <script>...</script>."""
     html = re.sub(r"<style>.*?</style>", "", html, flags=re.DOTALL)
@@ -114,7 +190,7 @@ def build_head(*, title: str, description: str, canonical: str,
     "/assets/images/hero.webp") — for per-page LCP hints.
     """
     extra_preload_html = "\n".join(
-        f'<link rel="preload" as="{as_}" href="{href}"/>'
+        f'<link rel="preload" as="{as_}" href="{href}" fetchpriority="high"/>'
         for as_, href in extra_preloads
     )
     return f"""<!DOCTYPE html>
@@ -160,9 +236,17 @@ def build_head(*, title: str, description: str, canonical: str,
 }}
 </script>
 
-<!-- Preload critical assets -->
+<!-- Preconnect to third-party origins so DNS + TLS happens in parallel with
+     our own assets. Each preconnect saves ~100-300ms on a cold connection. -->
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin/>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://consent.cookiebot.com" crossorigin/>
+<link rel="dns-prefetch" href="https://www.google-analytics.com"/>
+
+<!-- Preload critical assets. fetchpriority="high" tells the browser the
+     hero F-mark logo is on the LCP path. -->
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
-<link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png"/>
+<link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png" fetchpriority="high"/>
 {extra_preload_html}
 
 <!-- Stylesheet -->
@@ -212,6 +296,9 @@ RAW = replace_data_uris(RAW)
 
 # 3. Rewrite onclick navigations
 RAW = rewrite_nav(RAW)
+
+# 4. Wrap content <img>s in <picture> with AVIF source + lazy-load below fold
+RAW = wrap_imgs_in_picture(RAW)
 
 # 4. Slice fragments
 URGENT_BANNER = slice_by_marker(
@@ -437,10 +524,11 @@ def page(
     )
     modal_html = WELCOME_MODAL if modal else ""
     footer_html = "" if home_already_has_footer or not include_footer else SHARED_FOOTER
+    # On /survey, app.js lazy-loads the reCAPTCHA script on first form
+    # interaction — saves ~370KB of unused JS on initial paint. See
+    # loadRecaptchaIfNeeded() in app.js.
     recaptcha_script = (
-        '<!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->\n'
-        '<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"\n'
-        '        type="text/plain" data-cookieconsent="security" defer></script>'
+        '<script>window.__RECAPTCHA_LAZY__ = true;</script>'
     ) if include_recaptcha else ""
     body = f"""<body data-page="{canonical.strip('/') or 'home'}">
 {URGENT_BANNER}
