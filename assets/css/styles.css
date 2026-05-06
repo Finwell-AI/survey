@@ -560,7 +560,77 @@ body {
    ============================================================ */
 .powered-by-ai {
   padding: 120px 20px;
-  background: white;
+  background-color: white;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Tablet + desktop: image fills the full section (cover sizing), anchored
+   to the bottom-right so the person + phone in the photo sit there. A
+   left-to-right white gradient is layered on top so the headline + pillars
+   on the left half stay readable; the right side shows the photo cleanly.
+   The inline .pba-visual block is hidden because the same image is now the
+   section background. */
+@media (min-width: 768px) {
+  .powered-by-ai {
+    background-image:
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.92) 35%,
+        rgba(255, 255, 255, 0.55) 60%,
+        rgba(255, 255, 255, 0) 90%
+      ),
+      url(../images/img-289e15f2a1.webp);
+    background-repeat: no-repeat, no-repeat;
+    background-position: 0 0, bottom right;
+    background-size: 100% 100%, cover;
+    min-height: 640px;
+  }
+  .powered-by-ai .pba-inner { grid-template-columns: 1fr; }
+  .powered-by-ai .pba-content { max-width: 58%; }
+  .powered-by-ai .pba-visual { display: none; }
+}
+@media (min-width: 1280px) {
+  .powered-by-ai {
+    min-height: 720px;
+    background-image:
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0.96) 0%,
+        rgba(255, 255, 255, 0.92) 40%,
+        rgba(255, 255, 255, 0.45) 65%,
+        rgba(255, 255, 255, 0) 92%
+      ),
+      url(../images/img-289e15f2a1.webp);
+  }
+  .powered-by-ai .pba-content { max-width: 56%; }
+}
+
+/* Mobile (<768px): keep the prototype's stacked layout — content on top,
+   inline `.pba-visual` block below — but tighten the spacing so the photo
+   sits closer to the content. The section's own background-image is dropped
+   here because the .pba-visual element renders the photo via its own div. */
+@media (max-width: 767px) {
+  .powered-by-ai {
+    padding: 80px 20px 64px;
+    background-image: none;
+  }
+  .powered-by-ai .pba-inner { gap: 40px; }
+  .powered-by-ai .pba-visual {
+    margin: 0 -20px;
+    min-height: auto;
+    overflow: hidden;
+  }
+  .powered-by-ai .section-img-pba {
+    aspect-ratio: 16 / 11;
+    background-size: cover;
+    background-position: center right;
+    /* Soft fade only on the very top edge so it dissolves into the content
+       above without nuking the photo's visibility. */
+    mask-image: linear-gradient(to top, black 88%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to top, black 88%, transparent 100%);
+  }
 }
 .pba-inner {
   max-width: var(--maxw);

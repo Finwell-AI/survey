@@ -49,13 +49,13 @@
 <link rel="stylesheet" href="/assets/css/styles.css"/>
 
 <!-- Cookiebot consent banner (CBID injected at deploy time) -->
-<!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->
+<!-- TODO_COOKIEBOT_CBID: replace `MISSING_COOKIEBOT_CBID` with the live ID when supplied -->
 <script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-        data-cbid="__COOKIEBOT_CBID__"
+        data-cbid="MISSING_COOKIEBOT_CBID"
         data-blockingmode="auto" type="text/javascript"></script>
 
 <!-- Google Analytics 4 (gated by Cookiebot consent for `statistics`) -->
-<!-- TODO_GA4: replace `__GA4_MEASUREMENT_ID__` with the live G-XXXXXXXXXX -->
+<!-- TODO_GA4: replace `G-FEXPCZFS0M` with the live G-XXXXXXXXXX -->
 <script>
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag(){ window.dataLayer.push(arguments); };
@@ -71,11 +71,11 @@
   window.addEventListener('CookiebotOnAccept', function () {
     if (window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {
       gtag('consent', 'update', { analytics_storage: 'granted' });
-      gtag('config', '__GA4_MEASUREMENT_ID__', { anonymize_ip: true });
+      gtag('config', 'G-FEXPCZFS0M', { anonymize_ip: true });
     }
   });
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEXPCZFS0M"
         data-cookieconsent="statistics"></script>
 </head>
 <body data-page="survey">
@@ -448,7 +448,7 @@ Back
 
 <script src="/assets/js/app.js" defer></script>
 <!-- reCAPTCHA v3 (loaded only after consent for `security` category) -->
-<script src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__"
+<script src="https://www.google.com/recaptcha/api.js?render=MISSING_RECAPTCHA_SITE_KEY"
         type="text/plain" data-cookieconsent="security" defer></script>
 </body>
 </html>

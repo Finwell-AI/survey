@@ -29,3 +29,6 @@ build/
 __pycache__/
 *.pyc
 scripts/manifest.json
+
+# HubSpot config file
+hubspot.config.yml
