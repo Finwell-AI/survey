@@ -46,8 +46,8 @@ Microsoft Clarity, marketing pixels, Slack notifications, and the chat FAB are d
 │   ├── privacy.md          # source of truth for /privacy
 │   └── terms.md            # source of truth for /terms
 ├── netlify/functions/
-│   ├── verify-recaptcha.js # POST endpoint — token → siteverify → 200/403
-│   └── submission-created.js # event handler — pushes form payload to HubSpot
+│   ├── verify-recaptcha.mjs # POST endpoint — token → siteverify → 200/403
+│   └── submission-created.mjs # event handler — pushes form payload to HubSpot
 ├── scripts/
 │   ├── extract_prototype.py   # one-off: split <style>/<script>/base64 from prototype
 │   ├── patch_css.py           # inject Inter @font-face, swap data-URIs for files
@@ -111,7 +111,7 @@ netlify dev   # starts dev server with functions + env vars from .env
    - Token is POSTed to `/.netlify/functions/verify-recaptcha`.
    - On HTTP 200, the form is submitted natively (`form.submit()`).
 4. Netlify intercepts the POST, validates honeypot, stores submission, sends notification email, and fires the `submission-created` event.
-5. `submission-created.js` builds a HubSpot contact payload and POSTs to CRM v3.
+5. `submission-created.mjs` builds a HubSpot contact payload and POSTs to CRM v3.
 6. Browser is redirected to `/thanks`.
 7. GA4 `survey_completed` event fires (if statistics consent granted).
 
@@ -140,7 +140,7 @@ If HubSpot returns 400 with an unknown-property error, the function logs the pro
 
 1. Netlify → Forms → `finwellai-waitlist` → **Export CSV**. Free tier retains the last 30 days.
 2. HubSpot → Contacts → filter by lifecycle stage `subscriber` and source `Finwell AI Waitlist 2026` for the long-term record.
-3. If both are gone, submission notification emails to alex@finwellai.com.au are the final fallback.
+3. If both are gone, submission notification emails to alex@finwellai.com are the final fallback.
 
 ---
 
@@ -200,7 +200,7 @@ Run these against the staging URL before requesting production sign-off:
 - [ ] Survey Back button works on every step
 - [ ] reCAPTCHA token is fetched on submit
 - [ ] Form submits and redirects to `/thanks`
-- [ ] Submission appears in Netlify dashboard, in HubSpot, and in alex@finwellai.com.au inbox within 60 seconds
+- [ ] Submission appears in Netlify dashboard, in HubSpot, and in alex@finwellai.com inbox within 60 seconds
 - [ ] Honeypot test: edit form, fill `bot-field`, submit — Netlify rejects as spam
 - [ ] Welcome modal appears once per session and respects dismissal
 - [ ] FAQ accordion expand/collapse

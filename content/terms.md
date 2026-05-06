@@ -124,5 +124,5 @@ For questions about these Terms, please contact:
 
 Finwell AI  
 [REVIEW: Add street or registered address]  
-Email: [alex@finwellai.com.au](mailto:alex@finwellai.com.au)  
+Email: [alex@finwellai.com](mailto:alex@finwellai.com)  
 Website: [finwellai.com.au](https://finwellai.com.au)
