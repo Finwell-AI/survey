@@ -565,12 +565,12 @@ body {
   overflow: hidden;
 }
 
-/* Tablet + desktop: image fills the full section (cover sizing), anchored
-   to the bottom-right so the person + phone in the photo sit there. A
-   left-to-right white gradient is layered on top so the headline + pillars
-   on the left half stay readable; the right side shows the photo cleanly.
-   The inline .pba-visual block is hidden because the same image is now the
-   section background. */
+/* Tablet + desktop: image is anchored to the section's bottom-right with a
+   capped render height of 760px so it doesn't grow taller on stretched
+   viewports. A left-to-right white gradient is layered on top so the headline
+   + pillars on the left half stay readable; the right side shows the photo
+   cleanly. The inline .pba-visual block is hidden because the same image is
+   now the section background. */
 @media (min-width: 768px) {
   .powered-by-ai {
     background-image:
@@ -584,7 +584,8 @@ body {
       url(../images/img-289e15f2a1.webp);
     background-repeat: no-repeat, no-repeat;
     background-position: 0 0, bottom right;
-    background-size: 100% 100%, cover;
+    /* Gradient overlay covers full section; image is capped at 760px tall. */
+    background-size: 100% 100%, auto 760px;
     min-height: 640px;
   }
   .powered-by-ai .pba-inner { grid-template-columns: 1fr; }
