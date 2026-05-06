@@ -113,6 +113,12 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
 
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="stylesheet" href="/assets/css/styles.css"/>
+
+<!-- Cookiebot: legal pages still need the consent banner so a user who
+     lands here directly gets the same opt-in flow as the rest of the site. -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="__COOKIEBOT_CBID__"
+        data-blockingmode="auto" type="text/javascript"></script>
 <style>
   /* Legal-page typography overrides — keeps the brand without competing with it. */
   .legal-shell {{ background: #fff; color: #0F172A; padding: 80px 24px 80px; }}
