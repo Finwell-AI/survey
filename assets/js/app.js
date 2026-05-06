@@ -1,3 +1,4 @@
+window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
 /* Finwell AI — site behaviour
  *
  * Multi-page production version. Each HTML page renders standalone; this script
@@ -357,20 +358,32 @@
   }
 
   // Get reCAPTCHA v3 token and write it into the hidden form field.
+  // Robust to: missing site key, deploy-time MISSING_* placeholders, grecaptcha
+  // not loaded, sync exceptions from grecaptcha.execute, and stuck promises —
+  // never blocks the form for longer than 3s.
   function getRecaptchaToken() {
     return new Promise(function (resolve) {
-      var siteKey = window.__RECAPTCHA_SITE_KEY__ || ''; // set at deploy time via search/replace
-      if (!siteKey || !window.grecaptcha || !window.grecaptcha.execute) {
-        // No site key configured (dev/local) — skip and let server-side optionally tolerate.
-        return resolve('');
+      var done = false;
+      function once(v) { if (done) return; done = true; resolve(v); }
+      // Hard ceiling: don't let a broken reCAPTCHA hang the form forever.
+      setTimeout(function () { once(''); }, 3000);
+
+      var siteKey = window.__RECAPTCHA_SITE_KEY__ || '';
+      // Treat the build-time fallback string as no key.
+      if (!siteKey || siteKey.indexOf('MISSING_') === 0
+          || !window.grecaptcha || !window.grecaptcha.execute) {
+        return once('');
       }
       try {
         window.grecaptcha.ready(function () {
-          window.grecaptcha.execute(siteKey, { action: 'submit' }).then(function (token) {
-            resolve(token);
-          }, function () { resolve(''); });
+          try {
+            window.grecaptcha.execute(siteKey, { action: 'submit' }).then(
+              function (token) { once(token); },
+              function () { once(''); }
+            );
+          } catch (inner) { once(''); }
         });
-      } catch (e) { resolve(''); }
+      } catch (outer) { once(''); }
     });
   }
 
