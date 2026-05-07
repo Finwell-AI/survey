@@ -59,16 +59,15 @@ We do not use your information for automated decision-making or profiling that p
 
 ## Cookies and Tracking Technologies
 
-The Site uses cookies and similar technologies. We manage cookie consent through Cookiebot.
+The Site uses cookies and similar technologies for the following purposes:
 
-Strictly necessary cookies are set without requiring your consent. These support the core operation of the Site, including Netlify Forms session handling required to submit the waitlist survey.
+- **Strictly necessary** — required for the core operation of the Site, including Netlify Forms session handling for the waitlist survey. These are set without requiring your consent.
+- **Statistics** — Google Analytics 4 (GA4), operated by Google LLC, with IP anonymisation enabled. GA4 records anonymised usage data including pages visited, session duration, and general geographic region. Data is retained for 14 months.
+- **Security / spam protection** — Google reCAPTCHA v3, operated by Google LLC. Loaded only when you interact with the waitlist survey form. reCAPTCHA analyses form submission behaviour to score the likelihood that the submission is automated.
 
-The following cookies and tracking scripts require your explicit opt-in consent before they activate:
+You can disable analytics and security cookies for this Site at any time using your browser's "Do Not Track" setting or by opting out of Google Analytics via the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout). Browser-level controls (clearing cookies, blocking third-party cookies, private browsing) also work.
 
-- **Statistics cookies** — Google Analytics 4 (GA4), operated by Google LLC. GA4 tracks anonymised usage data including pages visited, session duration, and general geographic region. Data is retained by GA4 for 14 months.
-- **Security cookies** — Google reCAPTCHA v3, operated by Google LLC. reCAPTCHA analyses form submission behaviour to detect automated spam. It is loaded only after you consent.
-
-When you first visit the Site, a Cookiebot consent banner appears with three equally prominent options: Accept, Reject, and Settings. Choosing Reject means only strictly necessary cookies will be set. You can update your preferences at any time via the cookie settings link in the Site footer.
+[REVIEW: A Cookiebot consent banner is planned but not yet active on this Site. Before launching paid traffic to non-Australian audiences (EU, UK, California), the banner must be enabled to obtain GDPR/UK-GDPR/CCPA-compliant opt-in consent. The current cookie disclosure in this section assumes the AU Privacy Act 1988 standard of disclosure-without-opt-in for non-sensitive cookies.]
 
 ---
 
@@ -83,13 +82,10 @@ The Site is hosted on Netlify, Inc. Netlify stores waitlist form submissions on 
 When you submit the waitlist survey, the data you provide is transferred to HubSpot, Inc. via a serverless function. HubSpot acts as our customer relationship management (CRM) platform. Your contact data is retained in HubSpot indefinitely until you request deletion. HubSpot's privacy policy is available at [legal.hubspot.com/privacy-policy](https://legal.hubspot.com/privacy-policy).
 
 **Google Analytics 4 (United States)**
-If you consent to statistics cookies, anonymised analytics data is sent to Google LLC via GA4. This data does not include your name or email address. Data is retained for 14 months. Google's privacy policy is available at [policies.google.com/privacy](https://policies.google.com/privacy).
+Anonymised analytics data is sent to Google LLC via GA4 with IP anonymisation enabled. This data does not include your name or email address. Data is retained for 14 months. Google's privacy policy is available at [policies.google.com/privacy](https://policies.google.com/privacy).
 
 **Google reCAPTCHA v3 (United States)**
-If you consent to security cookies, reCAPTCHA v3 processes behavioural signals from your browser to generate a spam-risk score. This is provided by Google LLC. Google's privacy policy applies as above.
-
-**Cookiebot (European Union / Denmark)**
-Cookie consent preferences are managed by Cookiebot, a service operated by Cybot A/S. Cookiebot records your consent choices and their timestamps. Cybot's privacy policy is available at [cookiebot.com/en/privacy-policy](https://www.cookiebot.com/en/privacy-policy/).
+When you interact with the waitlist survey form, reCAPTCHA v3 processes behavioural signals from your browser to generate a spam-risk score. This is provided by Google LLC. Google's privacy policy applies as above.
 
 We do not sell, rent, or trade your personal information to third parties for their own marketing purposes.
 

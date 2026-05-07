@@ -18,12 +18,7 @@
 
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="stylesheet" href="/assets/css/styles.css"/>
-
-<!-- Cookiebot: legal pages still need the consent banner so a user who
-     lands here directly gets the same opt-in flow as the rest of the site. -->
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-        data-cbid="MISSING_COOKIEBOT_CBID"
-        data-blockingmode="auto" type="text/javascript"></script>
+<!-- Cookiebot disabled — see build_pages.py COOKIEBOT_ENABLED flag. -->
 <style>
   /* Legal-page typography overrides — keeps the brand without competing with it. */
   .legal-shell { background: #fff; color: #0F172A; padding: 80px 24px 80px; }
@@ -101,22 +96,21 @@
 <p>We do not use your information for automated decision-making or profiling that produces legal or similarly significant effects.</p>
 <hr/>
 <h2>Cookies and Tracking Technologies</h2>
-<p>The Site uses cookies and similar technologies. We manage cookie consent through Cookiebot.</p>
-<p>Strictly necessary cookies are set without requiring your consent. These support the core operation of the Site, including Netlify Forms session handling required to submit the waitlist survey.</p>
-<p>The following cookies and tracking scripts require your explicit opt-in consent before they activate:</p>
+<p>The Site uses cookies and similar technologies for the following purposes:</p>
 <ul>
-<li><strong>Statistics cookies</strong> — Google Analytics 4 (GA4), operated by Google LLC. GA4 tracks anonymised usage data including pages visited, session duration, and general geographic region. Data is retained by GA4 for 14 months.</li>
-<li><strong>Security cookies</strong> — Google reCAPTCHA v3, operated by Google LLC. reCAPTCHA analyses form submission behaviour to detect automated spam. It is loaded only after you consent.</li>
+<li><strong>Strictly necessary</strong> — required for the core operation of the Site, including Netlify Forms session handling for the waitlist survey. These are set without requiring your consent.</li>
+<li><strong>Statistics</strong> — Google Analytics 4 (GA4), operated by Google LLC, with IP anonymisation enabled. GA4 records anonymised usage data including pages visited, session duration, and general geographic region. Data is retained for 14 months.</li>
+<li><strong>Security / spam protection</strong> — Google reCAPTCHA v3, operated by Google LLC. Loaded only when you interact with the waitlist survey form. reCAPTCHA analyses form submission behaviour to score the likelihood that the submission is automated.</li>
 </ul>
-<p>When you first visit the Site, a Cookiebot consent banner appears with three equally prominent options: Accept, Reject, and Settings. Choosing Reject means only strictly necessary cookies will be set. You can update your preferences at any time via the cookie settings link in the Site footer.</p>
+<p>You can disable analytics and security cookies for this Site at any time using your browser's "Do Not Track" setting or by opting out of Google Analytics via the <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>. Browser-level controls (clearing cookies, blocking third-party cookies, private browsing) also work.</p>
+<p><span class="legal-review-note" title="Needs Alex / lawyer review">[REVIEW: A Cookiebot consent banner is planned but not yet active on this Site. Before launching paid traffic to non-Australian audiences (EU, UK, California), the banner must be enabled to obtain GDPR/UK-GDPR/CCPA-compliant opt-in consent. The current cookie disclosure in this section assumes the AU Privacy Act 1988 standard of disclosure-without-opt-in for non-sensitive cookies.]</span></p>
 <hr/>
 <h2>Third-Party Services and Data Flows</h2>
 <p>Your personal information is handled by the following third-party service providers. Where a provider is based outside Australia, we take reasonable steps to ensure they handle your information in a manner consistent with the APPs.</p>
 <p><strong>Netlify (United States)</strong> The Site is hosted on Netlify, Inc. Netlify stores waitlist form submissions on servers located in the United States, with global edge caching. Form submission data is retained on Netlify's infrastructure for 30 days. Netlify's infrastructure also sends email notifications of new submissions to alex@finwellai.com. Netlify's privacy policy is available at <a href="https://www.netlify.com/privacy/">netlify.com/privacy</a>.</p>
 <p><strong>HubSpot (United States)</strong> When you submit the waitlist survey, the data you provide is transferred to HubSpot, Inc. via a serverless function. HubSpot acts as our customer relationship management (CRM) platform. Your contact data is retained in HubSpot indefinitely until you request deletion. HubSpot's privacy policy is available at <a href="https://legal.hubspot.com/privacy-policy">legal.hubspot.com/privacy-policy</a>.</p>
-<p><strong>Google Analytics 4 (United States)</strong> If you consent to statistics cookies, anonymised analytics data is sent to Google LLC via GA4. This data does not include your name or email address. Data is retained for 14 months. Google's privacy policy is available at <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>
-<p><strong>Google reCAPTCHA v3 (United States)</strong> If you consent to security cookies, reCAPTCHA v3 processes behavioural signals from your browser to generate a spam-risk score. This is provided by Google LLC. Google's privacy policy applies as above.</p>
-<p><strong>Cookiebot (European Union / Denmark)</strong> Cookie consent preferences are managed by Cookiebot, a service operated by Cybot A/S. Cookiebot records your consent choices and their timestamps. Cybot's privacy policy is available at <a href="https://www.cookiebot.com/en/privacy-policy/">cookiebot.com/en/privacy-policy</a>.</p>
+<p><strong>Google Analytics 4 (United States)</strong> Anonymised analytics data is sent to Google LLC via GA4 with IP anonymisation enabled. This data does not include your name or email address. Data is retained for 14 months. Google's privacy policy is available at <a href="https://policies.google.com/privacy">policies.google.com/privacy</a>.</p>
+<p><strong>Google reCAPTCHA v3 (United States)</strong> When you interact with the waitlist survey form, reCAPTCHA v3 processes behavioural signals from your browser to generate a spam-risk score. This is provided by Google LLC. Google's privacy policy applies as above.</p>
 <p>We do not sell, rent, or trade your personal information to third parties for their own marketing purposes.</p>
 <hr/>
 <h2>Cross-Border Disclosure</h2>
@@ -164,7 +158,7 @@
 <a href="/survey">Take the survey</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
-<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
+
 </div>
 </div>
 </footer>

@@ -129,33 +129,39 @@ test('privacy policy describes the survey in plain English (no q1_role / referra
   expect(html).toContain('preferred monthly price tier');
 });
 
-test('Cookie preferences link is present in every footer', async ({ request }) => {
-  // F-12: the privacy policy promises a footer link; it must exist.
+test('Cookie preferences link is hidden while Cookiebot is disabled', async ({ request }) => {
+  // The link only makes sense when Cookiebot is loaded (it calls
+  // Cookiebot.renew()). With Cookiebot disabled, the link must not render.
   for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
     const html = await (await request.get(path)).text();
-    expect(html, `${path} missing Cookie preferences link`).toContain('Cookie preferences');
+    expect(html, `${path} unexpectedly renders Cookie preferences link`).not.toContain('Cookie preferences');
   }
 });
 
-test('Cookiebot is loaded on every page', async ({ request }) => {
+test('Cookiebot is currently disabled (build flag) — none of the pages ship the script', async ({ request }) => {
+  // While COOKIEBOT_ENABLED = False in build_pages.py, no Cookiebot script
+  // tag should reach the rendered HTML. Re-enable by flipping that flag and
+  // setting COOKIEBOT_CBID; this test will then need to flip too.
   for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
     const html = await (await request.get(path)).text();
-    expect(html, `${path} missing Cookiebot`).toContain('consent.cookiebot.com');
+    expect(html, `${path} unexpectedly ships Cookiebot`).not.toContain('consent.cookiebot.com');
+    expect(html, `${path} unexpectedly references Cookiebot CBID placeholder`).not.toContain('data-cbid="__COOKIEBOT_CBID__"');
   }
-  // GA4 still uses the static data-cookieconsent attr because the gtag tag
-  // is in <head>; reCAPTCHA's gating is done in JS instead.
+  // GA4 still loads but without the data-cookieconsent="statistics" gate.
   const home = await (await request.get('/')).text();
-  expect(home, 'GA4 must be gated by Cookiebot statistics consent').toMatch(/data-cookieconsent="statistics"/);
+  expect(home).toMatch(/googletagmanager\.com\/gtag\/js/);
+  expect(home).not.toMatch(/data-cookieconsent="statistics"/);
 });
 
-test('consent default is "denied" before user opt-in', async ({ page }) => {
+test('GA4 fires unconditionally while Cookiebot is disabled', async ({ page }) => {
+  // With Cookiebot disabled, no `consent` default-deny is set. gtag('config')
+  // runs synchronously from the head <script>. dataLayer holds at least the
+  // 'js' and 'config' entries by the time the page is interactive.
   await page.goto('/');
-  // We push consent state into dataLayer with positional args: ['consent','default',{...}]
-  const denied = await page.evaluate(() => {
-    const entry = window.dataLayer.find(d => d['0'] === 'consent' && d['1'] === 'default');
-    return entry && entry['2'] && entry['2'].analytics_storage === 'denied';
-  });
-  expect(denied).toBe(true);
+  await page.waitForFunction(() => Array.isArray(window.dataLayer) && window.dataLayer.length >= 2);
+  const dl = await page.evaluate(() => window.dataLayer.map((d) => d['0']));
+  expect(dl).toContain('js');
+  expect(dl).toContain('config');
 });
 
 test('all 5 routable pages return 200 (no broken multi-page split)', async ({ request }) => {

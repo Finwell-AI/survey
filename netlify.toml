@@ -97,6 +97,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 [[headers]]
   for = "/"
@@ -111,6 +114,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 # Pretty-URL paths (`/survey`, `/thanks`, `/privacy`, `/terms`) are rewritten
 # to .html files but the headers rules match the REQUESTED URL, not the
@@ -128,6 +134,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 [[headers]]
   for = "/thanks"
@@ -142,6 +151,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 [[headers]]
   for = "/privacy"
@@ -156,6 +168,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 [[headers]]
   for = "/terms"
@@ -170,6 +185,9 @@
     Cross-Origin-Embedder-Policy = "unsafe-none"
     Cross-Origin-Resource-Policy = "same-origin"
     Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://consent.cookiebot.com https://www.googletagmanager.com https://www.gstatic.com https://www.google.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://api.hubapi.com https://www.google.com; frame-src https://www.google.com https://consent.cookiebot.com; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+    # NB: cookiebot.com is left in the script-src + frame-src allow-list so
+    # re-enabling Cookiebot (build_pages.py: COOKIEBOT_ENABLED = True) does
+    # not need a CSP change.
 
 # Service worker has its own cache rule — short, must-revalidate, NO immutable.
 # A stale SW that's cached forever can prevent users ever seeing updates.

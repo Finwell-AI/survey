@@ -29,6 +29,15 @@ DATA_URI_RE = re.compile(
     r"data:image/(?P<mime>png|jpeg|jpg|webp);base64,(?P<b64>[A-Za-z0-9+/=]+)"
 )
 
+# Build-time toggle for the Cookiebot consent banner.
+# Set to True once a real `COOKIEBOT_CBID` is wired in Netlify env vars.
+# When False, the consent banner does not load, GA4 + reCAPTCHA fire without
+# explicit user opt-in, and the "Cookie preferences" footer link is hidden.
+# This is acceptable for AU-only traffic under the Privacy Act 1988 (which
+# requires disclosure, not opt-in, for non-sensitive cookies). Before any
+# EU / UK / California traffic, flip this back to True and set the CBID.
+COOKIEBOT_ENABLED = False
+
 # -------------------------------------------------------------------- helpers
 def replace_data_uris(html: str) -> str:
     """Swap inline base64 image data URIs for /assets/images/ paths (.webp)."""
@@ -181,6 +190,51 @@ def rewrite_nav(html: str) -> str:
     return html
 
 
+_COOKIEBOT_BLOCK_ENABLED = """\
+<!-- Cookiebot consent banner (CBID injected at deploy time) -->
+<!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="__COOKIEBOT_CBID__"
+        data-blockingmode="auto" type="text/javascript"></script>"""
+
+_COOKIEBOT_BLOCK_DISABLED = """\
+<!-- Cookiebot consent banner is currently DISABLED. To re-enable: set
+     COOKIEBOT_ENABLED = True in scripts/build_pages.py and provide a real
+     COOKIEBOT_CBID via Netlify env. -->"""
+
+_GTAG_BLOCK_GATED = """\
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+  gtag('consent', 'default', {
+    ad_storage: 'denied',
+    analytics_storage: 'denied',
+    ad_user_data: 'denied',
+    ad_personalization: 'denied',
+    wait_for_update: 500
+  });
+  gtag('js', new Date());
+  // GA4 config fires only when Cookiebot reports statistics consent.
+  window.addEventListener('CookiebotOnAccept', function () {
+    if (window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {
+      gtag('consent', 'update', { analytics_storage: 'granted' });
+      gtag('config', '__GA4_MEASUREMENT_ID__', { anonymize_ip: true });
+    }
+  });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"
+        data-cookieconsent="statistics"></script>"""
+
+_GTAG_BLOCK_UNGATED = """\
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', '__GA4_MEASUREMENT_ID__', { anonymize_ip: true });
+</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"></script>"""
+
+
 def build_head(*, title: str, description: str, canonical: str,
                og_image_path: str = "/assets/og-image.png",
                extra_preloads: tuple[tuple[str, str], ...] = ()) -> str:
@@ -192,6 +246,12 @@ def build_head(*, title: str, description: str, canonical: str,
     extra_preload_html = "\n".join(
         f'<link rel="preload" as="{as_}" href="{href}" fetchpriority="high"/>'
         for as_, href in extra_preloads
+    )
+    cookiebot_block = _COOKIEBOT_BLOCK_ENABLED if COOKIEBOT_ENABLED else _COOKIEBOT_BLOCK_DISABLED
+    gtag_block = _GTAG_BLOCK_GATED if COOKIEBOT_ENABLED else _GTAG_BLOCK_UNGATED
+    cookiebot_preconnect = (
+        '<link rel="preconnect" href="https://consent.cookiebot.com" crossorigin/>'
+        if COOKIEBOT_ENABLED else ""
     )
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
@@ -237,10 +297,11 @@ def build_head(*, title: str, description: str, canonical: str,
 </script>
 
 <!-- Preconnect to third-party origins so DNS + TLS happens in parallel with
-     our own assets. Each preconnect saves ~100-300ms on a cold connection. -->
+     our own assets. Each preconnect saves ~100-300ms on a cold connection.
+     Cookiebot preconnect is conditional on COOKIEBOT_ENABLED. -->
 <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin/>
 <link rel="preconnect" href="https://www.gstatic.com" crossorigin/>
-<link rel="preconnect" href="https://consent.cookiebot.com" crossorigin/>
+{cookiebot_preconnect}
 <link rel="dns-prefetch" href="https://www.google-analytics.com"/>
 
 <!-- Preload critical assets. fetchpriority="high" tells the browser the
@@ -255,35 +316,11 @@ def build_head(*, title: str, description: str, canonical: str,
 <link rel="preload" as="style" href="/assets/css/styles.css" onload="this.onload=null;this.rel='stylesheet'"/>
 <noscript><link rel="stylesheet" href="/assets/css/styles.css"/></noscript>
 
-<!-- Cookiebot consent banner (CBID injected at deploy time) -->
-<!-- TODO_COOKIEBOT_CBID: replace `__COOKIEBOT_CBID__` with the live ID when supplied -->
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-        data-cbid="__COOKIEBOT_CBID__"
-        data-blockingmode="auto" type="text/javascript"></script>
+{cookiebot_block}
 
-<!-- Google Analytics 4 (gated by Cookiebot consent for `statistics`) -->
+<!-- Google Analytics 4 -->
 <!-- TODO_GA4: replace `__GA4_MEASUREMENT_ID__` with the live G-XXXXXXXXXX -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = function gtag(){{ window.dataLayer.push(arguments); }};
-  gtag('consent', 'default', {{
-    ad_storage: 'denied',
-    analytics_storage: 'denied',
-    ad_user_data: 'denied',
-    ad_personalization: 'denied',
-    wait_for_update: 500
-  }});
-  gtag('js', new Date());
-  // GA4 config fires only when Cookiebot reports statistics consent.
-  window.addEventListener('CookiebotOnAccept', function () {{
-    if (window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics) {{
-      gtag('consent', 'update', {{ analytics_storage: 'granted' }});
-      gtag('config', '__GA4_MEASUREMENT_ID__', {{ anonymize_ip: true }});
-    }}
-  }});
-</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=__GA4_MEASUREMENT_ID__"
-        data-cookieconsent="statistics"></script>
+{gtag_block}
 </head>
 """
 
@@ -333,12 +370,13 @@ def patch_home_inner(html: str) -> str:
     """Fix dead anchors and onclick handlers inside the home block."""
     # Privacy + Terms anchors in the footer were href-less <a>Privacy</a>.
     html = html.replace("<a>Privacy</a>", '<a href="/privacy">Privacy</a>')
-    html = html.replace(
-        "<a>Terms</a>",
-        '<a href="/terms">Terms</a>'
-        '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
-        'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>',
-    )
+    terms_replacement = '<a href="/terms">Terms</a>'
+    if COOKIEBOT_ENABLED:
+        terms_replacement += (
+            '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
+            'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>'
+        )
+    html = html.replace("<a>Terms</a>", terms_replacement)
     # Survey link in footer (the only fwGoto leftover here)
     html = html.replace(
         '<a onclick="window.fwGoto(\'survey\')">Take the survey</a>',
@@ -475,7 +513,13 @@ SURVEY_INNER = survey_to_form(SURVEY_INNER)
 
 # ----------------------------------------------------------------- templates
 
-SHARED_FOOTER = """
+_COOKIE_PREF_LINK = (
+    '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
+    'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>'
+    if COOKIEBOT_ENABLED else ""
+)
+
+SHARED_FOOTER = f"""
 <footer class="site-footer">
 <div class="footer-inner">
 <div class="footer-brand">
@@ -497,7 +541,7 @@ SHARED_FOOTER = """
 <a href="/#faq">FAQ</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
-<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
+{_COOKIE_PREF_LINK}
 </div>
 </div>
 <div class="footer-bottom">

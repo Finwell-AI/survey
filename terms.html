@@ -18,12 +18,7 @@
 
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="stylesheet" href="/assets/css/styles.css"/>
-
-<!-- Cookiebot: legal pages still need the consent banner so a user who
-     lands here directly gets the same opt-in flow as the rest of the site. -->
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-        data-cbid="MISSING_COOKIEBOT_CBID"
-        data-blockingmode="auto" type="text/javascript"></script>
+<!-- Cookiebot disabled — see build_pages.py COOKIEBOT_ENABLED flag. -->
 <style>
   /* Legal-page typography overrides — keeps the brand without competing with it. */
   .legal-shell { background: #fff; color: #0F172A; padding: 80px 24px 80px; }
@@ -142,7 +137,7 @@
 <a href="/survey">Take the survey</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
-<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
+
 </div>
 </div>
 </footer>

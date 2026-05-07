@@ -11,17 +11,24 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
   var BODY_PAGE = (document.body && document.body.dataset.page) || 'home';
 
   // -------------------------------------------------------------- analytics
-  // GA4 (`gtag`) is loaded by the page <head>, but only fires after Cookiebot
-  // grants consent. We push everything to dataLayer regardless so we can later
-  // replay denied events if needed.
+  // GA4 (`gtag`) is loaded by the page <head>. Behaviour depends on whether
+  // Cookiebot is enabled at build time:
+  //   - Cookiebot enabled  → events fire to gtag only after the user grants
+  //     `statistics` consent; pre-consent events are buffered to dataLayer
+  //     with `_denied: true` for inspection.
+  //   - Cookiebot disabled → window.Cookiebot is undefined, the consented
+  //     check evaluates to undefined-falsy, and we fall through to firing
+  //     gtag directly. Same code path; no build-time substitution needed.
   function fwEvent(name, params) {
     try {
       window.dataLayer = window.dataLayer || [];
-      var consented = window.Cookiebot && window.Cookiebot.consent && window.Cookiebot.consent.statistics;
+      var cookiebotPresent = !!(window.Cookiebot && window.Cookiebot.consent);
+      // No Cookiebot → treat as "consented" so events flow to gtag.
+      // Cookiebot present → require its `statistics` flag.
+      var consented = !cookiebotPresent || window.Cookiebot.consent.statistics;
       if (consented && typeof window.gtag === 'function') {
         window.gtag('event', name, params || {});
       } else {
-        // Buffer for replay if user later accepts consent.
         window.dataLayer.push({ event: name, _denied: !consented, params: params || {} });
       }
     } catch (e) { /* swallow */ }
@@ -358,9 +365,14 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
   }
 
   // Inject the reCAPTCHA v3 script once, on first user interaction with the
-  // survey form. Saves ~370KB of unused JS on initial paint. Respects
-  // Cookiebot consent: when Cookiebot is loaded with a real CBID, we wait
-  // for the user to accept the `security` cookie category before loading.
+  // survey form. Saves ~370KB of unused JS on initial paint.
+  //
+  // Cookiebot consent gating: while Cookiebot is disabled (see build_pages.py
+  // COOKIEBOT_ENABLED flag), reCAPTCHA loads on first interaction without
+  // waiting for any consent. When Cookiebot is re-enabled, the check below
+  // automatically defers loading until the user accepts the `security`
+  // cookie category. No code change required at re-enable time other than
+  // flipping the build flag.
   var _recaptchaLoaded = false;
   function loadRecaptchaIfNeeded() {
     if (_recaptchaLoaded) return;
@@ -369,7 +381,9 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     if (!key || key.indexOf('MISSING_') === 0) return;
     if (window.Cookiebot && window.Cookiebot.consent && !window.Cookiebot.consent.security) {
       // Cookiebot is active and security consent not granted yet — defer
-      // until user accepts. This event fires once consent is updated.
+      // until user accepts. This event fires once consent is updated. With
+      // Cookiebot disabled, window.Cookiebot is undefined and this branch
+      // is skipped, so reCAPTCHA loads on first interaction.
       window.addEventListener('CookiebotOnAccept', loadRecaptchaIfNeeded);
       return;
     }

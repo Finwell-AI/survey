@@ -15,6 +15,9 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 
+# Mirrors COOKIEBOT_ENABLED in build_pages.py. Toggle there + here together.
+COOKIEBOT_ENABLED = False
+
 
 # ---------------------------------------------------------------- markdown
 INLINE_RULES = [
@@ -91,8 +94,26 @@ def md_to_html(md: str) -> str:
     return "\n".join(out)
 
 
+_COOKIEBOT_BLOCK_ENABLED = """\
+<!-- Cookiebot: legal pages still need the consent banner so a user who
+     lands here directly gets the same opt-in flow as the rest of the site. -->
+<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
+        data-cbid="__COOKIEBOT_CBID__"
+        data-blockingmode="auto" type="text/javascript"></script>"""
+
+_COOKIEBOT_BLOCK_DISABLED = (
+    "<!-- Cookiebot disabled — see build_pages.py COOKIEBOT_ENABLED flag. -->"
+)
+
+
 # ---------------------------------------------------------------- page shell
 def page(title: str, description: str, canonical: str, body: str) -> str:
+    cookiebot_block = _COOKIEBOT_BLOCK_ENABLED if COOKIEBOT_ENABLED else _COOKIEBOT_BLOCK_DISABLED
+    cookie_pref_link = (
+        '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
+        'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>'
+        if COOKIEBOT_ENABLED else ""
+    )
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -113,12 +134,7 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
 
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="stylesheet" href="/assets/css/styles.css"/>
-
-<!-- Cookiebot: legal pages still need the consent banner so a user who
-     lands here directly gets the same opt-in flow as the rest of the site. -->
-<script id="Cookiebot" src="https://consent.cookiebot.com/uc.js"
-        data-cbid="__COOKIEBOT_CBID__"
-        data-blockingmode="auto" type="text/javascript"></script>
+{cookiebot_block}
 <style>
   /* Legal-page typography overrides — keeps the brand without competing with it. */
   .legal-shell {{ background: #fff; color: #0F172A; padding: 80px 24px 80px; }}
@@ -164,7 +180,7 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
 <a href="/survey">Take the survey</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
-<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
+{cookie_pref_link}
 </div>
 </div>
 </footer>

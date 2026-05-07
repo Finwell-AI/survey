@@ -112,22 +112,23 @@ test('footer Privacy + Terms links navigate correctly', async ({ page }) => {
   await expect(page.locator('h1')).toHaveText(/Terms of Use/);
 });
 
-test('GA4 dataLayer buffers events while consent is denied', async ({ page }) => {
+test('GA4 dataLayer receives events from interactions while Cookiebot is disabled', async ({ page }) => {
+  // While Cookiebot is disabled (build flag), fwEvent calls gtag('event', …)
+  // which pushes positional args (`{0: "event", 1: name, …}`) onto dataLayer.
+  // Buffered fallbacks use `{event: name, _denied: true}`. We accept either.
   await page.goto('/');
-  // Trigger a tracked event deterministically — clicking any element with
-  // data-event fires fwEvent, which buffers when consent is denied.
   await page.evaluate(() => window.fwCloseWelcome && window.fwCloseWelcome());
   await page.locator('button:has-text("Maybe later")').click({ force: true }).catch(() => {});
-  // Now wait for any dataLayer entry with _denied: true.
   await page.waitForFunction(
-    () => Array.isArray(window.dataLayer)
-      && window.dataLayer.some(e => e && e._denied === true),
+    () => Array.isArray(window.dataLayer) && window.dataLayer.some((e) => {
+      if (!e) return false;
+      if (e.event === 'modal_dismissed') return true;
+      // gtag positional: dataLayer.push(['event', name, params])
+      if (e['0'] === 'event' && e['1'] === 'modal_dismissed') return true;
+      return false;
+    }),
     { timeout: 10_000 },
   );
-  const buffered = await page.evaluate(
-    () => window.dataLayer.filter(e => e && e._denied === true).length,
-  );
-  expect(buffered).toBeGreaterThan(0);
 });
 
 test('FAQ accordion expands and collapses', async ({ page }) => {
