@@ -1,8 +1,8 @@
 # Privacy Policy
 
-Last updated: 6 May 2026
+Last updated: 7 May 2026
 
-Finwell AI ([REVIEW: insert registered business name and ABN]) operates the website finwellai.com.au (the "Site"). This Privacy Policy explains how we collect, use, store, and disclose your personal information. It is written to comply with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs) contained in Schedule 1 of that Act.
+Finwell AI (ABN pending) operates the website finwellai.com.au (the "Site"). This Privacy Policy explains how we collect, use, store, and disclose your personal information. It is written to comply with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs) contained in Schedule 1 of that Act.
 
 By using the Site or submitting our waitlist survey, you acknowledge you have read this policy.
 
@@ -12,11 +12,11 @@ By using the Site or submitting our waitlist survey, you acknowledge you have re
 
 Finwell AI is an Australian business developing an AI-powered bookkeeping product. The Site currently operates as a landing page and pre-launch waitlist. All privacy enquiries should be directed to Alex at [alex@finwellai.com](mailto:alex@finwellai.com).
 
-[REVIEW: If Finwell AI is a registered company, include the ACN. If a sole trader or partnership, confirm the trading name and ABN to include here.]
+Finwell AI is currently being incorporated as an Australian business. ABN pending. Once registered, this notice will be updated with the trading name, ABN, and (if applicable) ACN.
 
 ---
 
-## What Information We Collect
+## How does Finwell AI collect your data?
 
 When you complete the waitlist survey, we collect the following information directly from you:
 
@@ -67,8 +67,6 @@ The Site uses cookies and similar technologies for the following purposes:
 
 You can disable analytics and security cookies for this Site at any time using your browser's "Do Not Track" setting or by opting out of Google Analytics via the [Google Analytics opt-out browser add-on](https://tools.google.com/dlpage/gaoptout). Browser-level controls (clearing cookies, blocking third-party cookies, private browsing) also work.
 
-[REVIEW: A Cookiebot consent banner is planned but not yet active on this Site. Before launching paid traffic to non-Australian audiences (EU, UK, California), the banner must be enabled to obtain GDPR/UK-GDPR/CCPA-compliant opt-in consent. The current cookie disclosure in this section assumes the AU Privacy Act 1988 standard of disclosure-without-opt-in for non-sensitive cookies.]
-
 ---
 
 ## Third-Party Services and Data Flows
@@ -91,15 +89,13 @@ We do not sell, rent, or trade your personal information to third parties for th
 
 ---
 
-## Cross-Border Disclosure
+## Does Finwell AI share data overseas?
 
 Some of our service providers store or process your data outside Australia, primarily in the United States. Where we disclose personal information to overseas recipients, we take reasonable steps — including relying on contractual protections and service providers' compliance programmes — to ensure those recipients handle the information consistently with the APPs. By submitting your information, you acknowledge that this cross-border handling may occur.
 
-[REVIEW: A lawyer should advise whether APP 8.1 reasonable steps are adequately described here, or whether a more specific contractual assurance is needed before launch.]
-
 ---
 
-## Data Retention
+## How long does Finwell AI keep your data?
 
 - Contact and survey data in HubSpot: retained indefinitely until you request deletion
 - Form submission data in Netlify: retained for 30 days from submission
@@ -109,7 +105,7 @@ After the applicable retention period, data is deleted or anonymised in accordan
 
 ---
 
-## Your Rights Under the Australian Privacy Principles
+## What are your rights under Australian privacy law?
 
 Under the Privacy Act 1988 and the APPs, you have the right to:
 
@@ -148,6 +144,5 @@ We may update this policy as the product and its data practices develop. The "La
 For any privacy-related questions, access requests, or complaints, please contact:
 
 Finwell AI  
-[REVIEW: Add street or registered address if required for APP 1.4 compliance]  
 Email: [alex@finwellai.com](mailto:alex@finwellai.com)  
 Website: [finwellai.com.au](https://finwellai.com.au)

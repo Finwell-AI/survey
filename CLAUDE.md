@@ -4,9 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture in one paragraph
 
-This is a static, multi-page Netlify site for the Finwell AI waitlist. The visual design lives in `docs/finwellai_prototype_v5 (1).html` (single-file, JS-routed prototype with embedded CSS, JS, and base64 images). Python build scripts in `scripts/` slice the prototype into separate published pages — `index.html`, `survey.html`, `thanks.html` — externalising assets (`assets/css/styles.css`, `assets/js/app.js`, `assets/images/img-*.{png,jpg,webp}`, `assets/fonts/inter-var.woff2`). Privacy and Terms pages render from `content/*.md` via a tiny inline markdown converter. Two Netlify Functions in `netlify/functions/` handle reCAPTCHA verification and HubSpot CRM sync. A `bash scripts/inject_env.sh` step substitutes `__VAR__` placeholders in HTML/JS with deploy-time env vars.
+This is a static, multi-page Netlify site for the Finwell AI waitlist. `index.html`, `survey.html`, and `thanks.html` are **hand-edited source-of-truth** — edit them directly. Privacy and Terms render from `content/*.md` via `scripts/build_legal_pages.py` (a tiny inline markdown converter). Shared assets live in `assets/css/styles.css`, `assets/js/app.js`, `assets/images/img-*.{png,jpg,webp}`, `assets/fonts/inter-var.woff2`. Two Netlify Functions in `netlify/functions/` handle reCAPTCHA verification and HubSpot CRM sync. A `bash scripts/inject_env.sh` step substitutes `__VAR__` placeholders in HTML/JS with deploy-time env vars.
 
-The published HTML, CSS, and JS files are **build outputs**, not source. Don't edit them directly.
+The previous prototype-driven build pipeline (`docs/finwellai_prototype_v5 (1).html` + `scripts/build_pages.py`) was retired on 2026-05-07; see `docs/_archive/README.md` for rollback instructions.
 
 ## Commands
 
@@ -21,14 +21,13 @@ pkill -f 'netlify dev'
 netlify build                                # injects site env vars + runs build command
 netlify deploy --prod --dir . --message '…'  # uploads the built output
 
-# Regenerate everything from sources (runs as part of `netlify build`)
-python3 scripts/build_pages.py        # index/survey/thanks from prototype
+# Build steps (runs as part of `netlify build`)
 python3 scripts/build_legal_pages.py  # privacy/terms from content/*.md
 bash scripts/inject_env.sh            # sed-substitutes __VAR__ placeholders
 
+# Index, survey, thanks: hand-edited HTML, no build step.
+
 # One-off setup
-python3 scripts/extract_prototype.py  # splits inline <style>, <script>, base64 from prototype — DO NOT rerun, see gotcha below
-python3 scripts/patch_css.py          # adds Inter @font-face, swaps data URIs for file paths
 python3 scripts/build_og_image.py     # placeholder OG card
 
 # HubSpot CRM properties (idempotent)
@@ -41,23 +40,29 @@ There are no tests, no linter, no formatter configured. Don't invent them.
 
 | To change | Edit | Then run |
 | --- | --- | --- |
-| Visual design or hero copy on home/survey/thanks | `docs/finwellai_prototype_v5 (1).html` | `python3 scripts/build_pages.py` |
+| Hero copy, FAQs, features, sections on the home page | `index.html` | nothing |
+| Survey questions, wording, hidden fields | `survey.html` | nothing |
+| Thanks page copy | `thanks.html` | nothing |
+| Title, meta description, OG, Twitter, JSON-LD, head schema (per page) | the `<head>` block of `index.html` / `survey.html` / `thanks.html` | nothing |
+| Urgent banner copy or footer copy | edit in 4 places: `index.html`, `survey.html`, `thanks.html`, plus the `URGENT_BANNER` and `SHARED_FOOTER` constants in `scripts/build_legal_pages.py` | `python3 scripts/build_legal_pages.py` |
 | Privacy or Terms text | `content/privacy.md` or `content/terms.md` | `python3 scripts/build_legal_pages.py` |
-| Behaviour, analytics, form-submit flow | `assets/js/app.js` (hand-edited, not regenerated — see gotcha) | nothing |
-| Brand styles, fonts, colours | `assets/css/styles.css` (hand-edited after extraction — see gotcha) | nothing |
+| Privacy/Terms head template (title, meta, schema) | `scripts/build_legal_pages.py` `page()` function | `python3 scripts/build_legal_pages.py` |
+| Behaviour, analytics, form-submit flow | `assets/js/app.js` (hand-edited) | nothing |
+| Brand styles, fonts, colours | `assets/css/styles.css` (hand-edited) | nothing |
 | Build/deploy substitutions | `scripts/inject_env.sh` + `[build].command` in `netlify.toml` | `netlify build` |
 | HubSpot mapping | `netlify/functions/submission-created.mjs` | redeploy |
 | Spam threshold | `netlify/functions/verify-recaptcha.mjs` (`SCORE_THRESHOLD`) | redeploy |
-| Survey questions or wording | `docs/finwellai_prototype_v5 (1).html` (the survey block) | `python3 scripts/build_pages.py` |
-| Survey field names sent to HubSpot | `FIELD_MAP` in `submission-created.mjs` and the hidden inputs in `build_pages.py:survey_to_form` | full rebuild + HubSpot property creation |
+| Survey field names sent to HubSpot | `FIELD_MAP` in `submission-created.mjs` and the hidden `<input name="…"/>` fields in `survey.html` | redeploy + HubSpot property creation |
 
 ## Gotchas
 
-**`scripts/extract_prototype.py` is one-shot.** It regenerates `assets/css/styles.css` and `assets/js/app.js` from the prototype's inline blocks. Both files have been hand-edited since extraction (CSS got Inter `@font-face` and file-path image refs; JS was rewritten for multi-page anchors, reCAPTCHA, GA4 events, real form submit). Re-running the extractor clobbers those changes. Treat the current `assets/css/styles.css` and `assets/js/app.js` as source-of-truth.
+**Banner and footer live in 4 files.** When you change `URGENT_BANNER` markup or `SHARED_FOOTER` markup, update `index.html`, `survey.html`, `thanks.html`, AND the `URGENT_BANNER` / `SHARED_FOOTER` constants in `scripts/build_legal_pages.py`. Privacy and Terms read from those constants and will drift otherwise. There is no automated cross-page check — visually verify after the change.
 
 **`netlify deploy --build` does NOT inject site env vars.** Confirmed empirically — deployed with `--build` and got `MISSING_GA4_MEASUREMENT_ID` even with the env var set in the dashboard. Always use the two-step form: `netlify build && netlify deploy --prod --dir .`. The `netlify build` step is the one that pulls env vars from the dashboard into the local subprocess.
 
-**`inject_env.sh` is destructive.** It sed-substitutes `__VAR__` placeholders in HTML; once gone, they can't come back without rebuilding. The `[build].command` in `netlify.toml` reruns `build_pages.py` and `build_legal_pages.py` first, restoring fresh placeholders, so substitution always has fresh targets. Don't shortcut `bash scripts/inject_env.sh` alone — always go through `netlify build` (or run all three steps).
+**`inject_env.sh` is destructive — preserve `__VAR__` placeholders.** The HTMLs and `assets/js/app.js` carry placeholders like `__GA4_MEASUREMENT_ID__`, `__COOKIEBOT_CBID__`, `__RECAPTCHA_SITE_KEY__`. `inject_env.sh` sed-substitutes them on every deploy from Netlify env vars (or to literal `MISSING_<NAME>` if unset). Once a placeholder is gone from the committed file, `inject_env.sh` has nothing to replace. **Never commit the substituted output** — keep the placeholders in the repo. If a placeholder accidentally got replaced (look for `MISSING_*` or a baked GA4 ID), restore it with a global find-and-replace.
+
+**The retired prototype build pipeline lives in `docs/_archive/`.** Don't import from it. Don't restore it without reading `docs/_archive/README.md` first. The archive is for rollback and historical context only.
 
 **Netlify Forms requires the form in the published HTML at deploy time.** That's why `survey.html` is statically built rather than rendered from JS. If a future change moves the form into a JS-rendered template, Netlify won't detect it. The current detection is verified — see `netlify api listSiteForms` returning `finwellai-waitlist` with 14 fields.
 
@@ -75,7 +80,7 @@ There are no tests, no linter, no formatter configured. Don't invent them.
 
 **No framework.** Vanilla HTML/CSS/JS. Don't rewrite to Next.js or any SPA — Netlify Forms requires the form in static HTML at build time, and a framework rewrite breaks that detection.
 
-**No GTM, no Microsoft Clarity, no marketing pixels, no Slack webhook, no chat backend.** All deferred per founder. GA4 is installed directly via `gtag.js`, gated by Cookiebot consent. If a future task asks to add Clarity or pixels, install via the existing pattern (Cookiebot-gated `<script>` in the page head template, see `build_pages.py:build_head`).
+**No GTM, no Microsoft Clarity, no marketing pixels, no Slack webhook, no chat backend.** All deferred per founder. GA4 is installed directly via `gtag.js`, gated by Cookiebot consent. If a future task asks to add Clarity or pixels, install via the existing pattern (Cookiebot-gated `<script>` in the `<head>` of every page) — apply the change to `index.html`, `survey.html`, `thanks.html`, and the legal-pages `page()` head template in `scripts/build_legal_pages.py`.
 
 **Self-hosted Inter (variable WOFF2).** Don't add a Google Fonts `<link>` — the `@font-face` is in `styles.css` and the WOFF2 is preloaded in `<head>`.
 

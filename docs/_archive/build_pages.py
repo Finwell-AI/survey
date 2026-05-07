@@ -402,13 +402,19 @@ m = re.match(
 )
 SURVEY_INNER = m.group(1).strip() if m else SURVEY_BLOCK
 
-CHAT_FAB = slice_by_marker(
-    RAW,
-    r'<button class="chat-fab" id="chatFab"',
-    r'</div>\s*<!-- WELCOME POPUP MODAL',
-)
-# Trim any trailing comment line
-CHAT_FAB = re.sub(r"<!-- WELCOME.*$", "", CHAT_FAB, flags=re.DOTALL).rstrip()
+# Chat FAB disabled per founder 2026-05-07. The slice + JS handlers in app.js
+# are kept for easy re-enable: flip CHAT_FAB_ENABLED back to True and rebuild.
+CHAT_FAB_ENABLED = False
+if CHAT_FAB_ENABLED:
+    CHAT_FAB = slice_by_marker(
+        RAW,
+        r'<button class="chat-fab" id="chatFab"',
+        r'</div>\s*<!-- WELCOME POPUP MODAL',
+    )
+    # Trim any trailing comment line
+    CHAT_FAB = re.sub(r"<!-- WELCOME.*$", "", CHAT_FAB, flags=re.DOTALL).rstrip()
+else:
+    CHAT_FAB = ""
 
 WELCOME_MODAL = slice_by_marker(
     RAW,
@@ -483,7 +489,11 @@ def survey_to_form(html: str) -> str:
             'data-netlify="true" data-netlify-honeypot="bot-field" '
             'action="/thanks" id="surveyForm" novalidate>\n'
             '<input type="hidden" name="form-name" value="finwellai-waitlist"/>\n'
-            '<input type="hidden" name="g-recaptcha-response" id="recaptchaToken"/>\n'
+            # No g-recaptcha-response field. Netlify Forms rejects any submission
+            # containing this field unless the form is enrolled with
+            # data-netlify-recaptcha="true". We enforce reCAPTCHA server-side via
+            # netlify/functions/verify-recaptcha.mjs before form.submit() — see
+            # app.js setupSurveyForm. Token never reaches Netlify Forms.
             '<p class="hp-field" hidden>\n'
             '  <label>Don’t fill this out: <input name="bot-field"/></label>\n'
             '</p>\n'
@@ -614,8 +624,8 @@ def main() -> None:
 
     # ----------------------------------------------------------------- write index
     INDEX_HTML_LOCAL = page(
-    title="Finwell AI — Financial wellness, smarter future.",
-    description="Finwell AI is the bookkeeper in your pocket. Tax time is around the corner — help us shape what we are building. Take the 2-minute survey and join the founding 500 for 6 months free Premium.",
+    title="Finwell AI | Digital Receipts & Tax Automation Australia",
+    description="Finwell AI captures your receipts at the till and turns every purchase into a live tax ledger. Built for Australian PAYG employees and sole traders. Join early access.",
     canonical="/",
     body_inner=HOME_INNER,
     modal=True,

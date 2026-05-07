@@ -1,8 +1,8 @@
 # Terms of Use
 
-Last updated: 6 May 2026
+Last updated: 7 May 2026
 
-These Terms of Use govern your access to and use of the Finwell AI website at finwellai.com.au (the "Site"), operated by Finwell AI ([REVIEW: insert registered business name and ABN]).
+These Terms of Use govern your access to and use of the Finwell AI website at finwellai.com.au (the "Site"), operated by Finwell AI (ABN pending).
 
 Please read these Terms before using the Site. By accessing the Site or submitting the waitlist survey, you agree to be bound by them. If you do not agree, please do not use the Site.
 
@@ -13,8 +13,6 @@ Please read these Terms before using the Site. By accessing the Site or submitti
 Finwell AI is a pre-launch Australian fintech product. The Site currently operates as an informational landing page and a survey-based waitlist for an AI bookkeeping product under development.
 
 Nothing on the Site constitutes a binding offer to supply any product or service. Joining the waitlist does not guarantee access to any future product, pricing tier, or feature set described on the Site.
-
-[REVIEW: If early-access terms or any form of pre-purchase commitment is introduced at any point, a separate agreement or amendment to these Terms will be required before launch.]
 
 ---
 
@@ -86,8 +84,6 @@ Nothing on the Site constitutes financial, accounting, legal, or tax advice. The
 
 **Australian Consumer Law:** Nothing in these Terms excludes, restricts, or modifies any right or remedy you may have under the Australian Consumer Law (Schedule 2 to the Competition and Consumer Act 2010 (Cth)), including any consumer guarantee that cannot lawfully be excluded. To the extent our liability cannot be excluded under the Australian Consumer Law, our liability is limited to the extent permitted by section 64A of the Australian Consumer Law.
 
-[REVIEW: A lawyer should confirm whether the ACL consumer guarantee cap in section 64A applies given the Site is currently free to use and no goods or services are being supplied. The limitation language may need adjustment when the commercial product launches.]
-
 Subject to the above, and to the maximum extent permitted by law, our total liability to you for any loss or damage arising out of or in connection with your use of the Site is limited to AUD $100.
 
 We are not liable for any indirect, incidental, special, or consequential loss, including loss of profits, loss of data, or loss of business opportunity, even if we have been advised of the possibility of such loss.
@@ -102,7 +98,7 @@ Our collection and handling of your personal information is governed by our [Pri
 
 ## 9. Governing Law
 
-These Terms are governed by and construed in accordance with the laws of the State of [REVIEW: confirm preferred state — Victoria, NSW, or Queensland] and the Commonwealth of Australia. You agree to submit to the non-exclusive jurisdiction of the courts of that state and the Federal Court of Australia.
+These Terms are governed by and construed in accordance with the laws of the State of New South Wales and the Commonwealth of Australia. You agree to submit to the non-exclusive jurisdiction of the courts of that state and the Federal Court of Australia.
 
 ---
 
@@ -123,6 +119,5 @@ If any provision of these Terms is found to be unenforceable or invalid under ap
 For questions about these Terms, please contact:
 
 Finwell AI  
-[REVIEW: Add street or registered address]  
 Email: [alex@finwellai.com](mailto:alex@finwellai.com)  
 Website: [finwellai.com.au](https://finwellai.com.au)

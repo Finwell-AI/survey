@@ -73,6 +73,13 @@ function buildProperties(data) {
     if (v == null || v === '') return;
     props[FIELD_MAP[key]] = clamp(v, FIELD_LIMITS[key] || TEXT_MAX);
   });
+  // HubSpot's `finwell_marketing_consent` is an enum with options `Yes`/`No`
+  // (titlecase). The form posts `consent=yes` (lowercase, per the
+  // <input value="yes"> in build_pages.py). Normalize so HubSpot accepts it.
+  if (props[FIELD_MAP.consent]) {
+    const c = String(props[FIELD_MAP.consent]).toLowerCase();
+    props[FIELD_MAP.consent] = (c === 'yes' || c === 'on' || c === 'true') ? 'Yes' : 'No';
+  }
   return props;
 }
 

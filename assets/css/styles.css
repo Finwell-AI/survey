@@ -2955,6 +2955,14 @@ body {
   background: rgba(5, 7, 13, 0.85);
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
+body[data-page="home"] .site-header.dark {
+  background-image:
+    linear-gradient(rgba(5, 7, 13, 0.55), rgba(5, 7, 13, 0.55)),
+    url('../images/header-background.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
 .header-inner {
   max-width: var(--maxw);
   margin: 0 auto;

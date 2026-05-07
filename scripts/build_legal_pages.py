@@ -5,27 +5,87 @@ Minimal Markdown converter (no third-party deps). Handles only the subset our
 two documents use: H1, H2, paragraphs, ordered/unordered lists, bold (**...**),
 italic (*...*), inline code, links, horizontal rules, and the inline
 [REVIEW: ...] tags which we render as styled inline notes for Alex.
+
+Banner + footer + Cookiebot state live as inline constants in this module.
+The home/survey/thanks pages are now hand-edited HTML — when their banner or
+footer changes, also update the constants here so the legal pages stay in
+sync. Four files to touch, no shared template module.
 """
 from __future__ import annotations
 
 import html
+import json
 import re
-import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 
-# Reuse the same urgent banner, footer, chat FAB, and Cookiebot flag that
-# index/survey/thanks render. Importing from build_pages.py is side-effect-
-# free now that its file-write logic is guarded by `if __name__ == "__main__"`.
-sys.path.insert(0, str(Path(__file__).resolve().parent))
-from build_pages import (  # noqa: E402  (path mutation must precede import)
-    URGENT_BANNER,
-    SHARED_FOOTER,
-    CHAT_FAB,
-    COOKIEBOT_ENABLED,
+# ----------------------------------------------------------------- shared shell
+# Cookiebot consent banner is currently disabled. Flip to True and supply a
+# real CBID via Netlify env once the consent flow is wired. When False the
+# Cookiebot <script> is omitted entirely and the "Cookie preferences" footer
+# link is hidden.
+COOKIEBOT_ENABLED = False
+
+# Chat FAB is disabled per founder 2026-05-07. Empty string keeps the page
+# template valid; flip to the FAB markup string to re-enable.
+CHAT_FAB = ""
+
+# Urgent banner — must match the markup in index.html / survey.html /
+# thanks.html. When changing the copy, links, or styling, update all four
+# files together.
+URGENT_BANNER = '''<div class="urgent-banner" id="urgentBanner">
+<div class="urgent-banner-inner">
+<span class="pulse-dot"></span>
+<span><strong>Tax time is just around the corner.</strong> Be a founding member, join the waitlist, get 6 months free Premium.</span>
+<a class="banner-cta" href="/survey" data-event="cta_click" data-cta-label="urgent_banner">Claim my spot</a>
+</div>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>'''
+
+# Shared footer — must match the markup in index.html / survey.html /
+# thanks.html. The Cookie preferences link is added only when Cookiebot is
+# enabled.
+_COOKIE_PREF_LINK = (
+    '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
+    'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>'
+    if COOKIEBOT_ENABLED else ""
 )
+
+SHARED_FOOTER = f'''
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="footer_logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name" style="color: white;">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag" style="color: rgba(219, 234, 254, 0.7);">Financial Wellness</div>
+</div>
+</a>
+<p class="tagline">Financial Wellness. Smarter Future. Built in Melbourne for Australians dealing with the financial pressure of today.</p>
+</div>
+<div class="footer-links">
+<a href="/#what">What it does</a>
+<a href="/#how">How it works</a>
+<a href="/#tax">Tax automation</a>
+<a href="/#trust">Trust</a>
+<a href="/survey" data-event="cta_click" data-cta-label="footer_survey">Take the survey</a>
+<a href="/#faq">FAQ</a>
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+{_COOKIE_PREF_LINK}
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2026 Finwell AI Pty Ltd. ABN pending. Made in Melbourne.</span>
+<span>ATO DSP accreditation in progress.</span>
+</div>
+</footer>
+'''
 
 
 # ---------------------------------------------------------------- markdown
@@ -116,8 +176,68 @@ _COOKIEBOT_BLOCK_DISABLED = (
 
 
 # ---------------------------------------------------------------- page shell
-def page(title: str, description: str, canonical: str, body: str) -> str:
+def _schema_jsonld(title: str, description: str, canonical: str, last_modified: str) -> str:
+    """Return a JSON-LD <script> block with WebPage + Organization + WebSite.
+
+    Pre-launch: legalName uses "ABN pending" rather than a fake ACN/ABN. Once
+    Finwell AI is registered, swap legalName to the registered entity name and
+    add an `identifier` property with the ABN.
+    """
+    page_url = f"https://finwellai.com.au{canonical}"
+    graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "WebPage",
+                "@id": f"{page_url}#webpage",
+                "url": page_url,
+                "name": title,
+                "description": description,
+                "inLanguage": "en-AU",
+                "datePublished": "2026-05-06",
+                "dateModified": last_modified,
+                "isPartOf": {"@id": "https://finwellai.com.au/#website"},
+                "publisher": {"@id": "https://finwellai.com.au/#organization"},
+            },
+            {
+                "@type": "WebSite",
+                "@id": "https://finwellai.com.au/#website",
+                "url": "https://finwellai.com.au",
+                "name": "Finwell AI",
+                "inLanguage": "en-AU",
+                "publisher": {"@id": "https://finwellai.com.au/#organization"},
+            },
+            {
+                "@type": "Organization",
+                "@id": "https://finwellai.com.au/#organization",
+                "name": "Finwell AI",
+                "legalName": "Finwell AI (ABN pending)",
+                "url": "https://finwellai.com.au",
+                "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
+                "email": "alex@finwellai.com",
+                "areaServed": {"@type": "Country", "name": "Australia"},
+                "foundingLocation": {
+                    "@type": "Place",
+                    "address": {
+                        "@type": "PostalAddress",
+                        "addressLocality": "Melbourne",
+                        "addressRegion": "VIC",
+                        "addressCountry": "AU",
+                    },
+                },
+            },
+        ],
+    }
+    return (
+        '<script type="application/ld+json">\n'
+        + json.dumps(graph, indent=2, ensure_ascii=False)
+        + "\n</script>"
+    )
+
+
+def page(title: str, description: str, canonical: str, body: str, last_modified: str) -> str:
     cookiebot_block = _COOKIEBOT_BLOCK_ENABLED if COOKIEBOT_ENABLED else _COOKIEBOT_BLOCK_DISABLED
+    schema_block = _schema_jsonld(title, description, canonical, last_modified)
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -135,6 +255,8 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
 <meta property="og:description" content="{description}"/>
 <meta property="og:url" content="https://finwellai.com.au{canonical}"/>
 <meta property="og:image" content="https://finwellai.com.au/assets/og-image.png"/>
+
+{schema_block}
 
 <link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
 <link rel="stylesheet" href="/assets/css/styles.css"/>
@@ -200,21 +322,25 @@ def main() -> None:
     privacy_html = md_to_html(privacy_md)
     terms_html = md_to_html(terms_md)
 
+    last_modified = "2026-05-07"
+
     (ROOT / "privacy.html").write_text(
         page(
             title="Privacy Policy — Finwell AI",
             description="How Finwell AI collects, stores, and uses your personal information under the Australian Privacy Act 1988 and Privacy Principles.",
             canonical="/privacy",
             body=privacy_html,
+            last_modified=last_modified,
         ),
         encoding="utf-8",
     )
     (ROOT / "terms.html").write_text(
         page(
             title="Terms of Use — Finwell AI",
-            description="Terms governing your use of the Finwell AI website and waitlist.",
+            description="Terms of use for finwellai.com.au — Finwell AI's pre-launch waitlist for AI-powered bookkeeping in Australia. Governed by NSW law.",
             canonical="/terms",
             body=terms_html,
+            last_modified=last_modified,
         ),
         encoding="utf-8",
     )

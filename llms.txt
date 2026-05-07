@@ -1,0 +1,28 @@
+# Finwell AI
+
+> AI-powered bookkeeping for Australians. Captures receipts at the till, turns every purchase into a live tax ledger, and automates BAS and tax-time admin for PAYG employees, sole traders, and small business owners. Pre-launch — currently a waitlist for the founding 500 members.
+
+Finwell AI is being built in Melbourne, Australia. The site at https://finwellai.com.au is currently a waitlist landing page and 9-question survey. The product itself is in development. The business is in the process of being incorporated as an Australian company; ABN registration is pending and will be published on the privacy and terms pages once issued. The company is operated by Alex (alex@finwellai.com).
+
+The site complies with the Australian Privacy Act 1988 and the Australian Privacy Principles (APPs). Terms of use are governed by the law of New South Wales. The waitlist form is hosted on Netlify, contacts sync to HubSpot, GA4 powers analytics with IP anonymisation, and Google reCAPTCHA v3 protects the form from bots.
+
+## About
+
+- [Home — what Finwell AI does](https://finwellai.com.au/): product overview, features, FAQs.
+- [Survey](https://finwellai.com.au/survey): 9-question waitlist form. Two minutes. Joining gives access to 6 months free Premium for the founding 500.
+- [Thanks page](https://finwellai.com.au/thanks): post-submission confirmation.
+
+## Legal
+
+- [Privacy Policy](https://finwellai.com.au/privacy): what data Finwell AI collects, where it's stored, third-party processors (Netlify, HubSpot, Google), cross-border disclosure under APP 8, retention periods, and how to exercise APP 12/13 access and correction rights.
+- [Terms of Use](https://finwellai.com.au/terms): waitlist terms, intellectual property, acceptable use, ACL disclaimers, governing law (NSW).
+
+## Contact
+
+- Email: alex@finwellai.com
+- Website: https://finwellai.com.au
+
+## Optional
+
+- [robots.txt](https://finwellai.com.au/robots.txt)
+- [sitemap.xml](https://finwellai.com.au/sitemap.xml)

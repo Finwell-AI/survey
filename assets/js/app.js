@@ -1,4 +1,4 @@
-window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
+window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
 /* Finwell AI — site behaviour
  *
  * Multi-page production version. Each HTML page renders standalone; this script
@@ -55,6 +55,10 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
   };
 
   // ------------------------------------------------------------- chat FAB
+  // Disabled per founder 2026-05-07. Build script (build_pages.py:CHAT_FAB_ENABLED)
+  // also strips the markup so the global handlers below are unreachable.
+  // Kept commented so re-enable is a single flag flip + uncomment.
+  /*
   window.fwToggleChat = function () {
     var panel = document.getElementById('chatPanel');
     var fab = document.getElementById('chatFab');
@@ -112,6 +116,8 @@ window.__RECAPTCHA_SITE_KEY__ = 'MISSING_RECAPTCHA_SITE_KEY';
     inp.value = '';
     setTimeout(function () { chatAddMsg(cannedReply(q), 'bot'); }, 600);
   };
+  */
+  // ------------------------------------------------------------- end chat FAB (disabled)
 
   // ------------------------------------------------------------- welcome modal
   // Only fires on the home page; survey/thanks/etc. skip it entirely.

@@ -49,14 +49,17 @@ Microsoft Clarity, marketing pixels, Slack notifications, and the chat FAB are d
 │   ├── verify-recaptcha.mjs # POST endpoint — token → siteverify → 200/403
 │   └── submission-created.mjs # event handler — pushes form payload to HubSpot
 ├── scripts/
-│   ├── extract_prototype.py   # one-off: split <style>/<script>/base64 from prototype
-│   ├── patch_css.py           # inject Inter @font-face, swap data-URIs for files
-│   ├── build_pages.py         # build index/survey/thanks from prototype source
 │   ├── build_legal_pages.py   # markdown → HTML for privacy/terms
 │   ├── build_og_image.py      # generate placeholder OG card
+│   ├── hubspot_setup.py       # idempotent HubSpot custom-property creator
+│   ├── subset_inter.py        # one-off: subset Inter variable WOFF2
 │   └── inject_env.sh          # Netlify build step — replace tokens in HTML/JS
-└── docs/                     # original brief + brand guidelines + prototype
+├── docs/
+│   └── _archive/              # retired prototype build pipeline (rollback only)
+└── content/                   # markdown source for /privacy and /terms
 ```
+
+`index.html`, `survey.html`, and `thanks.html` are **hand-edited** source-of-truth — there is no build step that regenerates them.
 
 ---
 
@@ -175,17 +178,16 @@ If you wanted no-redeploy event changes, the brief originally suggested Google T
 
 ## Build and rebuild
 
-If the prototype source (`docs/finwellai_prototype_v5 (1).html`) changes, regenerate everything:
+The published HTMLs are hand-edited. Only the legal pages have a build step:
 
 ```sh
-python3 scripts/extract_prototype.py
-python3 scripts/patch_css.py
-python3 scripts/build_pages.py
-python3 scripts/build_legal_pages.py
-python3 scripts/build_og_image.py
+python3 scripts/build_legal_pages.py   # privacy.md / terms.md → privacy.html / terms.html
+bash scripts/inject_env.sh             # substitute __VAR__ placeholders (deploy step)
 ```
 
-Don't run `extract_prototype.py` by itself — it overwrites `assets/css/styles.css` and `assets/js/app.js`. Always follow with `patch_css.py` and the page builders. `app.js` was also hand-edited after extraction; re-running the extractor will clobber those changes. Treat the current `app.js` as the source of truth.
+When you change the urgent banner or footer markup, update **all four** files together: `index.html`, `survey.html`, `thanks.html`, and the `URGENT_BANNER` / `SHARED_FOOTER` constants in `scripts/build_legal_pages.py`. The legal pages read from those constants and will drift otherwise.
+
+The original prototype-driven build pipeline (`scripts/build_pages.py` + `docs/finwellai_prototype_v5 (1).html`) was retired on 2026-05-07. The retired files live in `docs/_archive/`; see the README in that directory for rollback instructions.
 
 ---
 
