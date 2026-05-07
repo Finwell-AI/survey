@@ -35,17 +35,43 @@ const FIELD_MAP = {
   consent: PROP_PREFIX + 'marketing_consent',
 };
 
+// Per-field length caps before sending to HubSpot. Defends against junk
+// submissions that bypass the honeypot but ship arbitrarily long strings,
+// and avoids paying a HubSpot API call to learn HubSpot's own limits.
+const EMAIL_MAX = 254;     // RFC 5321
+const NAME_MAX = 200;
+const TEXT_MAX = 500;      // generic single-line answers
+const TEXTAREA_MAX = 2000; // multi-select joined values
+
+const FIELD_LIMITS = {
+  income_type: TEXT_MAX,
+  salary_range: TEXT_MAX,
+  lost_receipt: TEXT_MAX,
+  tax_stress: TEXT_MAX,
+  deduction_confidence: TEXT_MAX,
+  top_feature: TEXTAREA_MAX,
+  trust_builder: TEXTAREA_MAX,
+  fair_price: TEXT_MAX,
+  points_willingness: TEXT_MAX,
+  consent: TEXT_MAX,
+};
+
+function clamp(value, max) {
+  if (value == null) return '';
+  return String(value).slice(0, max);
+}
+
 function buildProperties(data) {
   const props = {
-    email: data.email,
-    firstname: data.name || '',
+    email: clamp(data.email, EMAIL_MAX),
+    firstname: clamp(data.name, NAME_MAX),
     lifecyclestage: 'subscriber',
     hs_lead_status: 'NEW',
   };
   Object.keys(FIELD_MAP).forEach(function (key) {
     const v = data[key];
     if (v == null || v === '') return;
-    props[FIELD_MAP[key]] = String(v);
+    props[FIELD_MAP[key]] = clamp(v, FIELD_LIMITS[key] || TEXT_MAX);
   });
   return props;
 }
@@ -107,8 +133,9 @@ export const handler = async (event) => {
         }
       );
       if (!updateRes.ok) {
-        const txt = await updateRes.text();
-        console.error('[submission-created] hubspot update failed', updateRes.status, txt);
+        // Log status only — HubSpot's response body can echo property values
+        // that came from user input.
+        console.error('[submission-created] hubspot update failed', updateRes.status);
         return { statusCode: 200, body: 'hubspot update failed' };
       }
       return { statusCode: 200, body: 'updated' };
@@ -116,8 +143,7 @@ export const handler = async (event) => {
   }
 
   if (!res.ok) {
-    const txt = await res.text();
-    console.error('[submission-created] hubspot create failed', res.status, txt);
+    console.error('[submission-created] hubspot create failed', res.status);
     // Return 200 anyway — Netlify keeps the form submission and we don't want to
     // mark the submission as failed in the dashboard.
     return { statusCode: 200, body: 'hubspot create failed: ' + res.status };

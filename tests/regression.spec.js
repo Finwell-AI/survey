@@ -83,6 +83,60 @@ test('reCAPTCHA loader respects Cookiebot security consent', async ({ request })
   expect(js).toContain('CookiebotOnAccept');
 });
 
+test('Content-Security-Policy is set on every HTML page', async ({ request }) => {
+  // F-01: a CSP must be present on HTML responses to backstop any future XSS.
+  for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
+    const res = await request.get(path);
+    const csp = res.headers()['content-security-policy'];
+    expect(csp, `${path} missing CSP`).toBeTruthy();
+    // Critical directives that must always be present.
+    expect(csp).toContain("object-src 'none'");
+    expect(csp).toContain("base-uri 'self'");
+    expect(csp).toContain("frame-ancestors 'none'");
+  }
+});
+
+test('verify-recaptcha endpoint rejects requests without an Origin header set to ours', async ({ request }) => {
+  // F-03: the function applies an Origin guard against drive-by floods.
+  // An evil-origin request must be rejected before any siteverify call.
+  const res = await request.post('/.netlify/functions/verify-recaptcha', {
+    headers: {
+      'origin': 'https://evil.example.com',
+      'content-type': 'application/json',
+    },
+    data: JSON.stringify({ token: 'whatever' }),
+  });
+  expect(res.status()).toBe(403);
+  const body = await res.json();
+  expect(body.error).toBe('origin_not_allowed');
+});
+
+test('survey form has maxlength caps on name and email inputs', async ({ request }) => {
+  // F-09: defends HubSpot from arbitrarily long values.
+  const html = await (await request.get('/survey')).text();
+  expect(html).toMatch(/<input[^>]+id="name"[^>]+maxlength="200"/);
+  expect(html).toMatch(/<input[^>]+id="email"[^>]+maxlength="254"/);
+});
+
+test('privacy policy describes the survey in plain English (no q1_role / referral_source)', async ({ request }) => {
+  // F-06/F-07/F-13: the policy must accurately enumerate the actual fields.
+  const html = await (await request.get('/privacy')).text();
+  expect(html).not.toContain('q1_role');
+  expect(html).not.toContain('q2_business_type');
+  expect(html).not.toContain('referral_source');
+  expect(html).toContain('How you primarily earn your income');
+  expect(html).toContain('annual income range');
+  expect(html).toContain('preferred monthly price tier');
+});
+
+test('Cookie preferences link is present in every footer', async ({ request }) => {
+  // F-12: the privacy policy promises a footer link; it must exist.
+  for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
+    const html = await (await request.get(path)).text();
+    expect(html, `${path} missing Cookie preferences link`).toContain('Cookie preferences');
+  }
+});
+
 test('Cookiebot is loaded on every page', async ({ request }) => {
   for (const path of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
     const html = await (await request.get(path)).text();

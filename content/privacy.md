@@ -24,18 +24,19 @@ When you complete the waitlist survey, we collect the following information dire
 - Your email address
 - An optional consent flag indicating whether you agree to receive future marketing communications from us
 
-We also collect responses to eight survey questions:
+We also collect responses to nine survey questions:
 
-- Your role or job title (q1_role)
-- Your business type (q2_business_type)
-- Your primary bookkeeping pain point (q3_pain_point)
-- The tools you currently use for bookkeeping (q4_current_tool)
-- The product features most important to you (q5_priority_features)
-- Your pricing expectations or budget (q6_pricing)
-- How interested you are in using the product at launch (q7_launch_interest)
-- How you heard about Finwell AI (q8_referral_source)
+- How you primarily earn your income (PAYG employee, ABN sole trader, both, business owner, or investment property owner)
+- Your approximate annual income range
+- Whether you have lost or forgotten a tax receipt in the past twelve months
+- Your level of stress preparing tax or BAS, on a scale of 1 to 10
+- Your confidence that you claim every deduction you are entitled to, on a scale of 1 to 10
+- Which product features matter most to you (multiple-choice)
+- Which signals would build your trust in a platform that connects to spending data (multiple-choice)
+- Your preferred monthly price tier
+- Whether you would pay more to earn points or rewards
 
-Note on survey responses q5 and q6: your answers to the feature preferences and pricing questions may, in context, reveal information about your financial circumstances or priorities. We treat this information with the same care as any other personal information and do not use it for any purpose other than those described in this policy.
+Note on survey responses: several of these questions — particularly your income range, your deduction-confidence rating, and your preferred price tier — may, in context, reveal information about your financial circumstances or priorities. We treat this information with the same care as any other personal information and do not use it for any purpose other than those described in this policy.
 
 We do not collect sensitive information as defined by the Privacy Act (such as health, biometric, or government-identifier data). If this changes before launch, we will update this policy.
 

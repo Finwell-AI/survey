@@ -364,11 +364,11 @@ Back
 
 <div class="q7-input-group">
 <label for="name">Your name <span class="opt-tag">(optional)</span></label>
-<input type="text" id="name" name="name" placeholder="What should we call you?"/>
+<input type="text" id="name" name="name" maxlength="200" placeholder="What should we call you?"/>
 </div>
 <div class="q7-input-group">
 <label for="email">Email *</label>
-<input type="email" id="email" name="email" placeholder="you@example.com" required/>
+<input type="email" id="email" name="email" maxlength="254" placeholder="you@example.com" required/>
 </div>
 
 <label class="consent-row">
@@ -416,6 +416,7 @@ Back
 <a href="/#faq">FAQ</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
+<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
 </div>
 </div>
 <div class="footer-bottom">

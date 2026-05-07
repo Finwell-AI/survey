@@ -333,7 +333,12 @@ def patch_home_inner(html: str) -> str:
     """Fix dead anchors and onclick handlers inside the home block."""
     # Privacy + Terms anchors in the footer were href-less <a>Privacy</a>.
     html = html.replace("<a>Privacy</a>", '<a href="/privacy">Privacy</a>')
-    html = html.replace("<a>Terms</a>", '<a href="/terms">Terms</a>')
+    html = html.replace(
+        "<a>Terms</a>",
+        '<a href="/terms">Terms</a>'
+        '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
+        'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>',
+    )
     # Survey link in footer (the only fwGoto leftover here)
     html = html.replace(
         '<a onclick="window.fwGoto(\'survey\')">Take the survey</a>',
@@ -386,13 +391,15 @@ def survey_to_form(html: str) -> str:
     # Add name= attributes to inputs/buttons. Buttons that capture data-q values
     # write into hidden inputs we'll add via JS at submit time. The visible inputs
     # (name, email, consent) need name attributes directly.
+    # maxlength caps prevent garbage submissions and align with the HubSpot-
+    # side truncation in submission-created.mjs.
     html = html.replace(
         '<input type="text" id="name" placeholder="What should we call you?"/>',
-        '<input type="text" id="name" name="name" placeholder="What should we call you?"/>',
+        '<input type="text" id="name" name="name" maxlength="200" placeholder="What should we call you?"/>',
     )
     html = html.replace(
         '<input type="email" id="email" placeholder="you@example.com" required/>',
-        '<input type="email" id="email" name="email" placeholder="you@example.com" required/>',
+        '<input type="email" id="email" name="email" maxlength="254" placeholder="you@example.com" required/>',
     )
     html = html.replace(
         '<input type="checkbox" id="consent"/>',
@@ -490,6 +497,7 @@ SHARED_FOOTER = """
 <a href="/#faq">FAQ</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
+<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
 </div>
 </div>
 <div class="footer-bottom">

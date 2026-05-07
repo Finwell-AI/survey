@@ -21,6 +21,10 @@ module.exports = defineConfig({
     screenshot: 'only-on-failure',
     video: isCI ? 'retain-on-failure' : 'off',
     extraHTTPHeaders: { 'x-finwellai-qa': 'playwright' },
+    // Block service worker registration in tests so a SW from a previous
+    // test run can't intercept fetches and serve stale assets. Real users
+    // benefit from the SW; tests don't.
+    serviceWorkers: 'block',
   },
   projects: [
     { name: 'chromium', use: { ...devices['Desktop Chrome'] } },

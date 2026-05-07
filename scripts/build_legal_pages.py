@@ -157,6 +157,18 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
   </div>
 </main>
 
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-links">
+<a href="/">Home</a>
+<a href="/survey">Take the survey</a>
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>
+</div>
+</div>
+</footer>
+
 <script src="/assets/js/app.js" defer></script>
 </body>
 </html>
@@ -167,21 +179,10 @@ def main() -> None:
     privacy_md = (CONTENT / "privacy.md").read_text(encoding="utf-8")
     terms_md = (CONTENT / "terms.md").read_text(encoding="utf-8")
 
-    # Patch privacy.md: replace q1_role etc. with the actual semantic field names
-    # from our form. Less jargon for readers, keeps wording in sync with reality.
-    field_map = {
-        "q1_role": "income_type",
-        "q2_business_type": "salary_range",
-        "q3_pain_point": "lost_receipt",
-        "q4_current_tool": "tax_stress",
-        "q5_priority_features": "top_feature",
-        "q6_pricing": "fair_price",
-        "q7_launch_interest": "points_willingness",
-        "q8_referral_source": "referral_source",
-    }
-    for old, new in field_map.items():
-        privacy_md = privacy_md.replace(old, new)
-
+    # No field-name substitution — privacy.md must describe the survey in
+    # plain English that matches the actual form, without mentioning the
+    # internal field identifiers. The previous substitution corrupted the
+    # surrounding prose and was the cause of audit findings F-06 and F-07.
     privacy_html = md_to_html(privacy_md)
     terms_html = md_to_html(terms_md)
 
