@@ -171,6 +171,22 @@ test('all 5 routable pages return 200 (no broken multi-page split)', async ({ re
   }
 });
 
+test('all routable pages share the same urgent banner, footer, and chat FAB', async ({ request }) => {
+  // Every public page should carry the same chrome — top urgent banner,
+  // full site footer (brand + tagline + four-link nav), and chat FAB.
+  // Privacy + Terms used to ship a slimmer footer; that's been unified.
+  const required = ['urgent-banner', 'footer-brand', 'chat-fab'];
+  for (const p of ['/', '/survey', '/thanks', '/privacy', '/terms']) {
+    const html = await (await request.get(p)).text();
+    for (const marker of required) {
+      expect(html, `${p} missing ${marker}`).toContain(marker);
+    }
+    // Footer must include the eight-link nav + bottom strip.
+    expect(html, `${p} footer missing tagline`).toContain('Financial Wellness. Smarter Future.');
+    expect(html, `${p} footer missing bottom strip`).toContain('Made in Melbourne.');
+  }
+});
+
 test('Inter is self-hosted (not loaded from fonts.googleapis.com at runtime)', async ({ request }) => {
   // Regression: a Google Fonts <link> would put a third-party request on
   // every page load and undo the self-hosting work.

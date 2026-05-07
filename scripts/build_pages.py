@@ -604,8 +604,16 @@ def page(
     return head + body
 
 
-# ----------------------------------------------------------------- write index
-INDEX_HTML = page(
+def main() -> None:
+    """Render the page HTML files. Importing this module does NOT trigger
+    file writes — only running it as a script does, via the
+    `if __name__ == "__main__"` guard at the bottom. Other build scripts
+    (e.g. build_legal_pages.py) import the module-level constants
+    (URGENT_BANNER, SHARED_FOOTER, CHAT_FAB, COOKIEBOT_ENABLED) without
+    writing index/survey/thanks again."""
+
+    # ----------------------------------------------------------------- write index
+    INDEX_HTML_LOCAL = page(
     title="Finwell AI — Financial wellness, smarter future.",
     description="Finwell AI is the bookkeeper in your pocket. Tax time is around the corner — help us shape what we are building. Take the 2-minute survey and join the founding 500 for 6 months free Premium.",
     canonical="/",
@@ -614,24 +622,36 @@ INDEX_HTML = page(
     home_already_has_footer=True,
     # LCP candidate on the home page is the hero phone image. Preloading it
     # gets the browser fetching it before the CSS is parsed.
-    extra_preloads=(
-        ("image", "/assets/images/img-45547e3aac.webp"),
-    ),
-)
-(ROOT / "index.html").write_text(INDEX_HTML, encoding="utf-8")
+        extra_preloads=(
+            ("image", "/assets/images/img-45547e3aac.webp"),
+        ),
+    )
+    (ROOT / "index.html").write_text(INDEX_HTML_LOCAL, encoding="utf-8")
 
-# ---------------------------------------------------------------- write survey
-SURVEY_HTML = page(
-    title="Take the 2-minute survey — Finwell AI",
-    description="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member.",
-    canonical="/survey",
-    body_inner=SURVEY_INNER,
-    include_recaptcha=True,
-)
-(ROOT / "survey.html").write_text(SURVEY_HTML, encoding="utf-8")
+    # ---------------------------------------------------------------- write survey
+    SURVEY_HTML_LOCAL = page(
+        title="Take the 2-minute survey — Finwell AI",
+        description="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member.",
+        canonical="/survey",
+        body_inner=SURVEY_INNER,
+        include_recaptcha=True,
+    )
+    (ROOT / "survey.html").write_text(SURVEY_HTML_LOCAL, encoding="utf-8")
+
+    # ---------------------------------------------------------------- write thanks
+    THANKS_HTML_LOCAL = page(
+        title="Thanks — you’re on the list — Finwell AI",
+        description="You’re on the Finwell AI waitlist. We’ll email you when founding-member access opens.",
+        canonical="/thanks",
+        body_inner=THANKS_INNER,
+    )
+    (ROOT / "thanks.html").write_text(THANKS_HTML_LOCAL, encoding="utf-8")
+
+    for name in ("index.html", "survey.html", "thanks.html"):
+        p = ROOT / name
+        print(f"  {name:14s}  {p.stat().st_size:>9,} bytes")
 
 
-# ---------------------------------------------------------------- write thanks
 THANKS_INNER = """
 <header class="site-header dark" id="siteHeader">
 <div class="header-inner">
@@ -661,16 +681,5 @@ THANKS_INNER = """
 </main>
 """
 
-THANKS_HTML = page(
-    title="Thanks — you’re on the list — Finwell AI",
-    description="You’re on the Finwell AI waitlist. We’ll email you when founding-member access opens.",
-    canonical="/thanks",
-    body_inner=THANKS_INNER,
-)
-(ROOT / "thanks.html").write_text(THANKS_HTML, encoding="utf-8")
-
-
-# ---------------------------------------------------------------- summary
-for name in ("index.html", "survey.html", "thanks.html"):
-    p = ROOT / name
-    print(f"  {name:14s}  {p.stat().st_size:>9,} bytes")
+if __name__ == "__main__":
+    main()

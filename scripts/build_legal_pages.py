@@ -10,13 +10,22 @@ from __future__ import annotations
 
 import html
 import re
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CONTENT = ROOT / "content"
 
-# Mirrors COOKIEBOT_ENABLED in build_pages.py. Toggle there + here together.
-COOKIEBOT_ENABLED = False
+# Reuse the same urgent banner, footer, chat FAB, and Cookiebot flag that
+# index/survey/thanks render. Importing from build_pages.py is side-effect-
+# free now that its file-write logic is guarded by `if __name__ == "__main__"`.
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+from build_pages import (  # noqa: E402  (path mutation must precede import)
+    URGENT_BANNER,
+    SHARED_FOOTER,
+    CHAT_FAB,
+    COOKIEBOT_ENABLED,
+)
 
 
 # ---------------------------------------------------------------- markdown
@@ -109,11 +118,6 @@ _COOKIEBOT_BLOCK_DISABLED = (
 # ---------------------------------------------------------------- page shell
 def page(title: str, description: str, canonical: str, body: str) -> str:
     cookiebot_block = _COOKIEBOT_BLOCK_ENABLED if COOKIEBOT_ENABLED else _COOKIEBOT_BLOCK_DISABLED
-    cookie_pref_link = (
-        '<a href="#" onclick="if(window.Cookiebot)Cookiebot.renew();return false;" '
-        'data-event="nav_click" data-cta-label="footer_cookie_prefs">Cookie preferences</a>'
-        if COOKIEBOT_ENABLED else ""
-    )
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -154,6 +158,8 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
 </style>
 </head>
 <body data-page="{canonical.strip('/')}">
+{URGENT_BANNER}
+
 <header class="site-header dark" id="siteHeader">
 <div class="header-inner">
 <a class="logo" href="/" data-event="nav_click" data-cta-label="logo">
@@ -173,17 +179,9 @@ def page(title: str, description: str, canonical: str, body: str) -> str:
   </div>
 </main>
 
-<footer class="site-footer">
-<div class="footer-inner">
-<div class="footer-links">
-<a href="/">Home</a>
-<a href="/survey">Take the survey</a>
-<a href="/privacy">Privacy</a>
-<a href="/terms">Terms</a>
-{cookie_pref_link}
-</div>
-</div>
-</footer>
+{SHARED_FOOTER}
+
+{CHAT_FAB}
 
 <script src="/assets/js/app.js" defer></script>
 </body>
