@@ -567,7 +567,7 @@ body {
    "POWERED BY AI" SECTION
    ============================================================ */
 .powered-by-ai {
-  padding: 120px 20px;
+  padding: 60px 20px;
   background-color: white;
   position: relative;
   overflow: hidden;
@@ -597,7 +597,7 @@ body {
     background-position: 0 0, bottom right;
     /* Gradient overlay covers full section; image is capped at 760px tall. */
     background-size: 100% 100%, auto 760px;
-    min-height: 640px;
+    min-height: 480px;
   }
   .powered-by-ai .pba-inner { grid-template-columns: 1fr; }
   .powered-by-ai .pba-content { max-width: 58%; }
@@ -605,7 +605,7 @@ body {
 }
 @media (min-width: 1280px) {
   .powered-by-ai {
-    min-height: 720px;
+    min-height: 520px;
     background-image:
       linear-gradient(
         to right,
@@ -628,7 +628,7 @@ body {
    here because the .pba-visual element renders the photo via its own div. */
 @media (max-width: 767px) {
   .powered-by-ai {
-    padding: 80px 20px 64px;
+    padding: 40px 20px 32px;
     background-image: none;
   }
   .powered-by-ai .pba-inner { gap: 40px; }

@@ -2,7 +2,7 @@
 
 > AI-powered bookkeeping for Australians. Captures receipts at the till, turns every purchase into a live tax ledger, and automates BAS and tax-time admin for PAYG employees, sole traders, and small business owners. Pre-launch — currently a waitlist for the founding 500 members.
 
-Finwell AI is being built in Melbourne, Australia. The site at https://finwellai.com.au is currently a waitlist landing page and 9-question survey. The product itself is in development. The business is in the process of being incorporated as an Australian company; ABN registration is pending and will be published on the privacy and terms pages once issued. The company is operated by Alex (alex@finwellai.com).
+Finwell AI is being built in Melbourne, Australia. The site at https://finwellai.com.au is currently a waitlist landing page and 9-question survey. The product itself is in development. The business is in the process of being incorporated as an Australian company; ABN registration is pending and will be published on the privacy and terms pages once issued. The company is operated by Alex (info@finwellai.com.au).
 
 The site complies with the Australian Privacy Act 1988 and the Australian Privacy Principles (APPs). Terms of use are governed by the law of New South Wales. The waitlist form is hosted on Netlify, contacts sync to HubSpot, GA4 powers analytics with IP anonymisation, and Google reCAPTCHA v3 protects the form from bots.
 
@@ -19,7 +19,7 @@ The site complies with the Australian Privacy Act 1988 and the Australian Privac
 
 ## Contact
 
-- Email: alex@finwellai.com
+- Email: info@finwellai.com.au
 - Website: https://finwellai.com.au
 
 ## Optional

@@ -119,5 +119,5 @@ If any provision of these Terms is found to be unenforceable or invalid under ap
 For questions about these Terms, please contact:
 
 Finwell AI  
-Email: [alex@finwellai.com](mailto:alex@finwellai.com)  
+Email: [info@finwellai.com.au](mailto:info@finwellai.com.au)  
 Website: [finwellai.com.au](https://finwellai.com.au)

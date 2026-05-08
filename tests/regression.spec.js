@@ -51,12 +51,10 @@ test('survey page does not have duplicate id="status7" / id="count7"', async ({ 
   expect(await page.locator('#count6').count()).toBe(1);
 });
 
-test('contact email is alex@finwellai.com (NOT .com.au)', async ({ request }) => {
-  // Regression: the brief said .com.au, but the founder uses .com. Privacy
-  // and terms must match what's on file with Netlify and HubSpot.
+test('contact email is info@finwellai.com.au', async ({ request }) => {
   const html = await (await request.get('/privacy')).text();
-  expect(html).toContain('alex@finwellai.com');
-  expect(html).not.toContain('alex@finwellai.com.au');
+  expect(html).toContain('info@finwellai.com.au');
+  expect(html).not.toContain('alex@finwellai.com');
 });
 
 test('reCAPTCHA is set up to lazy-load, only on /survey', async ({ request }) => {

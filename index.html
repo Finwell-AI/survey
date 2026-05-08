@@ -63,15 +63,28 @@
      COOKIEBOT_ENABLED = True in scripts/build_pages.py and provide a real
      COOKIEBOT_CBID via Netlify env. -->
 
-<!-- Google Analytics 4 -->
+<!-- Google Analytics 4 — gtag/js loader is deferred to the `load` event so it
+     stays off the LCP critical path. The inline stub queues `config` + any
+     early dataLayer.push() calls; gtag.js drains the queue on arrival. -->
 <!-- TODO_GA4: replace `G-FEXPCZFS0M` with the live G-XXXXXXXXXX -->
 <script>
   window.dataLayer = window.dataLayer || [];
   window.gtag = function gtag(){ window.dataLayer.push(arguments); };
   gtag('js', new Date());
   gtag('config', 'G-FEXPCZFS0M', { anonymize_ip: true });
+  (function(){
+    var loaded = false;
+    function loadGA(){
+      if (loaded) return; loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FEXPCZFS0M';
+      document.head.appendChild(s);
+    }
+    if (document.readyState === 'complete') loadGA();
+    else window.addEventListener('load', loadGA);
+  })();
 </script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-FEXPCZFS0M"></script>
 </head>
 <body data-page="home">
 <div class="urgent-banner" id="urgentBanner">
@@ -126,12 +139,12 @@ ATO accreditation in progress
 <div>
 <div class="hero-eyebrow">
 <span class="dot"></span> Founding members · waitlist open </div>
-<h1 class="h-display">Financial Wellness.<br/><span class="accent">Smarter Future.</span></h1>
+<h1 class="h-display">Never lose a <br/><span class="accent">tax deduction</span><br> again</h1>
 <div class="hero-feature-pill">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
 <span>Every line item captured instantly. <strong>No typing. No manual entry.</strong></span>
 </div>
-<p class="hero-lede">AI-powered insights and automation that help you understand your finances, stay tax-ready, and build a better future. We are at the build stage. <strong style="color: var(--light-blue);">Be a founding member. Get 6 months free Premium when we launch.</strong></p>
+<p class="hero-lede">Finwell AI captures your receipts at the till and turns every purchase into a live tax ledger. <strong style="color: var(--light-blue);">No photos. No spreadsheets. No missed GST.</strong></p>
 <div class="hero-ctas">
 <a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Join waitlist · 6 months free Premium
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
@@ -164,9 +177,6 @@ ATO accreditation in progress
 <div class="pba-inner">
 
 <div class="pba-content reveal">
-<div class="pba-mark">
-<div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div>
-</div>
 <h2>Never lose a tax<br/><span class="accent">deduction again.</span></h2>
 <p class="lede">Finwell AI captures your receipts at the till and turns every purchase into a live tax ledger. No photos. No spreadsheets. No missed GST.</p>
 

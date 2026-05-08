@@ -214,7 +214,7 @@ def _schema_jsonld(title: str, description: str, canonical: str, last_modified: 
                 "legalName": "Finwell AI (ABN pending)",
                 "url": "https://finwellai.com.au",
                 "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
-                "email": "alex@finwellai.com",
+                "email": "info@finwellai.com.au",
                 "areaServed": {"@type": "Country", "name": "Australia"},
                 "foundingLocation": {
                     "@type": "Place",

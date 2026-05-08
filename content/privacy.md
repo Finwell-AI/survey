@@ -10,7 +10,7 @@ By using the Site or submitting our waitlist survey, you acknowledge you have re
 
 ## Who We Are
 
-Finwell AI is an Australian business developing an AI-powered bookkeeping product. The Site currently operates as a landing page and pre-launch waitlist. All privacy enquiries should be directed to Alex at [alex@finwellai.com](mailto:alex@finwellai.com).
+Finwell AI is an Australian business developing an AI-powered bookkeeping product. The Site currently operates as a landing page and pre-launch waitlist. All privacy enquiries should be directed to Alex at [info@finwellai.com.au](mailto:info@finwellai.com.au).
 
 Finwell AI is currently being incorporated as an Australian business. ABN pending. Once registered, this notice will be updated with the trading name, ABN, and (if applicable) ACN.
 
@@ -51,7 +51,7 @@ We use the information you provide to:
 - Respond to enquiries you send us
 - Comply with legal obligations
 
-If you have given separate consent, we may also use your email address to send you product news and updates. You can withdraw this consent at any time by emailing [alex@finwellai.com](mailto:alex@finwellai.com) or clicking the unsubscribe link in any email we send.
+If you have given separate consent, we may also use your email address to send you product news and updates. You can withdraw this consent at any time by emailing [info@finwellai.com.au](mailto:info@finwellai.com.au) or clicking the unsubscribe link in any email we send.
 
 We do not use your information for automated decision-making or profiling that produces legal or similarly significant effects.
 
@@ -74,7 +74,7 @@ You can disable analytics and security cookies for this Site at any time using y
 Your personal information is handled by the following third-party service providers. Where a provider is based outside Australia, we take reasonable steps to ensure they handle your information in a manner consistent with the APPs.
 
 **Netlify (United States)**
-The Site is hosted on Netlify, Inc. Netlify stores waitlist form submissions on servers located in the United States, with global edge caching. Form submission data is retained on Netlify's infrastructure for 30 days. Netlify's infrastructure also sends email notifications of new submissions to alex@finwellai.com. Netlify's privacy policy is available at [netlify.com/privacy](https://www.netlify.com/privacy/).
+The Site is hosted on Netlify, Inc. Netlify stores waitlist form submissions on servers located in the United States, with global edge caching. Form submission data is retained on Netlify's infrastructure for 30 days. Netlify's infrastructure also sends email notifications of new submissions to info@finwellai.com.au. Netlify's privacy policy is available at [netlify.com/privacy](https://www.netlify.com/privacy/).
 
 **HubSpot (United States)**
 When you submit the waitlist survey, the data you provide is transferred to HubSpot, Inc. via a serverless function. HubSpot acts as our customer relationship management (CRM) platform. Your contact data is retained in HubSpot indefinitely until you request deletion. HubSpot's privacy policy is available at [legal.hubspot.com/privacy-policy](https://legal.hubspot.com/privacy-policy).
@@ -113,7 +113,7 @@ Under the Privacy Act 1988 and the APPs, you have the right to:
 - **Correct** personal information that is inaccurate, out of date, incomplete, or misleading (APP 13)
 - **Complain** about a breach of the APPs
 
-To exercise your access or correction rights, or to request deletion of your data, email [alex@finwellai.com](mailto:alex@finwellai.com). We will respond within a reasonable time and in any event within 30 days.
+To exercise your access or correction rights, or to request deletion of your data, email [info@finwellai.com.au](mailto:info@finwellai.com.au). We will respond within a reasonable time and in any event within 30 days.
 
 If you are not satisfied with our response to a complaint, you may lodge a complaint with the Office of the Australian Information Commissioner (OAIC) at [oaic.gov.au](https://www.oaic.gov.au) or by calling 1300 363 992.
 
@@ -121,7 +121,7 @@ If you are not satisfied with our response to a complaint, you may lodge a compl
 
 ## Children
 
-The Site and our waitlist are intended for adults who operate or work within a business. We do not knowingly collect personal information from anyone under the age of 18. If you believe we have inadvertently collected information from a minor, please contact us at [alex@finwellai.com](mailto:alex@finwellai.com) and we will delete it promptly.
+The Site and our waitlist are intended for adults who operate or work within a business. We do not knowingly collect personal information from anyone under the age of 18. If you believe we have inadvertently collected information from a minor, please contact us at [info@finwellai.com.au](mailto:info@finwellai.com.au) and we will delete it promptly.
 
 ---
 
@@ -129,7 +129,7 @@ The Site and our waitlist are intended for adults who operate or work within a b
 
 We take reasonable steps to protect your personal information from misuse, interference, loss, and unauthorised access, modification, or disclosure. These steps include relying on the security practices of our service providers (Netlify, HubSpot, Google) and restricting access to personal information within our team.
 
-No method of internet transmission is completely secure. If you have concerns about the security of your data, contact us at [alex@finwellai.com](mailto:alex@finwellai.com).
+No method of internet transmission is completely secure. If you have concerns about the security of your data, contact us at [info@finwellai.com.au](mailto:info@finwellai.com.au).
 
 ---
 
@@ -144,5 +144,5 @@ We may update this policy as the product and its data practices develop. The "La
 For any privacy-related questions, access requests, or complaints, please contact:
 
 Finwell AI  
-Email: [alex@finwellai.com](mailto:alex@finwellai.com)  
+Email: [info@finwellai.com.au](mailto:info@finwellai.com.au)  
 Website: [finwellai.com.au](https://finwellai.com.au)

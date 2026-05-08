@@ -143,7 +143,7 @@ If HubSpot returns 400 with an unknown-property error, the function logs the pro
 
 1. Netlify → Forms → `finwellai-waitlist` → **Export CSV**. Free tier retains the last 30 days.
 2. HubSpot → Contacts → filter by lifecycle stage `subscriber` and source `Finwell AI Waitlist 2026` for the long-term record.
-3. If both are gone, submission notification emails to alex@finwellai.com are the final fallback.
+3. If both are gone, submission notification emails to info@finwellai.com.au are the final fallback.
 
 ---
 
@@ -202,7 +202,7 @@ Run these against the staging URL before requesting production sign-off:
 - [ ] Survey Back button works on every step
 - [ ] reCAPTCHA token is fetched on submit
 - [ ] Form submits and redirects to `/thanks`
-- [ ] Submission appears in Netlify dashboard, in HubSpot, and in alex@finwellai.com inbox within 60 seconds
+- [ ] Submission appears in Netlify dashboard, in HubSpot, and in info@finwellai.com.au inbox within 60 seconds
 - [ ] Honeypot test: edit form, fill `bot-field`, submit — Netlify rejects as spam
 - [ ] Welcome modal appears once per session and respects dismissal
 - [ ] FAQ accordion expand/collapse

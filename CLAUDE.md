@@ -76,7 +76,7 @@ There are no tests, no linter, no formatter configured. Don't invent them.
 
 **Field names use semantic identifiers, not the brief's `q1_role`/`q2_business_type` placeholders.** The actual survey asks about `income_type`, `salary_range`, `lost_receipt`, `tax_stress`, `deduction_confidence`, `top_feature`, `trust_builder`, `fair_price`, `points_willingness`. HubSpot custom properties are prefixed `finwell_*`. The README's HubSpot table is the source of truth.
 
-**Email contact is `alex@finwellai.com`** (not `.com.au`, despite the brief). Site URL is `finwellai.com.au` (the public domain). Don't conflate.
+**Email contact is `info@finwellai.com.au`.** Site URL is also `finwellai.com.au`. (Earlier convention was `alex@finwellai.com`; switched 2026-05-08.)
 
 **No framework.** Vanilla HTML/CSS/JS. Don't rewrite to Next.js or any SPA — Netlify Forms requires the form in static HTML at build time, and a framework rewrite breaks that detection.
 
@@ -116,7 +116,7 @@ If the function logs a 400 about an unknown property, add it in HubSpot and re-r
 - Install Netlify GitHub App on Finwell-AI org → unlocks auto-deploy on push
 - Real reCAPTCHA + Cookiebot keys → set env vars + redeploy
 - HubSpot Private App token + run `hubspot_setup.py`
-- Configure Form notification email in Netlify dashboard → Forms → finwellai-waitlist → Notifications → email to `alex@finwellai.com`
+- Configure Form notification email in Netlify dashboard → Forms → finwellai-waitlist → Notifications → email to `info@finwellai.com.au`
 - DNS cutover for `finwellai.com.au`
 - Replace placeholder logo + OG image once founder supplies the assets folder
 - Legal review on `[REVIEW: …]` tags in `content/privacy.md` and `content/terms.md`
