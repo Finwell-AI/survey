@@ -254,7 +254,8 @@ def page(title: str, description: str, canonical: str, body: str, last_modified:
 <meta property="og:title" content="{title}"/>
 <meta property="og:description" content="{description}"/>
 <meta property="og:url" content="https://finwellai.com.au{canonical}"/>
-<meta property="og:image" content="https://finwellai.com.au/assets/og-image.png"/>
+<meta property="og:image" content="https://finwellai.com.au/assets/finwellai-og.jpeg"/>
+<meta property="og:image:type" content="image/jpeg"/>
 
 {schema_block}
 

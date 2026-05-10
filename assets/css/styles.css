@@ -568,7 +568,7 @@ body {
    ============================================================ */
 .powered-by-ai {
   padding: 60px 20px;
-  background-color: white;
+  background-color: #fafbfc;
   position: relative;
   overflow: hidden;
 }
@@ -581,44 +581,50 @@ body {
    now the section background. */
 @media (min-width: 768px) {
   .powered-by-ai {
-    background-image:
-      linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.92) 35%,
-        rgba(255, 255, 255, 0.55) 60%,
-        rgba(255, 255, 255, 0) 90%
-      ),
-      image-set(
-        url(../images/img-289e15f2a1.avif) type("image/avif"),
-        url(../images/img-289e15f2a1.webp) type("image/webp")
-      );
-    background-repeat: no-repeat, no-repeat;
-    background-position: 0 0, bottom right;
-    /* Gradient overlay covers full section; image is capped at 760px tall. */
-    background-size: 100% 100%, auto 760px;
     min-height: 480px;
   }
-  .powered-by-ai .pba-inner { grid-template-columns: 1fr; }
+  /* Photo lives on a pseudo-element so we can mask only the photo's left edge
+     into transparency. This dissolves the photo into the section bg-color
+     (#fafbfc) instead of butting against it as a hard vertical seam. */
+  /* Pseudo-element is sized to the photo's exact rendered rect (1200x778
+     native, scaled to 529px tall → ~816px wide via aspect-ratio). Anchored
+     bottom-right of the section. The mask gradient then runs across the
+     photo's own width, so the fade happens within the photo itself and
+     dissolves cleanly into the section's #fafbfc bg — no vertical seam. */
+  .powered-by-ai::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 529px;
+    aspect-ratio: 1200 / 778;
+    background-image: image-set(
+      url(../images/img-289e15f2a1.avif) type("image/avif"),
+      url(../images/img-289e15f2a1.webp) type("image/webp")
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    pointer-events: none;
+    z-index: 0;
+    -webkit-mask-image: linear-gradient(to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 40%,
+      black 100%);
+    mask-image: linear-gradient(to right,
+      transparent 0%,
+      rgba(0, 0, 0, 0.35) 40%,
+      black 100%);
+  }
+  .powered-by-ai .pba-inner {
+    position: relative;
+    z-index: 1;
+    grid-template-columns: 1fr;
+  }
   .powered-by-ai .pba-content { max-width: 58%; }
   .powered-by-ai .pba-visual { display: none; }
 }
 @media (min-width: 1280px) {
-  .powered-by-ai {
-    min-height: 520px;
-    background-image:
-      linear-gradient(
-        to right,
-        rgba(255, 255, 255, 0.96) 0%,
-        rgba(255, 255, 255, 0.92) 40%,
-        rgba(255, 255, 255, 0.45) 65%,
-        rgba(255, 255, 255, 0) 92%
-      ),
-      image-set(
-        url(../images/img-289e15f2a1.avif) type("image/avif"),
-        url(../images/img-289e15f2a1.webp) type("image/webp")
-      );
-  }
+  .powered-by-ai { min-height: 520px; }
   .powered-by-ai .pba-content { max-width: 56%; }
 }
 

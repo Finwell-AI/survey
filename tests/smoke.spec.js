@@ -57,7 +57,7 @@ test.describe('smoke', () => {
   });
 
   test('OG image is present and is an image', async ({ request }) => {
-    const r = await request.get('/assets/og-image.png');
+    const r = await request.get('/assets/finwellai-og.jpeg');
     expect(r.status()).toBe(200);
     expect(r.headers()['content-type']).toContain('image');
   });
