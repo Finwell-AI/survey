@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-<title>Take the 2-minute survey — Finwell AI</title>
-<meta name="description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<title>Take the 3-minute survey — Finwell AI</title>
+<meta name="description" content="Help shape Finwell AI. Answer 12 quick questions about receipts, tax stress and pricing. Founding 500 members get exclusive early access at launch."/>
 <meta name="theme-color" content="#0B1F3B"/>
 <link rel="canonical" href="https://finwellai.com.au/survey"/>
 
@@ -15,8 +15,8 @@
 <!-- Open Graph -->
 <meta property="og:type" content="website"/>
 <meta property="og:site_name" content="Finwell AI"/>
-<meta property="og:title" content="Take the 2-minute survey — Finwell AI"/>
-<meta property="og:description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<meta property="og:title" content="Take the 3-minute survey — Finwell AI"/>
+<meta property="og:description" content="Help shape Finwell AI. 12 questions, 3 minutes. Founding 500 members get exclusive early access at launch."/>
 <meta property="og:url" content="https://finwellai.com.au/survey"/>
 <meta property="og:image" content="https://finwellai.com.au/assets/finwellai-og.jpeg"/>
 <meta property="og:image:type" content="image/jpeg"/>
@@ -25,8 +25,8 @@
 
 <!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image"/>
-<meta name="twitter:title" content="Take the 2-minute survey — Finwell AI"/>
-<meta name="twitter:description" content="Help shape Finwell AI. Answer 8 quick questions and lock in 6 months free Premium at launch as a founding member."/>
+<meta name="twitter:title" content="Take the 3-minute survey — Finwell AI"/>
+<meta name="twitter:description" content="Help shape Finwell AI. 12 questions, 3 minutes. Founding 500 members get exclusive early access at launch."/>
 <meta name="twitter:image" content="https://finwellai.com.au/assets/finwellai-og.jpeg"/>
 
 <!-- JSON-LD Organization -->
@@ -118,43 +118,57 @@ Back to home
 <form name="finwellai-waitlist" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="/thanks" id="surveyForm" novalidate>
 <input type="hidden" name="form-name" value="finwellai-waitlist"/>
 <p class="hp-field" hidden>
-  <label>Don’t fill this out: <input name="bot-field"/></label>
+  <label>Don&rsquo;t fill this out: <input name="bot-field"/></label>
 </p>
+<!-- v2 tracking metadata -->
+<input type="hidden" name="survey_version" value="v2"/>
+<input type="hidden" name="launch_phase" value="pre_launch"/>
 <!-- Hidden inputs populated by app.js from button data-q selections -->
-<input type="hidden" name="income_type"/>
-<input type="hidden" name="salary_range"/>
+<input type="hidden" name="segment"/>
 <input type="hidden" name="lost_receipt"/>
 <input type="hidden" name="tax_stress"/>
 <input type="hidden" name="deduction_confidence"/>
 <input type="hidden" name="top_feature"/>
-<input type="hidden" name="trust_builder"/>
-<input type="hidden" name="fair_price"/>
 <input type="hidden" name="points_willingness"/>
+<input type="hidden" name="trust_builder"/>
+<input type="hidden" name="recaptchaToken" id="recaptchaToken"/>
 <main class="survey-main">
 <div class="survey-card">
 
-<div class="survey-progress">
-<span class="of">Question <em id="stepLbl">01</em> of 08</span>
-<span class="ticks">
-<span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+<div class="survey-progress" id="surveyProgress" hidden>
+<span class="of">Question <em id="stepLbl">01</em> of 12</span>
+<span class="ticks" id="ticks">
+<span class="active"></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span>
 </span>
 </div>
 <div class="founding500-banner">
 <div class="f500-icon">★</div>
-<div class="f500-text"><strong>Founding 500.</strong> Complete this 2-minute survey and you are in line for 6 months free at launch. We will email you when Finwell AI is live.</div>
+<div class="f500-text"><strong>Founding 500.</strong> Complete this 3-minute survey and you are in line for exclusive early access and member-only benefits at launch.</div>
 </div>
 
-<!-- Q1: Income type -->
-<div class="step-pane on" data-step="1">
+<!-- Welcome screen (silent transition, no progress display) -->
+<div class="step-pane on" data-step="0" data-silent>
+<span class="eb">Help us build it</span>
+<h1>Help us build the receipt and tax tool <em>Australia actually needs</em></h1>
+<p class="sub">12 questions, 3 minutes. Your answers shape what we build first. Founding 500 members get exclusive early access and member-only benefits at launch.</p>
+<div class="survey-actions">
+<span class="gap"></span>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" data-event="survey_started">Start
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q1: Segment qualifier -->
+<div class="step-pane" data-step="1" data-q-num="1">
 <span class="eb">About you</span>
-<h1>How do you primarily <em>earn your income?</em></h1>
+<h1>Which best describes <em>you?</em></h1>
 <p class="sub">This routes everything that follows. Pick the one that fits best.</p>
 <div class="survey-options">
-<button class="opt" data-q="income_type" data-v="payg"><span class="check"></span><span class="label">PAYG employee<span class="desc">I work for someone and receive a payslip</span></span></button>
-<button class="opt" data-q="income_type" data-v="sole_trader"><span class="check"></span><span class="label">ABN sole trader<span class="desc">I run my own show, BAS and all</span></span></button>
-<button class="opt" data-q="income_type" data-v="both"><span class="check"></span><span class="label">Both, PAYG plus a side hustle<span class="desc">A regular job plus freelance, contract or side income</span></span></button>
-<button class="opt" data-q="income_type" data-v="business_owner"><span class="check"></span><span class="label">Business owner with employees<span class="desc">I run a company that employs others</span></span></button>
-<button class="opt" data-q="income_type" data-v="property_owner"><span class="check"></span><span class="label">Investment property owner<span class="desc">My main income is rental and capital</span></span></button>
+<button class="opt" data-q="segment" data-v="payg"><span class="check"></span><span class="label">PAYG employee only</span></button>
+<button class="opt" data-q="segment" data-v="sole_trader"><span class="check"></span><span class="label">Sole trader or freelancer only</span></button>
+<button class="opt" data-q="segment" data-v="both"><span class="check"></span><span class="label">Both PAYG and self employed work</span></button>
+<button class="opt" data-q="segment" data-v="business_owner"><span class="check"></span><span class="label">Business owner with employees</span></button>
 </div>
 <div class="survey-actions">
 <span class="gap"></span>
@@ -164,18 +178,16 @@ Back to home
 </div>
 </div>
 
-<!-- Q2: Salary range -->
-<div class="step-pane" data-step="2">
-<span class="eb">Income range</span>
-<h1>Roughly, what is your <em>annual income</em>?</h1>
-<p class="sub">This helps us understand which features matter most to which earners. Single-select. Prefer not to say is fine.</p>
+<!-- Q2: Receipt loss -->
+<div class="step-pane" data-step="2" data-q-num="2">
+<span class="eb">Receipt loss</span>
+<h1>Have you ever <em>lost a receipt</em> you needed for tax or a return?</h1>
+<p class="sub">No judgement. Most people answer yes.</p>
 <div class="survey-options">
-<button class="opt" data-q="salary_range" data-v="under_50k"><span class="check"></span><span class="label">Under $50,000</span></button>
-<button class="opt" data-q="salary_range" data-v="50_80k"><span class="check"></span><span class="label">$50,000 to $80,000</span></button>
-<button class="opt" data-q="salary_range" data-v="80_120k"><span class="check"></span><span class="label">$80,000 to $120,000</span></button>
-<button class="opt" data-q="salary_range" data-v="120_180k"><span class="check"></span><span class="label">$120,000 to $180,000</span></button>
-<button class="opt" data-q="salary_range" data-v="over_180k"><span class="check"></span><span class="label">Over $180,000</span></button>
-<button class="opt" data-q="salary_range" data-v="prefer_not_say"><span class="check"></span><span class="label">Prefer not to say</span></button>
+<button class="opt" data-q="lost_receipt" data-v="frequent"><span class="check"></span><span class="label">Yes, frequently</span></button>
+<button class="opt" data-q="lost_receipt" data-v="occasional"><span class="check"></span><span class="label">Yes, once or twice</span></button>
+<button class="opt" data-q="lost_receipt" data-v="never"><span class="check"></span><span class="label">No, my system works for me</span></button>
+<button class="opt" data-q="lost_receipt" data-v="no_tracking"><span class="check"></span><span class="label">I do not currently track receipts</span></button>
 </div>
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
@@ -188,31 +200,10 @@ Back
 </div>
 </div>
 
-<!-- Q3: Lost receipts -->
-<div class="step-pane" data-step="3">
-<span class="eb">The receipt struggle</span>
-<h1>In the last 12 months, have you <em>lost or forgotten</em> a receipt that mattered for tax?</h1>
-<p class="sub">No judgement. Most people answer yes.</p>
-<div class="survey-options">
-<button class="opt" data-q="lost_receipt" data-v="frequent"><span class="check"></span><span class="label">Yes, frequently</span></button>
-<button class="opt" data-q="lost_receipt" data-v="occasional"><span class="check"></span><span class="label">Yes, once or twice</span></button>
-<button class="opt" data-q="lost_receipt" data-v="never"><span class="check"></span><span class="label">No, my system works perfectly</span></button>
-</div>
-<div class="survey-actions">
-<button type="button" class="btn-back" onclick="window.fwBack()">
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
-Back
-</button>
-<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next3" data-event="survey_step_completed" data-step-number="3">Continue
-<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
-</button>
-</div>
-</div>
-
-<!-- Q4: Tax stress -->
-<div class="step-pane" data-step="4">
+<!-- Q3: Tax-time stress slider -->
+<div class="step-pane" data-step="3" data-q-num="3">
 <span class="eb">Tax-time stress</span>
-<h1>How stressful is preparing your tax <em>or BAS?</em></h1>
+<h1>How stressful is tax time for you <em>right now?</em></h1>
 <p class="sub">Pick the number that feels closest. 1 is &#x201C;not stressful at all&#x201D;, 10 is &#x201C;extremely stressful&#x201D;.</p>
 <div class="scale-row" id="scale_stress">
 <button class="scale-btn" data-q="tax_stress" data-v="1">1</button>
@@ -226,23 +217,23 @@ Back
 <button class="scale-btn" data-q="tax_stress" data-v="9">9</button>
 <button class="scale-btn" data-q="tax_stress" data-v="10">10</button>
 </div>
-<div class="scale-labels"><span>not stressful</span><span>extremely stressful</span></div>
+<div class="scale-labels"><span>not stressful at all</span><span>extremely stressful</span></div>
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 Back
 </button>
-<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next4" data-event="survey_step_completed" data-step-number="4">Continue
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next3" data-event="survey_step_completed" data-step-number="3">Continue
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
 </button>
 </div>
 </div>
 
-<!-- Q5: Deduction confidence -->
-<div class="step-pane" data-step="5">
+<!-- Q4: Deduction confidence (FLIPPED v2: 1 = 100% confident, 10 = leaving money) -->
+<div class="step-pane" data-step="4" data-q-num="4">
 <span class="eb">Deduction confidence</span>
 <h1>How confident are you that you claim <em>every deduction you are entitled to?</em></h1>
-<p class="sub">Be honest. 1 is &#x201C;leaving money on the table&#x201D;. 10 is &#x201C;100 percent confident&#x201D;.</p>
+<p class="sub">Be honest. 1 is &#x201C;100% confident, claim everything&#x201D;. 10 is &#x201C;leaving money on the table&#x201D;.</p>
 <div class="scale-row" id="scale_confidence">
 <button class="scale-btn" data-q="deduction_confidence" data-v="1">1</button>
 <button class="scale-btn" data-q="deduction_confidence" data-v="2">2</button>
@@ -255,7 +246,34 @@ Back
 <button class="scale-btn" data-q="deduction_confidence" data-v="9">9</button>
 <button class="scale-btn" data-q="deduction_confidence" data-v="10">10</button>
 </div>
-<div class="scale-labels"><span>leaving money on the table</span><span>100 percent confident</span></div>
+<div class="scale-labels"><span>100% confident, claim everything</span><span>leaving money on the table</span></div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next4" data-event="survey_step_completed" data-step-number="4">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q5: Features (multi-select, max 3) -->
+<div class="step-pane" data-step="5" data-q-num="5" data-multi-q="top_feature" data-multi-cap="3">
+<span class="eb">What matters most</span>
+<h1>Which of these would matter most to you? <em>Select up to 3.</em></h1>
+<p class="sub">Tick up to three. Once you have three, the rest will lock until you change a pick.</p>
+<div class="multi-status" id="status_top_feature"><span class="dot"></span><span><span class="label-key" id="count_top_feature">0 of 3 selected</span></span></div>
+<div class="survey-options">
+<button class="opt multi" data-q="top_feature" data-v="ai_categorisation"><span class="check"></span><span class="label">AI that automatically categorises every line item against ATO deduction rules<span class="desc">Catches the office supplies inside an Officeworks shop, the fuel inside a petrol station purchase</span></span></button>
+<button class="opt multi" data-q="top_feature" data-v="auto_capture"><span class="check"></span><span class="label">Automatic receipt capture at the till<span class="desc">No scanning or uploading</span></span></button>
+<button class="opt multi" data-q="top_feature" data-v="live_ledger"><span class="check"></span><span class="label">Live tax ledger updating in real time as you spend</span></button>
+<button class="opt multi" data-q="top_feature" data-v="bas_prefill"><span class="check"></span><span class="label">Pre-filled BAS ready to lodge</span></button>
+<button class="opt multi" data-q="top_feature" data-v="invoice_storage"><span class="check"></span><span class="label">Invoice and receipt storage in one place</span></button>
+<button class="opt multi" data-q="top_feature" data-v="auto_split"><span class="check"></span><span class="label">Automatic split of personal vs business spending</span></button>
+<button class="opt multi" data-q="top_feature" data-v="accountant_handoff"><span class="check"></span><span class="label">Direct handoff to your accountant</span></button>
+<button class="opt multi" data-q="top_feature" data-v="net_worth"><span class="check"></span><span class="label">Net worth and cash flow tracking</span></button>
+</div>
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
@@ -267,93 +285,163 @@ Back
 </div>
 </div>
 
-<!-- Q5: Top features (multi-select with star) -->
-<div class="step-pane" data-step="6">
-<span class="eb">What matters most</span>
-<h1>As we build this, <em>which features</em> would matter most to you?</h1>
-<p class="sub">Tick all that genuinely apply. Multiple choices fine.</p>
-<div class="multi-status" id="status6"><span class="dot"></span><span><span class="label-key" id="count6">0 selected</span></span></div>
-<div class="survey-options">
-<button class="opt multi" data-q="top_feature" data-v="auto_capture"><span class="check"></span><span class="label">Automatic receipt capture at the till</span></button>
-<button class="opt multi" data-q="top_feature" data-v="live_ledger"><span class="check"></span><span class="label">A live, real-time tax ledger</span></button>
-<button class="opt multi" data-q="top_feature" data-v="invoice_storage"><span class="check"></span><span class="label">Every invoice stored, organised, searchable</span></button>
-<button class="opt multi" data-q="top_feature" data-v="bas_prep"><span class="check"></span><span class="label">Automated BAS preparation</span></button>
-<button class="opt multi" data-q="top_feature" data-v="accountant_handoff"><span class="check"></span><span class="label">Clean handoff to my accountant or bookkeeper</span></button>
+<!-- Pricing setup screen (silent transition before Van Westendorp block) -->
+<div class="step-pane" data-step="6" data-silent>
+<span class="eb">A quick context</span>
+<h1>Now a few questions about <em>price</em>.</h1>
+<p class="sub" style="font-size:16px;line-height:1.6;">Finwell AI captures every receipt automatically when you tap your card, builds a live tax ledger, pre-fills your BAS, extracts GST in real time, and earns you points on every transaction redeemable as Qantas Frequent Flyer points.</p>
+<p class="sub" style="font-size:16px;line-height:1.6;">The next four questions are about what you would pay per month for this.</p>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q6: Too cheap (currency) -->
+<div class="step-pane" data-step="7" data-q-num="6">
+<span class="eb">Price: too cheap</span>
+<h1>At what monthly price would Finwell AI feel <em>so cheap that you would question its quality?</em></h1>
+<p class="sub">Whole dollars per month, AUD.</p>
+<div class="price-input-wrap">
+<span class="price-prefix">$</span>
+<input class="price-input" type="number" inputmode="numeric" min="0" max="999" step="1" name="price_too_cheap" id="price_too_cheap" placeholder="e.g. 5" autocomplete="off"/>
+<span class="price-suffix">/ month</span>
 </div>
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 Back
 </button>
-<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next6" data-event="survey_step_completed" data-step-number="6">Continue
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next7" data-event="survey_step_completed" data-step-number="6">Continue
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
 </button>
 </div>
 </div>
 
-<!-- Q6: Trust builder (multi-select with star) -->
-<div class="step-pane" data-step="7">
+<!-- Q7: Bargain (currency) -->
+<div class="step-pane" data-step="8" data-q-num="7">
+<span class="eb">Price: bargain</span>
+<h1>At what monthly price would Finwell AI feel like <em>a bargain, great value for money?</em></h1>
+<p class="sub">Whole dollars per month, AUD.</p>
+<div class="price-input-wrap">
+<span class="price-prefix">$</span>
+<input class="price-input" type="number" inputmode="numeric" min="0" max="999" step="1" name="price_bargain" id="price_bargain" placeholder="e.g. 15" autocomplete="off"/>
+<span class="price-suffix">/ month</span>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next8" data-event="survey_step_completed" data-step-number="7">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q8: Getting expensive (currency) -->
+<div class="step-pane" data-step="9" data-q-num="8">
+<span class="eb">Price: getting expensive</span>
+<h1>At what monthly price would Finwell AI start to feel expensive, but you <em>would still consider subscribing?</em></h1>
+<p class="sub">Whole dollars per month, AUD.</p>
+<div class="price-input-wrap">
+<span class="price-prefix">$</span>
+<input class="price-input" type="number" inputmode="numeric" min="0" max="999" step="1" name="price_expensive" id="price_expensive" placeholder="e.g. 30" autocomplete="off"/>
+<span class="price-suffix">/ month</span>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next9" data-event="survey_step_completed" data-step-number="8">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q9: Too expensive (currency) — VW monotonic check fires here -->
+<div class="step-pane" data-step="10" data-q-num="9">
+<span class="eb">Price: too expensive</span>
+<h1>At what monthly price would Finwell AI be <em>too expensive to consider?</em></h1>
+<p class="sub">Whole dollars per month, AUD.</p>
+<div class="price-input-wrap">
+<span class="price-prefix">$</span>
+<input class="price-input" type="number" inputmode="numeric" min="0" max="999" step="1" name="price_too_expensive" id="price_too_expensive" placeholder="e.g. 60" autocomplete="off"/>
+<span class="price-suffix">/ month</span>
+</div>
+<div class="vw-warning" id="vwWarning" hidden>Heads up: your prices should usually go from low to high (too cheap &le; bargain &le; getting expensive &le; too expensive). You can still continue.</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next10" data-event="survey_step_completed" data-step-number="9">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q10: Points value -->
+<div class="step-pane" data-step="11" data-q-num="10">
+<span class="eb">Points value</span>
+<h1>You earn 10 FinRewards points on every receipt automatically captured. <em>Does this add value for you?</em></h1>
+<p class="sub">Points convert to 2.5 Qantas Frequent Flyer points per receipt. For someone with three receipts a day, that is roughly 2,700 Qantas points a year on top of your normal earn.</p>
+<div class="survey-options">
+<button class="opt" data-q="points_willingness" data-v="yes_influence"><span class="check"></span><span class="label">Yes, this would influence my decision to subscribe</span></button>
+<button class="opt" data-q="points_willingness" data-v="maybe"><span class="check"></span><span class="label">Maybe, depends on how I would use them</span></button>
+<button class="opt" data-q="points_willingness" data-v="no_matter"><span class="check"></span><span class="label">No, points do not matter to me</span></button>
+<button class="opt" data-q="points_willingness" data-v="no_collect"><span class="check"></span><span class="label">I do not collect Qantas points</span></button>
+</div>
+<div class="survey-actions">
+<button type="button" class="btn-back" onclick="window.fwBack()">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+Back
+</button>
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next11" data-event="survey_step_completed" data-step-number="10">Continue
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
+</button>
+</div>
+</div>
+
+<!-- Q11: Trust requirements (multi-select, no cap) -->
+<div class="step-pane" data-step="12" data-q-num="11" data-multi-q="trust_builder">
 <span class="eb">The trust barrier</span>
-<h1>To automate this, the platform needs to connect to your spending data. <em>What would build trust?</em></h1>
-<p class="sub">Tick all the signals that would matter to you. Multiple choices fine.</p>
-<div class="multi-status" id="status7"><span class="dot"></span><span><span class="label-key" id="count7">0 selected</span></span></div>
+<h1>Which of these would you need to see <em>before connecting your bank or card</em> to Finwell AI?</h1>
+<p class="sub">Select all that apply.</p>
+<div class="multi-status" id="status_trust_builder"><span class="dot"></span><span><span class="label-key" id="count_trust_builder">0 selected</span></span></div>
 <div class="survey-options">
-<button class="opt multi" data-q="trust_builder" data-v="ato_accreditation"><span class="check"></span><span class="label">ATO accreditation</span></button>
-<button class="opt multi" data-q="trust_builder" data-v="bank_partnership"><span class="check"></span><span class="label">Direct partnership with my bank</span></button>
-<button class="opt multi" data-q="trust_builder" data-v="accountant_endorsement"><span class="check"></span><span class="label">An endorsement from my accountant</span></button>
-<button class="opt multi" data-q="trust_builder" data-v="free_trial"><span class="check"></span><span class="label">A genuine free trial period</span></button>
-<button class="opt multi" data-q="trust_builder" data-v="security_review"><span class="check"></span><span class="label">Independent security reviews</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="ato_dsp"><span class="check"></span><span class="label">ATO accreditation as a digital service provider</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="bank_encryption"><span class="check"></span><span class="label">Bank-grade encryption and tokenised data handling</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="au_hosting"><span class="check"></span><span class="label">Australian-based data hosting</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="no_sell"><span class="check"></span><span class="label">Privacy policy that prohibits selling your data to third parties</span></button>
+<button class="opt multi" data-q="trust_builder" data-v="reviews"><span class="check"></span><span class="label">Reviews from existing customers</span></button>
 </div>
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:14px;height:14px"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
 Back
 </button>
-<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next7" data-event="survey_step_completed" data-step-number="7">Continue
+<button type="button" class="btn btn-primary btn-arrow" onclick="window.fwNext()" disabled id="next12" data-event="survey_step_completed" data-step-number="11">Continue
 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>
 </button>
 </div>
 </div>
 
-<!-- Q7: Pricing tiers + points + email -->
-<div class="step-pane" data-step="8">
+<!-- Q12: Email + consent -->
+<div class="step-pane" data-step="13" data-q-num="12">
 <span class="eb">Almost there</span>
-<h1>If Finwell AI did all of this for you, <em>what feels fair to pay each month?</em></h1>
-<p class="sub">For a fully automated bookkeeper plus accountant access at tax time. The tiers below are starting points, we want to know which feels right.</p>
+<h1>Where should we send <em>your early access details?</em></h1>
+<p class="sub">We will email you when Finwell AI is live, plus the occasional update as we build.</p>
 
-<div class="q7-tier-grid">
-<button class="tier-card" data-q="fair_price" data-v="20">
-<div class="price">$20<em> / month</em></div>
-<div class="name">Lite</div>
-<div class="features">Receipt capture, AI categorisation, year-round tax view, every invoice stored.</div>
-</button>
-<button class="tier-card" data-q="fair_price" data-v="30">
-<div class="price">$30<em> / month</em></div>
-<div class="name">Standard</div>
-<div class="features">Everything in Lite plus accountant desktop access, BAS pre-collation, deduction surfacing.</div>
-</button>
-<button class="tier-card" data-q="fair_price" data-v="40">
-<div class="price">$40<em> / month</em></div>
-<div class="name">Full</div>
-<div class="features">Everything in Standard plus AI search bar, priority support, real-time refund tracking.</div>
-</button>
-</div>
-
-<div class="q7-section-divider"><span>One more thing</span></div>
-
-<h1 style="font-size: 22px; margin-bottom: 8px;">Would you pay <em>a little more</em> to earn points?</h1>
-<p class="sub">Some platforms reward you for using them. We want to know if that matters to you.</p>
-<div class="survey-options">
-<button class="opt" data-q="points_willingness" data-v="yes_definitely"><span class="check"></span><span class="label">Yes, definitely<span class="desc">I would pay a bit more if I earned points back</span></span></button>
-<button class="opt" data-q="points_willingness" data-v="depends"><span class="check"></span><span class="label">Depends on the value<span class="desc">If the points are actually useful, then yes</span></span></button>
-<button class="opt" data-q="points_willingness" data-v="no"><span class="check"></span><span class="label">No, just keep the price low<span class="desc">I would rather pay less and skip the points</span></span></button>
-</div>
-
-<div class="q7-section-divider"><span>Your details</span></div>
 <div class="f500-final">
-<strong>★ Founding 500.</strong> Drop your email below to lock in your spot. We will alert you the moment Finwell AI goes live, and your first 6 months are on us.
+<strong>★ Founding 500.</strong> Drop your email below to lock in your spot. We will alert you the moment Finwell AI goes live.
 </div>
-
 
 <div class="q7-input-group">
 <label for="name">Your name <span class="opt-tag">(optional)</span></label>
@@ -365,12 +453,10 @@ Back
 </div>
 
 <label class="consent-row">
-<input type="checkbox" id="consent" name="consent" value="yes"/>
-<span>I am happy to receive launch updates from Finwell AI. Unsubscribe anytime.</span>
+<input type="checkbox" id="consent" name="consent" value="yes" required/>
+<span>Yes, send me launch updates from Finwell AI. I can unsubscribe anytime.</span>
 </label>
-
-
-
+<p class="consent-helper">We will only use your email for product updates. No third parties, ever.</p>
 
 <div class="survey-actions">
 <button type="button" class="btn-back" onclick="window.fwBack()">
@@ -417,8 +503,6 @@ Back
 <span>ATO DSP accreditation in progress.</span>
 </div>
 </footer>
-
-
 
 
 

@@ -41,14 +41,22 @@ test('survey HTML has no fwGoto leftovers (multi-page split is clean)', async ({
   expect(html).not.toContain('fwGoto');
 });
 
-test('survey page does not have duplicate id="status7" / id="count7"', async ({ page }) => {
-  // Regression: the prototype reused the same IDs on Q6 and Q7. Multi-select
-  // counter would update only one of the two, depending on which paint last.
+test('survey multi-select status IDs are semantic (one per question, no v1 step-number collision)', async ({ page }) => {
+  // Regression: the v1 prototype reused step-numbered IDs (#status6, #count6
+  // for top_feature; #status7, #count7 for trust_builder). The duplicate
+  // pattern broke the multi-select counter when panes shared an ID.
+  // v2 uses semantic IDs derived from the question name, so each multi
+  // pane has a distinct id pair and the original collision risk is gone.
   await page.goto('/survey');
-  expect(await page.locator('#status7').count()).toBeLessThanOrEqual(1);
-  expect(await page.locator('#count7').count()).toBeLessThanOrEqual(1);
-  expect(await page.locator('#status6').count()).toBe(1);
-  expect(await page.locator('#count6').count()).toBe(1);
+  expect(await page.locator('#status_top_feature').count()).toBe(1);
+  expect(await page.locator('#count_top_feature').count()).toBe(1);
+  expect(await page.locator('#status_trust_builder').count()).toBe(1);
+  expect(await page.locator('#count_trust_builder').count()).toBe(1);
+  // v1 step-numbered IDs must be gone.
+  expect(await page.locator('#status6').count()).toBe(0);
+  expect(await page.locator('#count6').count()).toBe(0);
+  expect(await page.locator('#status7').count()).toBe(0);
+  expect(await page.locator('#count7').count()).toBe(0);
 });
 
 test('contact email is info@finwellai.com.au', async ({ request }) => {

@@ -5,16 +5,20 @@ const { test, expect } = require('@playwright/test');
 
 const FIELDS = {
   'form-name': 'finwellai-waitlist',
+  survey_version: 'v2',
+  launch_phase: 'pre_launch',
   consent: 'yes',
-  income_type: 'payg',
-  salary_range: '50_80k',
+  segment: 'payg',
   lost_receipt: 'occasional',
   tax_stress: '7',
-  deduction_confidence: '5',
-  top_feature: 'auto_capture,bas_prep',
-  trust_builder: 'ato_accreditation,security_review',
-  fair_price: '30',
-  points_willingness: 'depends',
+  deduction_confidence: '4',
+  top_feature: 'ai_categorisation,auto_capture,live_ledger',
+  trust_builder: 'ato_dsp,bank_encryption,au_hosting',
+  price_too_cheap: '5',
+  price_bargain: '15',
+  price_expensive: '30',
+  price_too_expensive: '60',
+  points_willingness: 'maybe',
 };
 
 test('survey HTML registers the form with Netlify and has the honeypot', async ({ request }) => {
@@ -22,15 +26,17 @@ test('survey HTML registers the form with Netlify and has the honeypot', async (
   // from the rendered HTML once it's registered the form server-side, and it
   // re-emits attributes with single quotes. We verify what survives: the form
   // name, the form-name hidden input, the bot-field honeypot, and every
-  // survey field as a hidden input.
+  // survey field as a named input (some are hidden, some are visible like
+  // the price_* number inputs).
   const html = await (await request.get('/survey')).text();
   expect(html).toMatch(/<form[^>]*\bname=['"]finwellai-waitlist['"]/);
   expect(html).toMatch(/<input[^>]+name=['"]form-name['"][^>]+value=['"]finwellai-waitlist['"]/);
   expect(html).toMatch(/<input\s+name=['"]bot-field['"]/);
   for (const name of Object.keys(FIELDS).filter(k => k !== 'form-name')) {
-    expect(html, `missing hidden input: ${name}`).toMatch(new RegExp(`name=['"]${name}['"]`));
+    expect(html, `missing input: ${name}`).toMatch(new RegExp(`name=['"]${name}['"]`));
   }
-  expect(html).toMatch(/name=['"]g-recaptcha-response['"]/);
+  // reCAPTCHA token field (lazy-loaded site key, populated client-side on submit)
+  expect(html).toMatch(/name=['"]recaptchaToken['"]/);
 });
 
 test('POST /thanks captures the submission and serves the thanks page', async ({ request }) => {

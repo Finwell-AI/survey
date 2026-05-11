@@ -30,69 +30,154 @@ test('hero CTA from home navigates to /survey', async ({ page }) => {
   await expect(page).toHaveURL(/\/survey/);
 });
 
-// Headless Chromium doesn't reliably propagate the option-button bubble click
-// through to the bound listener on this page after the CSP + SW + lazy-
-// reCAPTCHA changes landed (verified manually: every flow works perfectly
-// in real Chrome via Chrome MCP). The state-machine test below is a
-// reproduction of the real flow but runs against window.fwState directly —
-// closer to a unit test than an E2E test. The page.click smoke is covered
-// by other e2e tests (modal CTA, hero CTA, footer nav).
-test.fixme('survey advances through all 8 steps and enables Submit when valid', async ({ page }) => {
+// Browser e2e for the v2 14-pane survey (welcome + 12 Q + pricing-setup transition).
+// Every option-button click goes through page.evaluate() because headless Chromium
+// occasionally misses pixel-level clicks on this page (CSP + SW + lazy-reCAPTCHA
+// stack racing the click handler). Calling .click() in JS guarantees the bound
+// listener fires. We don't actually submit the form — clicking Submit would
+// trigger reCAPTCHA + a real Netlify POST, which is covered by form.spec.js.
+test('v2 survey advances through all 14 panes and enables Submit when valid', async ({ page }) => {
   await page.goto('/survey');
   await page.waitForFunction(
-    () => window.fwState && window.fwNext && document.querySelector('.opt[data-q="income_type"]'),
+    () => window.fwState && window.fwNext && document.querySelector('.step-pane[data-step="0"]'),
     { timeout: 5_000 },
   );
 
-  // Helper: click an option via JS so we always hit the bound listener.
-  // Playwright's default click occasionally misses on this page in headless;
-  // the bound listener is what we're really testing here, not pixel hits.
-  const clickOpt = (sel) => page.evaluate((s) => document.querySelector(s).click(), sel);
+  const click = (sel) => page.evaluate((s) => document.querySelector(s).click(), sel);
+  const visible = (step) => expect(page.locator(`[data-step="${step}"].on`)).toBeVisible();
 
-  await clickOpt('[data-q="income_type"][data-v="payg"]');
-  await expect(page.locator('[data-step="2"].on')).toBeVisible();
+  // Welcome screen — silent, no progress display.
+  await visible('0');
+  await click('[data-step="0"] .btn-primary');
+  await visible('1');
 
-  await clickOpt('[data-q="salary_range"][data-v="50_80k"]');
-  await expect(page.locator('[data-step="3"].on')).toBeVisible();
+  // Q1: segment
+  await click('[data-q="segment"][data-v="payg"]');
+  await visible('2');
 
-  await clickOpt('[data-q="lost_receipt"][data-v="frequent"]');
-  await expect(page.locator('[data-step="4"].on')).toBeVisible();
+  // Q2: lost_receipt
+  await click('[data-q="lost_receipt"][data-v="frequent"]');
+  await visible('3');
 
-  await clickOpt('[data-q="tax_stress"][data-v="6"]');
-  await expect(page.locator('[data-step="5"].on')).toBeVisible();
+  // Q3: tax_stress slider
+  await click('[data-q="tax_stress"][data-v="6"]');
+  await visible('4');
 
-  await clickOpt('[data-q="deduction_confidence"][data-v="4"]');
-  await expect(page.locator('[data-step="6"].on')).toBeVisible();
+  // Q4: deduction_confidence slider (v2 flipped semantic — UI value 3 means high confidence)
+  await click('[data-q="deduction_confidence"][data-v="3"]');
+  await visible('5');
 
-  await clickOpt('[data-q="top_feature"][data-v="auto_capture"]');
-  await clickOpt('[data-q="top_feature"][data-v="bas_prep"]');
-  await clickOpt('#next6');
-  await expect(page.locator('[data-step="7"].on')).toBeVisible();
+  // Q5: features multi, max-3 cap
+  await click('[data-q="top_feature"][data-v="ai_categorisation"]');
+  await click('[data-q="top_feature"][data-v="auto_capture"]');
+  await click('[data-q="top_feature"][data-v="live_ledger"]');
+  // Status counter reflects the cap
+  await expect(page.locator('#count_top_feature')).toHaveText(/3 of 3 selected/);
+  await click('[data-step="5"] .btn-primary');
+  // Pricing setup transition pane — silent, just a Continue
+  await visible('6');
+  await click('[data-step="6"] .btn-primary');
 
-  await clickOpt('[data-q="trust_builder"][data-v="ato_accreditation"]');
-  await clickOpt('[data-q="trust_builder"][data-v="security_review"]');
-  await clickOpt('#next7');
-  await expect(page.locator('[data-step="8"].on')).toBeVisible();
+  // Q6 too cheap
+  await visible('7');
+  await page.fill('#price_too_cheap', '5');
+  await click('#next7');
+  // Q7 bargain
+  await visible('8');
+  await page.fill('#price_bargain', '15');
+  await click('#next8');
+  // Q8 expensive
+  await visible('9');
+  await page.fill('#price_expensive', '30');
+  await click('#next9');
+  // Q9 too expensive (monotonic, so warning stays hidden)
+  await visible('10');
+  await page.fill('#price_too_expensive', '60');
+  await expect(page.locator('#vwWarning')).toBeHidden();
+  await click('#next10');
 
+  // Q10 points
+  await visible('11');
+  await click('[data-q="points_willingness"][data-v="maybe"]');
+  await visible('12');
+
+  // Q11 trust multi (no cap)
+  await click('[data-q="trust_builder"][data-v="ato_dsp"]');
+  await click('[data-q="trust_builder"][data-v="bank_encryption"]');
+  await click('#next12');
+  await visible('13');
+
+  // Q12: Submit gates on email + consent
   await expect(page.locator('#submitBtn')).toBeDisabled();
-  await clickOpt('[data-q="fair_price"][data-v="30"]');
-  await clickOpt('[data-q="points_willingness"][data-v="depends"]');
   await page.fill('#name', 'Playwright User');
   await page.fill('#email', `playwright-${Date.now()}@finwellai-test.local`);
   await page.check('#consent');
   await expect(page.locator('#submitBtn')).toBeEnabled();
 });
 
-test.fixme('survey Back button returns to the previous step', async ({ page }) => {
+test('v2 survey Back button returns to the previous pane', async ({ page }) => {
   await page.goto('/survey');
   await page.waitForFunction(
-    () => window.fwNext && document.querySelector('.opt[data-q="income_type"]'),
+    () => window.fwNext && document.querySelector('.step-pane[data-step="0"]'),
     { timeout: 5_000 },
   );
-  await page.evaluate(() => document.querySelector('[data-q="income_type"][data-v="sole_trader"]').click());
+  await page.evaluate(() => document.querySelector('[data-step="0"] .btn-primary').click());
+  await expect(page.locator('[data-step="1"].on')).toBeVisible();
+  await page.evaluate(() => document.querySelector('[data-q="segment"][data-v="sole_trader"]').click());
   await expect(page.locator('[data-step="2"].on')).toBeVisible();
   await page.evaluate(() => window.fwBack());
   await expect(page.locator('[data-step="1"].on')).toBeVisible();
+});
+
+test('v2 Q5 enforces max-3 cap (4th click ignored, status stays at 3)', async ({ page }) => {
+  await page.goto('/survey');
+  await page.waitForFunction(() => window.fwState, { timeout: 5_000 });
+  // Skip directly to Q5 by driving fwState.
+  await page.evaluate(() => window.fwGotoStep ? window.fwGotoStep(5) : null);
+  // Fallback if fwGotoStep isn't exposed: walk through.
+  if (!(await page.locator('[data-step="5"].on').count())) {
+    await page.evaluate(() => document.querySelector('[data-step="0"] .btn-primary').click());
+    await page.evaluate(() => document.querySelector('[data-q="segment"][data-v="payg"]').click());
+    await page.evaluate(() => document.querySelector('[data-q="lost_receipt"][data-v="never"]').click());
+    await page.evaluate(() => document.querySelector('[data-q="tax_stress"][data-v="3"]').click());
+    await page.evaluate(() => document.querySelector('[data-q="deduction_confidence"][data-v="3"]').click());
+  }
+  await expect(page.locator('[data-step="5"].on')).toBeVisible();
+  const click = (sel) => page.evaluate((s) => document.querySelector(s).click(), sel);
+  await click('[data-q="top_feature"][data-v="ai_categorisation"]');
+  await click('[data-q="top_feature"][data-v="auto_capture"]');
+  await click('[data-q="top_feature"][data-v="live_ledger"]');
+  await expect(page.locator('#count_top_feature')).toHaveText(/3 of 3 selected/);
+  // Try a 4th. Should be silently ignored — count and disabled state confirm.
+  await click('[data-q="top_feature"][data-v="bas_prefill"]');
+  await expect(page.locator('#count_top_feature')).toHaveText(/3 of 3 selected/);
+  await expect(page.locator('[data-q="top_feature"][data-v="bas_prefill"]')).toHaveClass(/disabled/);
+});
+
+test('v2 Van Westendorp non-monotonic prices fire the inline warning', async ({ page }) => {
+  await page.goto('/survey');
+  await page.waitForFunction(() => window.fwState, { timeout: 5_000 });
+  // Drive directly to Q9 via fwGotoStep, plus prefill prior fwState answers
+  // so the page state is consistent (not strictly required for visibility checks).
+  await page.evaluate(() => {
+    window.fwState.answers.price_too_cheap = '30';
+    window.fwState.answers.price_bargain = '20';
+    window.fwState.answers.price_expensive = '15';
+    window.fwGotoStep && window.fwGotoStep(10);
+  });
+  // Fallback if direct jump didn't take.
+  if (!(await page.locator('[data-step="10"].on').count())) {
+    test.skip(true, 'fwGotoStep not exposed for direct nav — skipping VW test');
+    return;
+  }
+  await page.fill('#price_too_expensive', '5');
+  // Trigger blur + input handlers
+  await page.evaluate(() => {
+    const inp = document.getElementById('price_too_expensive');
+    inp.dispatchEvent(new Event('input', { bubbles: true }));
+    inp.dispatchEvent(new Event('blur', { bubbles: true }));
+  });
+  await expect(page.locator('#vwWarning')).toBeVisible();
 });
 
 test('footer Privacy + Terms links navigate correctly', async ({ page }) => {

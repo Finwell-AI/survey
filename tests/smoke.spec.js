@@ -78,4 +78,14 @@ test.describe('smoke', () => {
     expect(data.name).toBe('Finwell AI');
     expect(data.url).toMatch(/finwellai\.com\.au/);
   });
+
+  test('survey is on v2: 12 questions, segment qualifier, VW currency block', async ({ request }) => {
+    const html = await (await request.get('/survey')).text();
+    expect(html).toContain('survey_version');
+    expect(html).toMatch(/value="v2"/);
+    expect(html).toContain('of 12');
+    expect(html).toContain('data-q="segment"');
+    expect(html).toContain('name="price_too_cheap"');
+    expect(html).toContain('name="price_too_expensive"');
+  });
 });

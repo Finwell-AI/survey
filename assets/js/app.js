@@ -215,31 +215,70 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
   }
 
   // ------------------------------------------------------------- survey state
-  // Only run on the survey page.
-  var fwState = { surveyStep: 1, answers: {}, started: false };
+  // Only run on the survey page. The pane index (data-step="N") is sequential
+  // and may include silent transition panes (data-silent: welcome screen,
+  // pricing setup screen). The visible question number comes from data-q-num
+  // on each real-question pane (1..12), and drives the progress bar.
+  var fwState = { surveyStep: 0, answers: {}, started: false };
   window.fwState = fwState;
 
+  var PRICE_FIELDS = ['price_too_cheap', 'price_bargain', 'price_expensive', 'price_too_expensive'];
+
+  function fwTotalSteps() {
+    return document.querySelectorAll('.step-pane').length;
+  }
+
+  function fwCurrentPane() {
+    return document.querySelector('.step-pane[data-step="' + fwState.surveyStep + '"]');
+  }
+
   function fwGotoStep(n) {
+    var total = fwTotalSteps();
+    if (total === 0 || n < 0 || n >= total) return;
     document.querySelectorAll('.step-pane').forEach(function (s) { s.classList.remove('on'); });
     var pane = document.querySelector('.step-pane[data-step="' + n + '"]');
-    if (pane) pane.classList.add('on');
+    if (!pane) return;
+    pane.classList.add('on');
     fwState.surveyStep = n;
-    var dots = document.querySelectorAll('.survey-progress .ticks span');
-    dots.forEach(function (d, i) {
-      d.classList.remove('done', 'active');
-      if (i + 1 < n) d.classList.add('done');
-      if (i + 1 === n) d.classList.add('active');
-    });
-    var labels = ['01', '02', '03', '04', '05', '06', '07', '08'];
-    var lbl = document.getElementById('stepLbl');
-    if (lbl) lbl.textContent = labels[n - 1];
-    if (n === 8) updateSubmitState();
+
+    // Progress bar: only show on real-question panes (those with data-q-num).
+    var progress = document.getElementById('surveyProgress');
+    var qNum = pane.getAttribute('data-q-num');
+    if (progress) {
+      if (qNum) {
+        progress.hidden = false;
+        var qNumInt = parseInt(qNum, 10);
+        var lbl = document.getElementById('stepLbl');
+        if (lbl) lbl.textContent = (qNumInt < 10 ? '0' : '') + qNumInt;
+        var dots = progress.querySelectorAll('.ticks span');
+        dots.forEach(function (d, i) {
+          d.classList.remove('done', 'active');
+          if (i + 1 < qNumInt) d.classList.add('done');
+          if (i + 1 === qNumInt) d.classList.add('active');
+        });
+      } else {
+        progress.hidden = true;
+      }
+    }
+
+    // Recompute pane-specific gating on entry (covers Back navigation).
+    if (pane.hasAttribute('data-multi-q')) {
+      updateMultiStatus(pane.getAttribute('data-multi-q'));
+      updateMultiContinue();
+    }
+    if (pane.querySelector('.price-input')) {
+      updatePriceContinue(pane);
+    }
+    if (pane.querySelector('#submitBtn')) {
+      updateSubmitState();
+    }
+
     var card = document.querySelector('.survey-card');
     if (card) card.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
   window.fwNext = function () {
-    if (fwState.surveyStep >= 8) return;
+    if (fwState.surveyStep >= fwTotalSteps() - 1) return;
     if (!fwState.started) {
       fwState.started = true;
       fwEvent('survey_started', {});
@@ -248,10 +287,18 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
     fwGotoStep(fwState.surveyStep + 1);
   };
   window.fwBack = function () {
-    if (fwState.surveyStep > 1) fwGotoStep(fwState.surveyStep - 1);
+    if (fwState.surveyStep > 0) fwGotoStep(fwState.surveyStep - 1);
   };
+  // Exposed for e2e tests + manual debugging in DevTools. Not part of the
+  // public API the survey UI itself needs.
+  window.fwGotoStep = fwGotoStep;
+
+  function paneContinueButton(pane) {
+    return pane && pane.querySelector('.survey-actions .btn-primary');
+  }
 
   function bindSurveyOptions() {
+    // Single-select option buttons — pick one, auto-advance to next pane.
     document.querySelectorAll('.opt:not(.multi)').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var q = btn.dataset.q;
@@ -259,16 +306,14 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
         document.querySelectorAll('[data-q="' + q + '"]:not(.multi)').forEach(function (b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
         fwState.answers[q] = v;
-        if (fwState.surveyStep === 8) {
-          updateSubmitState();
-        } else {
-          var nb = document.getElementById('next' + fwState.surveyStep);
-          if (nb) nb.disabled = false;
-          setTimeout(function () { window.fwNext(); }, 420);
-        }
+        var pane = btn.closest('.step-pane');
+        var nb = paneContinueButton(pane);
+        if (nb) nb.disabled = false;
+        setTimeout(function () { window.fwNext(); }, 420);
       });
     });
 
+    // 1-10 scale buttons — same pattern.
     document.querySelectorAll('.scale-btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var q = btn.dataset.q;
@@ -276,25 +321,19 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
         document.querySelectorAll('[data-q="' + q + '"]').forEach(function (b) { b.classList.remove('selected'); });
         btn.classList.add('selected');
         fwState.answers[q] = v;
-        var nb = document.getElementById('next' + fwState.surveyStep);
+        var pane = btn.closest('.step-pane');
+        var nb = paneContinueButton(pane);
         if (nb) nb.disabled = false;
         setTimeout(function () { window.fwNext(); }, 420);
       });
     });
 
-    document.querySelectorAll('.tier-card').forEach(function (btn) {
-      btn.addEventListener('click', function () {
-        var q = btn.dataset.q;
-        var v = btn.dataset.v;
-        document.querySelectorAll('[data-q="' + q + '"]').forEach(function (b) { b.classList.remove('selected'); });
-        btn.classList.add('selected');
-        fwState.answers[q] = v;
-        updateSubmitState();
-      });
-    });
-
+    // Multi-select with optional cap (data-multi-cap on the pane).
     document.querySelectorAll('.opt.multi').forEach(function (btn) {
       btn.addEventListener('click', function () {
+        var pane = btn.closest('.step-pane');
+        var capAttr = pane && pane.getAttribute('data-multi-cap');
+        var cap = capAttr ? parseInt(capAttr, 10) : 0;
         var q = btn.dataset.q;
         var v = btn.dataset.v;
         if (!fwState.answers[q]) fwState.answers[q] = { selected: [] };
@@ -304,11 +343,31 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
           ans.selected.splice(ix, 1);
           btn.classList.remove('selected');
         } else {
+          if (cap && ans.selected.length >= cap) return; // cap reached, ignore
           ans.selected.push(v);
           btn.classList.add('selected');
         }
+        refreshMultiCap(pane);
         updateMultiStatus(q);
         updateMultiContinue();
+      });
+    });
+
+    // Currency inputs for the Van Westendorp price block.
+    PRICE_FIELDS.forEach(function (id) {
+      var inp = document.getElementById(id);
+      if (!inp) return;
+      inp.addEventListener('input', function () {
+        // Strip non-digits — protects against pasted "$30/mo" content.
+        var clean = inp.value.replace(/[^0-9]/g, '');
+        if (clean !== inp.value) inp.value = clean;
+        fwState.answers[id] = clean;
+        var pane = inp.closest('.step-pane');
+        updatePriceContinue(pane);
+        if (id === 'price_too_expensive') checkVwMonotonic();
+      });
+      inp.addEventListener('blur', function () {
+        if (id === 'price_too_expensive') checkVwMonotonic();
       });
     });
 
@@ -318,25 +377,70 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
     if (consentInp) consentInp.addEventListener('change', updateSubmitState);
   }
 
+  function refreshMultiCap(pane) {
+    if (!pane) return;
+    var capAttr = pane.getAttribute('data-multi-cap');
+    if (!capAttr) return;
+    var cap = parseInt(capAttr, 10);
+    var q = pane.getAttribute('data-multi-q');
+    var ans = fwState.answers[q];
+    var atCap = ans && ans.selected.length >= cap;
+    pane.querySelectorAll('.opt.multi').forEach(function (b) {
+      if (b.classList.contains('selected')) {
+        b.classList.remove('disabled');
+      } else if (atCap) {
+        b.classList.add('disabled');
+      } else {
+        b.classList.remove('disabled');
+      }
+    });
+  }
+
   function updateMultiStatus(q) {
     var ans = fwState.answers[q];
-    if (!ans) return;
-    var stepN = q === 'top_feature' ? 6 : 7;
-    var status = document.getElementById('status' + stepN);
-    var countEl = document.getElementById('count' + stepN);
+    var status = document.getElementById('status_' + q);
+    var countEl = document.getElementById('count_' + q);
     if (!status || !countEl) return;
-    countEl.textContent = ans.selected.length + ' selected';
-    status.classList.toggle('has-top', ans.selected.length > 0);
+    var pane = document.querySelector('.step-pane[data-multi-q="' + q + '"]');
+    var capAttr = pane && pane.getAttribute('data-multi-cap');
+    var n = (ans && ans.selected) ? ans.selected.length : 0;
+    countEl.textContent = capAttr ? (n + ' of ' + capAttr + ' selected') : (n + ' selected');
+    status.classList.toggle('has-top', n > 0);
   }
 
   function updateMultiContinue() {
-    var stepN = fwState.surveyStep;
-    if (stepN !== 6 && stepN !== 7) return;
-    var q = stepN === 6 ? 'top_feature' : 'trust_builder';
+    var pane = fwCurrentPane();
+    if (!pane || !pane.hasAttribute('data-multi-q')) return;
+    var q = pane.getAttribute('data-multi-q');
     var ans = fwState.answers[q];
     var ok = ans && ans.selected.length > 0;
-    var nb = document.getElementById('next' + stepN);
+    var nb = paneContinueButton(pane);
     if (nb) nb.disabled = !ok;
+  }
+
+  function updatePriceContinue(pane) {
+    if (!pane) return;
+    var inp = pane.querySelector('.price-input');
+    if (!inp) return;
+    var v = parseInt(inp.value, 10);
+    var ok = !isNaN(v) && v >= 0;
+    var nb = paneContinueButton(pane);
+    if (nb) nb.disabled = !ok;
+  }
+
+  function checkVwMonotonic() {
+    var warn = document.getElementById('vwWarning');
+    if (!warn) return;
+    var p1 = parseInt(fwState.answers['price_too_cheap'], 10);
+    var p2 = parseInt(fwState.answers['price_bargain'], 10);
+    var p3 = parseInt(fwState.answers['price_expensive'], 10);
+    var p4 = parseInt(fwState.answers['price_too_expensive'], 10);
+    if (isNaN(p1) || isNaN(p2) || isNaN(p3) || isNaN(p4)) {
+      warn.hidden = true;
+      return;
+    }
+    var ok = (p1 <= p2) && (p2 <= p3) && (p3 <= p4);
+    warn.hidden = ok;
   }
 
   function updateSubmitState() {
@@ -346,18 +450,19 @@ window.__RECAPTCHA_SITE_KEY__ = '6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS';
     var email = emailEl.value.trim();
     var ve = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     var consent = consentEl.checked;
-    var priceAnswered = !!fwState.answers['fair_price'];
-    var pointsAnswered = !!fwState.answers['points_willingness'];
     var btn = document.getElementById('submitBtn');
-    if (btn) btn.disabled = !(ve && consent && priceAnswered && pointsAnswered);
+    // Per-pane gating means by the time we land on Q12, all earlier answers
+    // are already locked in. Submit only needs email + consent.
+    if (btn) btn.disabled = !(ve && consent);
   }
 
   // Copy in-memory answers into the form's hidden inputs so Netlify captures them.
+  // Currency inputs (price_*) are real <input> fields and POST natively, so
+  // they don't need syncing from fwState.
   function syncAnswersToForm() {
     var form = document.getElementById('surveyForm');
     if (!form) return;
-    var fields = ['income_type', 'salary_range', 'lost_receipt', 'tax_stress',
-                  'deduction_confidence', 'fair_price', 'points_willingness'];
+    var fields = ['segment', 'lost_receipt', 'tax_stress', 'deduction_confidence', 'points_willingness'];
     fields.forEach(function (name) {
       var el = form.elements[name];
       if (el && fwState.answers[name] != null) el.value = fwState.answers[name];

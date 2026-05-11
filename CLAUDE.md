@@ -34,7 +34,7 @@ python3 scripts/build_og_image.py     # placeholder OG card
 HUBSPOT_TOKEN='pat-na1-…' python3 scripts/hubspot_setup.py
 ```
 
-There are no tests, no linter, no formatter configured. Don't invent them.
+Tests: `npm test` runs Playwright (HTTP smoke + browser e2e). `npm run test:smoke` for the HTTP-only subset. Tests target `BASE_URL` (default `https://finwellai-survey.netlify.app`). Override with `BASE_URL=http://localhost:8888 npm test` to run against `netlify dev`. Some POST-to-`/thanks` tests in `form.spec.js` only pass against production (Netlify Forms intercepts the POST; netlify dev returns 405 — pre-existing limitation, not a regression).
 
 ## Edit which file?
 
@@ -74,7 +74,7 @@ There are no tests, no linter, no formatter configured. Don't invent them.
 
 ## Conventions
 
-**Field names use semantic identifiers, not the brief's `q1_role`/`q2_business_type` placeholders.** The actual survey asks about `income_type`, `salary_range`, `lost_receipt`, `tax_stress`, `deduction_confidence`, `top_feature`, `trust_builder`, `fair_price`, `points_willingness`. HubSpot custom properties are prefixed `finwell_*`. The README's HubSpot table is the source of truth.
+**Survey is on v2 schema (cutover 2026-05-10).** v2 fields: `segment` (Q1 qualifier), `lost_receipt`, `tax_stress`, `deduction_confidence` (semantic flipped — 1=fully claiming, 10=leaving money), `top_feature` (multi, max 3, AI ATO categorisation first), `price_too_cheap` / `price_bargain` / `price_expensive` / `price_too_expensive` (Van Westendorp 4-input block, integer AUD), `points_willingness`, `trust_builder` (multi, no cap). Hidden tracking fields: `survey_version=v2`, `launch_phase=pre_launch`. v1-only fields (`income_type`, `salary_range`, `fair_price`) stay mapped in `submission-created.mjs` for back-compat with archived submissions but are no longer collected — corresponding HubSpot properties are dormant. v1 archive tag: `survey-v1-archive` (10 submissions captured). Q4 confidence semantic flip is intentional — accept the noise on the 10 v1 responses (per spec override). HubSpot custom properties are prefixed `finwell_*`. **Founding 500 messaging is kept across the site** as a deliberate override of the v2 spec checklist (which said remove). README's HubSpot table is the source of truth.
 
 **Email contact is `info@finwellai.com.au`.** Site URL is also `finwellai.com.au`. (Earlier convention was `alex@finwellai.com`; switched 2026-05-08.)
 
@@ -93,6 +93,9 @@ There are no tests, no linter, no formatter configured. Don't invent them.
 | `RECAPTCHA_SITE_KEY` | injected into HTML+JS by `inject_env.sh` |
 | `RECAPTCHA_SECRET` | `verify-recaptcha.mjs` (server-side siteverify call) |
 | `HUBSPOT_TOKEN` | `submission-created.mjs` (Bearer auth to HubSpot CRM v3). Private App scopes: `crm.schemas.contacts.read/write`, `crm.objects.contacts.read/write` |
+| `RESEND_API_KEY` | `submission-created.mjs` — Resend transactional welcome email. Fail-safe: missing key skips email, submission still completes. |
+| `RESEND_FROM` | optional override of welcome-email sender. Default: `Finwell AI <hello@finwellai.com.au>`. Must be a verified Resend sending domain. |
+| `RESEND_REPLY_TO` | optional override of Reply-To. Default: `info@finwellai.com.au`. |
 | `GA4_MEASUREMENT_ID` | `inject_env.sh` substitutes into `gtag/js?id=…` and `gtag('config', …)` |
 | `COOKIEBOT_CBID` | `inject_env.sh` substitutes into `data-cbid` |
 
@@ -100,7 +103,7 @@ Set with `netlify env:set NAME 'value'` then redeploy.
 
 ## Required HubSpot setup
 
-Run `HUBSPOT_TOKEN=… python3 scripts/hubspot_setup.py` once to create the `finwell_survey` property group + 10 custom properties (`finwell_income_type`, `finwell_salary_range`, `finwell_lost_receipt`, `finwell_tax_stress`, `finwell_deduction_confidence`, `finwell_top_feature`, `finwell_trust_builder`, `finwell_fair_price`, `finwell_points_willingness`, `finwell_marketing_consent`). The script is idempotent — safe to re-run.
+Run `HUBSPOT_TOKEN=… python3 scripts/hubspot_setup.py` once to create the `finwell_survey` property group + the contact properties. v2 set: `finwell_marketing_consent`, `finwell_segment`, `finwell_lost_receipt`, `finwell_tax_stress`, `finwell_deduction_confidence`, `finwell_top_feature`, `finwell_trust_builder`, `finwell_points_willingness`, `finwell_price_too_cheap`, `finwell_price_bargain`, `finwell_price_expensive`, `finwell_price_too_expensive`, `finwell_survey_version`, `finwell_launch_phase`. v1 dormant (kept for archived submissions): `finwell_income_type`, `finwell_salary_range`, `finwell_fair_price`. The script is idempotent — safe to re-run; existing properties are skipped.
 
 If the function logs a 400 about an unknown property, add it in HubSpot and re-run the script.
 
@@ -115,8 +118,9 @@ If the function logs a 400 about an unknown property, add it in HubSpot and re-r
 
 - Install Netlify GitHub App on Finwell-AI org → unlocks auto-deploy on push
 - Real reCAPTCHA + Cookiebot keys → set env vars + redeploy
-- HubSpot Private App token + run `hubspot_setup.py`
+- HubSpot Private App token + re-run `hubspot_setup.py` for v2 properties (segment, 4 price points, version, phase)
+- Resend API key + verify `finwellai.com.au` sending domain → set `RESEND_API_KEY` env var
 - Configure Form notification email in Netlify dashboard → Forms → finwellai-waitlist → Notifications → email to `info@finwellai.com.au`
 - DNS cutover for `finwellai.com.au`
 - Replace placeholder logo + OG image once founder supplies the assets folder
-- Legal review on `[REVIEW: …]` tags in `content/privacy.md` and `content/terms.md`
+- Legal review on `[REVIEW: …]` tags in `content/privacy.md` and `content/terms.md` — v2 changed the data being collected (added 4 price points + segment, removed salary_range and fair_price). The privacy policy text mentions "annual income range" and "preferred monthly price tier" which are now misaligned with the v2 form. Update needed before launch.

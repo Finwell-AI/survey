@@ -33,15 +33,26 @@ PROPERTIES: list[tuple[str, str, str, str, list[dict] | None]] = [
         {"label": "Yes", "value": "Yes"},
         {"label": "No", "value": "No"},
     ]),
-    ("finwell_income_type", "Income type", "string", "text", None),
-    ("finwell_salary_range", "Annual income range", "string", "text", None),
+    # Survey v1 properties (kept for back-compat with archived submissions)
+    ("finwell_income_type", "Income type (v1)", "string", "text", None),
+    ("finwell_salary_range", "Annual income range (v1)", "string", "text", None),
+    ("finwell_fair_price", "Fair monthly price AUD (v1)", "number", "number", None),
+    # Survey v2 properties
+    ("finwell_segment", "Segment qualifier (v2)", "string", "text", None),
     ("finwell_lost_receipt", "Lost a tax receipt in last 12 months", "string", "text", None),
-    ("finwell_tax_stress", "Tax-time stress (1-10)", "number", "number", None),
+    ("finwell_tax_stress", "Tax-time stress (1-10, low=good)", "number", "number", None),
     ("finwell_deduction_confidence", "Deduction confidence (1-10)", "number", "number", None),
     ("finwell_top_feature", "Top feature priorities", "string", "textarea", None),
     ("finwell_trust_builder", "Trust builders selected", "string", "textarea", None),
-    ("finwell_fair_price", "Fair monthly price (AUD)", "number", "number", None),
     ("finwell_points_willingness", "Willingness to pay for points", "string", "text", None),
+    # Van Westendorp price sensitivity (v2)
+    ("finwell_price_too_cheap", "Price: too cheap (AUD/month)", "number", "number", None),
+    ("finwell_price_bargain", "Price: bargain (AUD/month)", "number", "number", None),
+    ("finwell_price_expensive", "Price: getting expensive (AUD/month)", "number", "number", None),
+    ("finwell_price_too_expensive", "Price: too expensive (AUD/month)", "number", "number", None),
+    # Tracking metadata (v2)
+    ("finwell_survey_version", "Survey version", "string", "text", None),
+    ("finwell_launch_phase", "Launch phase at submission", "string", "text", None),
 ]
 
 
