@@ -5,7 +5,7 @@
   # Only legal pages still build from markdown (content/privacy.md, terms.md).
   # inject_env.sh substitutes __VAR__ placeholders in HTML + app.js with
   # values from Netlify env vars on every deploy.
-  command = "python3 scripts/build_legal_pages.py && bash scripts/inject_env.sh"
+  command = "python3 scripts/build_legal_pages.py && bash scripts/inject_env.sh && bash scripts/optimize_assets.sh"
 
 # Local dev: skip the env-injection step (it mutates HTML in place).
 # Netlify CLI serves the files as-is and proxies through its own router so
@@ -50,10 +50,10 @@
 # ============================================================================
 # Cache strategy
 # ============================================================================
-#  - Hash-fingerprinted images and fonts → 1y immutable.
-#  - Un-fingerprinted CSS/JS at fixed paths → 5min + must-revalidate +
-#    stale-while-revalidate so deploys reach the browser without a hard
-#    reload, and repeat visits never wait for revalidation.
+#  - Images, fonts, content-hashed CSS/JS → 1y immutable.
+#    CSS + JS filenames carry an 8-char sha1 prefix injected by
+#    scripts/optimize_assets.sh at build time (e.g. styles.abc12345.css).
+#    A new deploy mints a new hash → new URL → bypasses cached copy.
 #  - HTML → no browser cache, but s-maxage lets Netlify's CDN serve cached
 #    HTML for 60s and revalidate in the background for the next 24h.
 
@@ -70,12 +70,12 @@
 [[headers]]
   for = "/assets/css/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 [[headers]]
   for = "/assets/js/*"
   [headers.values]
-    Cache-Control = "public, max-age=300, must-revalidate, stale-while-revalidate=86400"
+    Cache-Control = "public, max-age=31536000, immutable"
 
 # Content-Security-Policy: explicit allow-list for the third parties we
 # actually use (Cookiebot, GA4, reCAPTCHA, HubSpot Forms — the last is for

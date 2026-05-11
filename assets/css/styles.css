@@ -2836,16 +2836,6 @@ body {
 /* Shield SVG */
 
 
-  50% { transform: translateY(-42px); }
-}
-
-@media (max-width: 900px) {
-  
-  
-  
-}
-
-
 /* Shield image (replaces CSS-built shield+pedestal+rings) */
 .st-shield-stage {
   position: relative;
