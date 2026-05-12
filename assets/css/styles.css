@@ -4587,3 +4587,30 @@ h1, h2, h3 { font-weight: 800; letter-spacing: -0.025em; line-height: 1.05; }
   .price-input-wrap .price-prefix,
   .price-input { font-size: 24px; }
 }
+
+/* ============================================================
+   MOBILE TIGHTENING (≤768px)
+   Uniform 30px vertical rhythm + hero visual fix + PBA tail
+   ============================================================ */
+@media (max-width: 768px) {
+  .section,
+  .hero,
+  .final-cta,
+  .section-rebuilt,
+  .powered-by-ai {
+    padding-top: 30px;
+    padding-bottom: 30px;
+  }
+  .powered-by-ai { padding-bottom: 0; }
+
+  .hero-visual {
+    min-height: auto;
+    max-height: 60vh;
+  }
+  .hero-visual img,
+  .hero-phone-image {
+    max-height: 60vh;
+    width: auto;
+    object-fit: contain;
+  }
+}
