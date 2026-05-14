@@ -47,15 +47,21 @@ echo "  COOKIEBOT_CBID     = ${CBID_RAW}"
 echo "  RECAPTCHA_SITE_KEY = ${RECAPTCHA_KEY_RAW}"
 
 # macOS sed and GNU sed differ on -i; the `-i.bak` form works on both.
-for f in *.html; do
-  [[ -f "$f" ]] || continue
+# Scan root + blog/** so generated blog pages also get __VAR__ substitutions.
+# Exclude node_modules, the retired prototype archive, and tests.
+while IFS= read -r -d '' f; do
   /usr/bin/sed -i.bak \
     -e "s|__GA4_MEASUREMENT_ID__|${GA4}|g" \
     -e "s|__COOKIEBOT_CBID__|${CBID}|g" \
     -e "s|__RECAPTCHA_SITE_KEY__|${RECAPTCHA_KEY}|g" \
     "$f"
   /bin/rm -f "${f}.bak"
-done
+done < <(/usr/bin/find . -type f -name '*.html' \
+  -not -path './node_modules/*' \
+  -not -path './docs/_archive/*' \
+  -not -path './tests/*' \
+  -not -path './.netlify/*' \
+  -print0)
 
 # Inject site key into app.js too — it reads window.__RECAPTCHA_SITE_KEY__.
 # Idempotent: if a previous run already prepended a key line, replace it

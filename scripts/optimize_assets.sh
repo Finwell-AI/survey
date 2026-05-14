@@ -62,9 +62,9 @@ fi
 
 # --- Rewrite HTML references ------------------------------------------------
 # sed -i works differently on macOS vs Linux; the -i.bak form is portable.
-shopt -s nullglob
-for f in *.html; do
-  [[ -f "$f" ]] || continue
+# Recurse into subdirs so blog/**/*.html also gets the hashed asset paths.
+# Exclude node_modules, the retired prototype archive, and tests.
+while IFS= read -r -d '' f; do
   if [[ -n "${CSS_HASH:-}" ]]; then
     /usr/bin/sed -i.bak "s|/assets/css/styles\.css|/assets/css/styles.${CSS_HASH}.css|g" "$f"
   fi
@@ -72,6 +72,11 @@ for f in *.html; do
     /usr/bin/sed -i.bak "s|/assets/js/app\.js|/assets/js/app.${JS_HASH}.js|g" "$f"
   fi
   /bin/rm -f "${f}.bak"
-done
+done < <(/usr/bin/find . -type f -name '*.html' \
+  -not -path './node_modules/*' \
+  -not -path './docs/_archive/*' \
+  -not -path './tests/*' \
+  -not -path './.netlify/*' \
+  -print0)
 
 echo "optimize_assets: complete."
