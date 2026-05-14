@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Architecture in one paragraph
 
-This is a static, multi-page Netlify site for the Finwell AI waitlist. `index.html`, `survey.html`, and `thanks.html` are **hand-edited source-of-truth** — edit them directly. Privacy and Terms render from `content/*.md` via `scripts/build_legal_pages.py` (a tiny inline markdown converter). Shared assets live in `assets/css/styles.css`, `assets/js/app.js`, `assets/images/img-*.{png,jpg,webp}`, `assets/fonts/inter-var.woff2`. Two Netlify Functions in `netlify/functions/` handle reCAPTCHA verification and HubSpot CRM sync. A `bash scripts/inject_env.sh` step substitutes `__VAR__` placeholders in HTML/JS with deploy-time env vars.
+This is a static, multi-page Netlify site for the Finwell AI waitlist. `index.html`, `survey.html`, and `thanks.html` are **hand-edited source-of-truth** — edit them directly. Privacy and Terms render from `content/*.md` via `scripts/build_legal_pages.py` (a tiny inline markdown converter). Blog articles render from `blog/*.md` via `scripts/build_blog.py` into `blog/index.html` (listings) and `blog/{slug}/index.html` (article); both import `SHARED_FOOTER` / `URGENT_BANNER` from `build_legal_pages.py` so footer/banner edits propagate. Shared assets live in `assets/css/styles.css`, `assets/js/app.js`, `assets/images/img-*.{png,jpg,webp}`, `assets/fonts/inter-var.woff2`. Two Netlify Functions in `netlify/functions/` handle reCAPTCHA verification and HubSpot CRM sync. A `bash scripts/inject_env.sh` step substitutes `__VAR__` placeholders in HTML/JS with deploy-time env vars (now recurses into `blog/` subdirs).
 
 The previous prototype-driven build pipeline (`docs/finwellai_prototype_v5 (1).html` + `scripts/build_pages.py`) was retired on 2026-05-07; see `docs/_archive/README.md` for rollback instructions.
 
@@ -44,7 +44,12 @@ Tests: `npm test` runs Playwright (HTTP smoke + browser e2e). `npm run test:smok
 | Survey questions, wording, hidden fields | `survey.html` | nothing |
 | Thanks page copy | `thanks.html` | nothing |
 | Title, meta description, OG, Twitter, JSON-LD, head schema (per page) | the `<head>` block of `index.html` / `survey.html` / `thanks.html` | nothing |
-| Urgent banner copy or footer copy | edit in 4 places: `index.html`, `survey.html`, `thanks.html`, plus the `URGENT_BANNER` and `SHARED_FOOTER` constants in `scripts/build_legal_pages.py` | `python3 scripts/build_legal_pages.py` |
+| Urgent banner copy or footer copy | edit in 4 places: `index.html`, `survey.html`, `thanks.html`, plus the `URGENT_BANNER` and `SHARED_FOOTER` constants in `scripts/build_legal_pages.py` (blog pages also import `SHARED_FOOTER` from that file, so updating it covers them too) | `python3 scripts/build_legal_pages.py && python3 scripts/build_blog.py` |
+| Blog article body, frontmatter, or hero image | `blog/{slug}.md` (frontmatter `hero_image: img-XXXXXX` to override default) | `python3 scripts/build_blog.py` |
+| Add a new blog article | create `blog/{new-slug}.md` with the existing frontmatter shape | `python3 scripts/build_blog.py` |
+| Blog listings copy ("Insights" heading + tagline), styles, hero default | `scripts/build_blog.py` (`render_listings`, `_BLOG_STYLES`, `DEFAULT_HERO`) | `python3 scripts/build_blog.py` |
+| Sitemap entries for static pages (home, survey, privacy, terms, /blog/) | `sitemap-pages.xml` (hand-edited) | nothing |
+| Sitemap entries for blog articles | regenerated from `blog/*.md` frontmatter (`updated`) into `sitemap-blog.xml` | `python3 scripts/build_blog.py` |
 | Privacy or Terms text | `content/privacy.md` or `content/terms.md` | `python3 scripts/build_legal_pages.py` |
 | Privacy/Terms head template (title, meta, schema) | `scripts/build_legal_pages.py` `page()` function | `python3 scripts/build_legal_pages.py` |
 | Behaviour, analytics, form-submit flow | `assets/js/app.js` (hand-edited) | nothing |

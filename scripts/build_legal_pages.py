@@ -75,6 +75,7 @@ SHARED_FOOTER = f'''
 <a href="/#trust">Trust</a>
 <a href="/survey" data-event="cta_click" data-cta-label="footer_survey">Take the survey</a>
 <a href="/#faq">FAQ</a>
+<a href="/blog" data-event="nav_click" data-cta-label="footer_insights">Insights</a>
 <a href="/privacy">Privacy</a>
 <a href="/terms">Terms</a>
 {_COOKIE_PREF_LINK}

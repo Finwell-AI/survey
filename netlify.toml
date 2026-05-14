@@ -2,10 +2,12 @@
   publish = "."
   functions = "netlify/functions"
   # index.html, survey.html, thanks.html are hand-edited source-of-truth.
-  # Only legal pages still build from markdown (content/privacy.md, terms.md).
+  # Legal pages build from markdown (content/privacy.md, terms.md).
+  # Blog pages build from markdown (blog/*.md) into blog/index.html and
+  # blog/{slug}/index.html.
   # inject_env.sh substitutes __VAR__ placeholders in HTML + app.js with
   # values from Netlify env vars on every deploy.
-  command = "python3 scripts/build_legal_pages.py && bash scripts/inject_env.sh && bash scripts/optimize_assets.sh"
+  command = "python3 scripts/build_legal_pages.py && python3 scripts/build_blog.py && bash scripts/inject_env.sh && bash scripts/optimize_assets.sh"
 
 # Local dev: skip the env-injection step (it mutates HTML in place).
 # Netlify CLI serves the files as-is and proxies through its own router so
