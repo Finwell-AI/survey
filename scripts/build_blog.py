@@ -393,8 +393,12 @@ def page_shell(
     body: str,
     extra_head: str = "",
     body_class: str = "blog-page",
+    og_title: str | None = None,
+    og_description: str | None = None,
 ) -> str:
     cookiebot_block = _COOKIEBOT_BLOCK_ENABLED if COOKIEBOT_ENABLED else _COOKIEBOT_BLOCK_DISABLED
+    social_title = og_title or title
+    social_description = og_description or description
     return f"""<!DOCTYPE html>
 <html lang="en-AU">
 <head>
@@ -408,11 +412,15 @@ def page_shell(
 <meta name="robots" content="index,follow"/>
 
 <meta property="og:type" content="article"/>
-<meta property="og:title" content="{html.escape(title, quote=True)}"/>
-<meta property="og:description" content="{html.escape(description, quote=True)}"/>
+<meta property="og:title" content="{html.escape(social_title, quote=True)}"/>
+<meta property="og:description" content="{html.escape(social_description, quote=True)}"/>
 <meta property="og:url" content="{SITE_URL}{canonical}"/>
 <meta property="og:image" content="{SITE_URL}/assets/finwellai-og.jpeg"/>
 <meta property="og:image:type" content="image/jpeg"/>
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="{html.escape(social_title, quote=True)}"/>
+<meta name="twitter:description" content="{html.escape(social_description, quote=True)}"/>
+<meta name="twitter:image" content="{SITE_URL}/assets/finwellai-og.jpeg"/>
 
 {extra_head}
 
@@ -454,10 +462,13 @@ class ArticleMeta:
     slug: str
     title: str
     description: str
+    og_title: str
+    og_description: str
     published: str
     updated: str
     category: str
     hero_image: str
+    hero_image_alt: str
     md_path: Path
     md_body: str
 
@@ -469,6 +480,13 @@ def _str_field(data: dict[str, object], key: str, default: str = "") -> str:
     return default
 
 
+def _bool_field(data: dict[str, object], key: str, default: bool = False) -> bool:
+    value = _str_field(data, key)
+    if not value:
+        return default
+    return value.strip().lower() in {"1", "true", "yes", "y"}
+
+
 def load_articles() -> list[ArticleMeta]:
     if not BLOG_DIR.is_dir():
         return []
@@ -476,22 +494,30 @@ def load_articles() -> list[ArticleMeta]:
     for md_file in sorted(BLOG_DIR.glob("*.md")):
         raw = md_file.read_text(encoding="utf-8")
         data, body = parse_frontmatter(raw)
+        if _bool_field(data, "draft"):
+            continue
         slug = _str_field(data, "slug") or md_file.stem
         title = _str_field(data, "title") or slug
         description = _str_field(data, "description")
+        og_title = _str_field(data, "og_title") or title
+        og_description = _str_field(data, "og_description") or description
         published = _str_field(data, "published") or date.today().isoformat()
         updated = _str_field(data, "updated") or published
         category = _str_field(data, "category") or "insights"
         hero_image = _str_field(data, "hero_image") or DEFAULT_HERO
+        hero_image_alt = _str_field(data, "hero_image_alt") or title
         articles.append(
             ArticleMeta(
                 slug=slug,
                 title=title,
                 description=description,
+                og_title=og_title,
+                og_description=og_description,
                 published=published,
                 updated=updated,
                 category=category,
                 hero_image=hero_image,
+                hero_image_alt=hero_image_alt,
                 md_path=md_file,
                 md_body=body,
             )
@@ -511,7 +537,7 @@ def _format_date(iso: str) -> str:
 
 def render_listings(articles: list[ArticleMeta]) -> str:
     if not articles:
-        cards_html = '<div class="blog-empty">No articles published yet — check back soon.</div>'
+        cards_html = '<div class="blog-empty">No articles published yet - check back soon.</div>'
     else:
         cards: list[str] = []
         for art in articles:
@@ -548,14 +574,14 @@ def render_listings(articles: list[ArticleMeta]) -> str:
 </main>
 """
     schema = _schema_jsonld_for(
-        title="Insights — Finwell AI",
+        title="Insights - Finwell AI",
         description="Plain-English tax, deduction, and finance guides for Australians.",
         canonical="/blog/",
         page_type="CollectionPage",
         modified=articles[0].updated if articles else None,
     )
     return page_shell(
-        title="Insights — Finwell AI",
+        title="Insights - Finwell AI",
         description="Plain-English tax, deduction, and finance guides for Australians from Finwell AI.",
         canonical="/blog/",
         body=body,
@@ -571,10 +597,14 @@ def render_article(art: ArticleMeta) -> str:
     # The markdown's first H1 becomes the page hero title; suppress duplicate H1
     # in the rendered body so it doesn't print twice. Render hero separately.
     body_html = re.sub(r"^<h1>.*?</h1>\s*", "", rendered.body_html, count=1)
+    clean_for_reading_time = re.sub(r"<!--.*?-->", "", art.md_body, flags=re.DOTALL)
+    clean_for_reading_time = clean_for_reading_time.split("\n## Sources\n")[0]
+    word_count = len(re.findall(r"\b[\w'$.-]+\b", clean_for_reading_time))
+    reading_minutes = max(1, round(word_count / 220))
 
     hero = _picture(
         art.hero_image,
-        alt=art.title,
+        alt=art.hero_image_alt,
         width=1200,
         height=675,
         eager=True,
@@ -596,9 +626,9 @@ def render_article(art: ArticleMeta) -> str:
 
     cta_html = """
 <aside class="blog-cta">
-  <h3>Founding 500 — be one of them.</h3>
-  <p>Help shape Finwell AI before launch. Take the 2-minute survey, get 6 months Premium free if you join the waitlist.</p>
-  <a class="btn" href="/survey" data-event="cta_click" data-cta-label="blog_article_bottom">Take the survey →</a>
+  <h3>Founding 500 early access</h3>
+  <p>Help shape Finwell AI before launch through one short survey.</p>
+  <a class="btn" href="/survey.html" data-event="cta_click" data-cta-label="blog_article_bottom">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a>
 </aside>
 """
 
@@ -609,8 +639,9 @@ def render_article(art: ArticleMeta) -> str:
     <div class="blog-meta">
       <span>{html.escape(art.category)}</span>
       <span class="dot">•</span>
-      <span>Published {_format_date(art.published)}</span>
-      {f'<span class="dot">•</span><span>Updated {_format_date(art.updated)}</span>' if art.updated != art.published else ''}
+      <span>{_format_date(art.published)}{f' (updated {_format_date(art.updated)})' if art.updated != art.published else ''}</span>
+      <span class="dot">•</span>
+      <span>{reading_minutes} min read</span>
     </div>
     <h1>{html.escape(art.title)}</h1>
     <div class="blog-hero">{hero}</div>
@@ -638,12 +669,14 @@ def render_article(art: ArticleMeta) -> str:
     extra_head = "\n".join(filter(None, schema_blocks))
 
     return page_shell(
-        title=f"{art.title} — Finwell AI",
+        title=art.title,
         description=art.description,
         canonical=canonical,
         body=body,
         extra_head=extra_head,
         body_class=f"blog-article-{art.slug}",
+        og_title=art.og_title,
+        og_description=art.og_description,
     )
 
 

@@ -172,7 +172,7 @@ _COOKIEBOT_BLOCK_ENABLED = """\
         data-blockingmode="auto" type="text/javascript"></script>"""
 
 _COOKIEBOT_BLOCK_DISABLED = (
-    "<!-- Cookiebot disabled — see build_pages.py COOKIEBOT_ENABLED flag. -->"
+    "<!-- Cookiebot disabled - see build_pages.py COOKIEBOT_ENABLED flag. -->"
 )
 
 
