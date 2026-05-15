@@ -82,7 +82,7 @@ SHARED_FOOTER = f'''
 </div>
 </div>
 <div class="footer-bottom">
-<span>&copy; 2026 Finwell AI Pty Ltd. ABN pending. Made in Melbourne.</span>
+<span>&copy; 2026 Finwell AI. Made in Melbourne.</span>
 <span>ATO DSP accreditation in progress.</span>
 </div>
 </footer>
@@ -180,9 +180,8 @@ _COOKIEBOT_BLOCK_DISABLED = (
 def _schema_jsonld(title: str, description: str, canonical: str, last_modified: str) -> str:
     """Return a JSON-LD <script> block with WebPage + Organization + WebSite.
 
-    Pre-launch: legalName uses "ABN pending" rather than a fake ACN/ABN. Once
-    Finwell AI is registered, swap legalName to the registered entity name and
-    add an `identifier` property with the ABN.
+    Use the public brand name until a registered business identifier is ready
+    to publish.
     """
     page_url = f"https://finwellai.com.au{canonical}"
     graph = {
@@ -212,7 +211,7 @@ def _schema_jsonld(title: str, description: str, canonical: str, last_modified: 
                 "@type": "Organization",
                 "@id": "https://finwellai.com.au/#organization",
                 "name": "Finwell AI",
-                "legalName": "Finwell AI (ABN pending)",
+                "legalName": "Finwell AI",
                 "url": "https://finwellai.com.au",
                 "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
                 "email": "info@finwellai.com.au",

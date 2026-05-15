@@ -2,7 +2,7 @@
 
 Last updated: 7 May 2026
 
-Finwell AI (ABN pending) operates the website finwellai.com.au (the "Site"). This Privacy Policy explains how we collect, use, store, and disclose your personal information. It is written to comply with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs) contained in Schedule 1 of that Act.
+Finwell AI operates the website finwellai.com.au (the "Site"). This Privacy Policy explains how we collect, use, store, and disclose your personal information. It is written to comply with the Privacy Act 1988 (Cth) and the Australian Privacy Principles (APPs) contained in Schedule 1 of that Act.
 
 By using the Site or submitting our waitlist survey, you acknowledge you have read this policy.
 
@@ -11,8 +11,6 @@ By using the Site or submitting our waitlist survey, you acknowledge you have re
 ## Who We Are
 
 Finwell AI is an Australian business developing an AI-powered bookkeeping product. The Site currently operates as a landing page and pre-launch waitlist. All privacy enquiries should be directed to Alex at [info@finwellai.com.au](mailto:info@finwellai.com.au).
-
-Finwell AI is currently being incorporated as an Australian business. ABN pending. Once registered, this notice will be updated with the trading name, ABN, and (if applicable) ACN.
 
 ---
 

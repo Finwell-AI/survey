@@ -2,7 +2,7 @@
 
 Last updated: 7 May 2026
 
-These Terms of Use govern your access to and use of the Finwell AI website at finwellai.com.au (the "Site"), operated by Finwell AI (ABN pending).
+These Terms of Use govern your access to and use of the Finwell AI website at finwellai.com.au (the "Site"), operated by Finwell AI.
 
 Please read these Terms before using the Site. By accessing the Site or submitting the waitlist survey, you agree to be bound by them. If you do not agree, please do not use the Site.
 

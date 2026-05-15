@@ -358,7 +358,7 @@ def _schema_jsonld_for(
                 "@type": "Organization",
                 "@id": f"{SITE_URL}/#organization",
                 "name": "Finwell AI",
-                "legalName": "Finwell AI (ABN pending)",
+                "legalName": "Finwell AI",
                 "url": SITE_URL,
                 "logo": f"{SITE_URL}/assets/images/img-f5ef1fbf38.png",
                 "email": "info@finwellai.com.au",
