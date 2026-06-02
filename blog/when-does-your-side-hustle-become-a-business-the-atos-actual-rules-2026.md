@@ -19,6 +19,8 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/when-does-your-side-hustle-become-a-business-the-atos-actual-rules-2026"
 og_title: "When Does Your Side Hustle Become a Business? ATO Rules 2026"
 og_description: "There is no dollar threshold that makes you a business. Here is what the ATO actually checks, when you need an ABN, when GST kicks in, and what changes for your tax return."
+hero_image: img-40a85949
+hero_image_alt: "Side hustle business ATO Australia: deciding when a side hustle becomes a business"
 ---
 
 # When Does Your Side Hustle Become a Business? The ATO's Actual Rules (2026)
@@ -183,8 +185,6 @@ That depends on complexity. For a simple side hustle without GST registration, F
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.
 
-## Sources
-
 [^1]: Tax rates - Australian resident. Australian Taxation Office. https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents. Accessed 17 May 2026.
 [^2]: What you need to know about side hustles. business.gov.au. https://business.gov.au/news/what-you-need-to-know-about-side-hustles. Accessed 17 May 2026.
 [^3]: Are you in business? Australian Taxation Office. https://www.ato.gov.au/business/starting-your-own-business. Accessed 17 May 2026.
@@ -277,32 +277,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags
-4. Twitter Card tags
-5. Canonical URL
-6. JSON-LD schema (Article, FAQPage, HowTo), uncomment block before publish
-7. Reading time indicator
-8. Featured image with alt text including "side hustle business ATO Australia"
-9. Inline outbound link to ato.gov.au within body
-10. Inline internal links placed: 27 deductions, ATO audit triggers, survey
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- Single CTA wording throughout
-- Anti-percentage-pricing framing without naming competitors
-- Uber Eats vs Uber distinction clarified
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 3 June 2026 morning
-- Update Blog 1 (27 deductions) and Lost Receipts blog with inline links back within 24 hours
