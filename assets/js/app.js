@@ -1,1 +1,79 @@
 window.__RECAPTCHA_SITE_KEY__="6LcvZ9wsAAAAAAYrl_5cZwa55YM_geBd12_UihAS",function(){"use strict";var p=document.body&&document.body.dataset.page||"home";function d(e,r){try{window.dataLayer=window.dataLayer||[];var t=!!(window.Cookiebot&&window.Cookiebot.consent),n=!t||window.Cookiebot.consent.statistics;n&&typeof window.gtag=="function"?window.gtag("event",e,r||{}):window.dataLayer.push({event:e,_denied:!n,params:r||{}})}catch{}}document.addEventListener("click",function(e){var r=e.target.closest("[data-event]");if(r){var t=r.dataset.event,n={};Object.keys(r.dataset).forEach(function(a){a!=="event"&&(n[a.replace(/[A-Z]/g,function(i){return"_"+i.toLowerCase()})]=r.dataset[a])}),d(t,n)}}),window.fwDismissBanner=function(){var e=document.getElementById("urgentBanner");e&&e.classList.add("hidden")};function L(){if(p!=="home")return;var e=document.getElementById("welcomeModal");if(!e)return;var r=!1;function t(n){r||(r=!0,e.classList.add("show"),document.body.style.overflow="hidden",d("modal_opened",{reason:n}))}window.fwShowWelcome=function(){t("manual")},window.fwCloseWelcome=function(){e.classList.remove("show"),document.body.style.overflow="",d("modal_dismissed",{});try{sessionStorage.setItem("fw_welcome_dismissed_at",Date.now().toString())}catch{}};try{if(sessionStorage.getItem("fw_welcome_dismissed_at"))return}catch{}setTimeout(function(){t("timer")},1500),document.readyState==="complete"?setTimeout(function(){t("already-loaded")},100):window.addEventListener("load",function(){setTimeout(function(){t("window-load")},800)}),document.addEventListener("keydown",function(n){n.key==="Escape"&&e.classList.contains("show")&&window.fwCloseWelcome()})}function q(){var e=document.querySelector(".digital-receipts");if(e){var r=e.querySelectorAll(".dr-receipt-item"),t=e.querySelector("#drConfidenceFill"),n=new IntersectionObserver(function(a){a.forEach(function(i){i.isIntersecting&&(r.forEach(function(s,c){setTimeout(function(){s.classList.add("in")},200+c*220)}),t&&setTimeout(function(){t.classList.add("in")},200+r.length*220),n.unobserve(i.target))})},{threshold:.25});n.observe(e)}}function A(){var e=document.querySelectorAll(".reveal");if(e.length){var r=new IntersectionObserver(function(t){t.forEach(function(n){n.isIntersecting&&n.target.classList.add("in")})},{threshold:.1,rootMargin:"0px 0px -10% 0px"});e.forEach(function(t){r.observe(t)})}}function I(){document.querySelectorAll(".nav-links a").forEach(function(e){e.dataset.event||(e.dataset.event="nav_click",e.dataset.ctaLabel=(e.textContent||"").trim().toLowerCase().replace(/\s+/g,"_"))})}function C(){document.querySelectorAll(".faq-item, .faq-question, .faq summary, .faq details").forEach(function(e){e.addEventListener("click",function(){var r=(e.querySelector(".faq-question, summary, h3")||e).textContent.trim().slice(0,80);d("faq_opened",{faq_question:r})})})}var o={surveyStep:0,answers:{},started:!1};window.fwState=o;var k=["price_too_cheap","price_bargain","price_expensive","price_too_expensive"];function w(){return document.querySelectorAll(".step-pane").length}function B(){return document.querySelector('.step-pane[data-step="'+o.surveyStep+'"]')}function m(e){var r=w();if(!(r===0||e<0||e>=r)){document.querySelectorAll(".step-pane").forEach(function(u){u.classList.remove("on")});var t=document.querySelector('.step-pane[data-step="'+e+'"]');if(t){t.classList.add("on"),o.surveyStep=e;var n=document.getElementById("surveyProgress"),a=t.getAttribute("data-q-num");if(n)if(a){n.hidden=!1;var i=parseInt(a,10),s=document.getElementById("stepLbl");s&&(s.textContent=(i<10?"0":"")+i);var c=n.querySelectorAll(".ticks span");c.forEach(function(u,b){u.classList.remove("done","active"),b+1<i&&u.classList.add("done"),b+1===i&&u.classList.add("active")})}else n.hidden=!0;t.hasAttribute("data-multi-q")&&(y(t.getAttribute("data-multi-q")),h()),t.querySelector(".price-input")&&g(t),t.querySelector("#submitBtn")&&v();var l=document.querySelector(".survey-card");l&&l.scrollIntoView({behavior:"smooth",block:"start"})}}}window.fwNext=function(){o.surveyStep>=w()-1||(o.started||(o.started=!0,d("survey_started",{})),d("survey_step_completed",{step_number:o.surveyStep}),m(o.surveyStep+1))},window.fwBack=function(){o.surveyStep>0&&m(o.surveyStep-1)},window.fwGotoStep=m;function f(e){return e&&e.querySelector(".survey-actions .btn-primary")}function x(){document.querySelectorAll(".opt:not(.multi)").forEach(function(t){t.addEventListener("click",function(){var n=t.dataset.q,a=t.dataset.v;document.querySelectorAll('[data-q="'+n+'"]:not(.multi)').forEach(function(c){c.classList.remove("selected")}),t.classList.add("selected"),o.answers[n]=a;var i=t.closest(".step-pane"),s=f(i);s&&(s.disabled=!1),setTimeout(function(){window.fwNext()},420)})}),document.querySelectorAll(".scale-btn").forEach(function(t){t.addEventListener("click",function(){var n=t.dataset.q,a=t.dataset.v;document.querySelectorAll('[data-q="'+n+'"]').forEach(function(c){c.classList.remove("selected")}),t.classList.add("selected"),o.answers[n]=a;var i=t.closest(".step-pane"),s=f(i);s&&(s.disabled=!1),setTimeout(function(){window.fwNext()},420)})}),document.querySelectorAll(".opt.multi").forEach(function(t){t.addEventListener("click",function(){var n=t.closest(".step-pane"),a=n&&n.getAttribute("data-multi-cap"),i=a?parseInt(a,10):0,s=t.dataset.q,c=t.dataset.v;o.answers[s]||(o.answers[s]={selected:[]});var l=o.answers[s],u=l.selected.indexOf(c);if(u>=0)l.selected.splice(u,1),t.classList.remove("selected");else{if(i&&l.selected.length>=i)return;l.selected.push(c),t.classList.add("selected")}T(n),y(s),h()})}),k.forEach(function(t){var n=document.getElementById(t);n&&(n.addEventListener("input",function(){var a=n.value.replace(/[^0-9]/g,"");a!==n.value&&(n.value=a),o.answers[t]=a;var i=n.closest(".step-pane");g(i),t==="price_too_expensive"&&_()}),n.addEventListener("blur",function(){t==="price_too_expensive"&&_()}))});var e=document.getElementById("email");e&&e.addEventListener("input",v);var r=document.getElementById("consent");r&&r.addEventListener("change",v)}function T(e){if(e){var r=e.getAttribute("data-multi-cap");if(r){var t=parseInt(r,10),n=e.getAttribute("data-multi-q"),a=o.answers[n],i=a&&a.selected.length>=t;e.querySelectorAll(".opt.multi").forEach(function(s){s.classList.contains("selected")?s.classList.remove("disabled"):i?s.classList.add("disabled"):s.classList.remove("disabled")})}}}function y(e){var r=o.answers[e],t=document.getElementById("status_"+e),n=document.getElementById("count_"+e);if(!(!t||!n)){var a=document.querySelector('.step-pane[data-multi-q="'+e+'"]'),i=a&&a.getAttribute("data-multi-cap"),s=r&&r.selected?r.selected.length:0;n.textContent=i?s+" of "+i+" selected":s+" selected",t.classList.toggle("has-top",s>0)}}function h(){var e=B();if(!(!e||!e.hasAttribute("data-multi-q"))){var r=e.getAttribute("data-multi-q"),t=o.answers[r],n=t&&t.selected.length>0,a=f(e);a&&(a.disabled=!n)}}function g(e){if(e){var r=e.querySelector(".price-input");if(r){var t=parseInt(r.value,10),n=!isNaN(t)&&t>=0,a=f(e);a&&(a.disabled=!n)}}}function _(){var e=document.getElementById("vwWarning");if(e){var r=parseInt(o.answers.price_too_cheap,10),t=parseInt(o.answers.price_bargain,10),n=parseInt(o.answers.price_expensive,10),a=parseInt(o.answers.price_too_expensive,10);if(isNaN(r)||isNaN(t)||isNaN(n)||isNaN(a)){e.hidden=!0;return}var i=r<=t&&t<=n&&n<=a;e.hidden=i}}function v(){var e=document.getElementById("email"),r=document.getElementById("consent");if(!(!e||!r)){var t=e.value.trim(),n=/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(t),a=r.checked,i=document.getElementById("submitBtn");i&&(i.disabled=!(n&&a))}}function N(){var e=document.getElementById("surveyForm");if(e){var r=["segment","lost_receipt","tax_stress","deduction_confidence","points_willingness"];r.forEach(function(t){var n=e.elements[t];n&&o.answers[t]!=null&&(n.value=o.answers[t])}),["top_feature","trust_builder"].forEach(function(t){var n=e.elements[t],a=o.answers[t];n&&a&&Array.isArray(a.selected)&&(n.value=a.selected.join(","))})}}var E=!1;function S(){if(!E&&window.__RECAPTCHA_LAZY__){var e=window.__RECAPTCHA_SITE_KEY__||"";if(!(!e||e.indexOf("MISSING_")===0)){if(window.Cookiebot&&window.Cookiebot.consent&&!window.Cookiebot.consent.security){window.addEventListener("CookiebotOnAccept",S);return}E=!0;var r=document.createElement("script");r.src="https://www.google.com/recaptcha/api.js?render="+encodeURIComponent(e),r.async=!0,r.defer=!0,document.head.appendChild(r)}}}function O(){return new Promise(function(e){var r=!1;function t(a){r||(r=!0,e(a))}setTimeout(function(){t("")},3e3);var n=window.__RECAPTCHA_SITE_KEY__||"";if(!n||n.indexOf("MISSING_")===0||!window.grecaptcha||!window.grecaptcha.execute)return t("");try{window.grecaptcha.ready(function(){try{window.grecaptcha.execute(n,{action:"submit"}).then(function(a){t(a)},function(){t("")})}catch{t("")}})}catch{t("")}})}function P(){if(p==="survey"){x();var e=document.getElementById("surveyForm");if(e){var r=function(){S()};e.addEventListener("click",r,{once:!0,passive:!0}),e.addEventListener("focusin",r,{once:!0,passive:!0}),e.addEventListener("submit",function(t){t.preventDefault(),v();var n=document.getElementById("submitBtn");n&&n.disabled||(n.disabled=!0,n.textContent="Submitting\u2026",N(),O().then(function(a){var i=document.getElementById("recaptchaToken");i&&(i.value=a);var s=a?fetch("/.netlify/functions/verify-recaptcha",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({token:a})}).then(function(c){return c.ok}):Promise.resolve(!0);s.then(function(c){if(!c){n.disabled=!1,n.textContent="Submit",alert("Spam check failed. Please refresh and try again.");return}d("survey_completed",{}),e.submit()})}))})}}}function M(){if("serviceWorker"in navigator&&!(location.protocol!=="https:"&&location.hostname!=="localhost"))try{navigator.serviceWorker.register("/sw.js")}catch{}}document.addEventListener("DOMContentLoaded",function(){L(),q(),A(),I(),C(),P();var e=function(){M()};"requestIdleCallback"in window?window.requestIdleCallback(e,{timeout:4e3}):setTimeout(e,1500)})}();
+
+;(function () {
+  "use strict";
+  // Mobile nav: bottom-right FAB + bottom-sheet menu. Progressive enhancement —
+  // header CTA + footer nav already cover navigation without JS. CSS hides all
+  // of this at >=1024px where the header nav is visible.
+  if (typeof document === "undefined" || !document.body) return;
+  if (document.getElementById("fwMenuFab")) return; // idempotent
+
+  var LINKS = [
+    { label: "What it does", href: "/#what" },
+    { label: "How it works", href: "/#how" },
+    { label: "Tax automation", href: "/#tax" },
+    { label: "Trust", href: "/#trust" },
+    { label: "FAQ", href: "/#faq" },
+    { label: "Insights", href: "/blog/" }
+  ];
+
+  function slug(s) { return s.toLowerCase().replace(/\s+/g, "_"); }
+
+  var backdrop = document.createElement("div");
+  backdrop.className = "fw-menu-backdrop";
+  backdrop.id = "fwMenuBackdrop";
+
+  var panel = document.createElement("nav");
+  panel.className = "fw-menu-panel";
+  panel.id = "fwMenuPanel";
+  panel.setAttribute("aria-label", "Mobile navigation");
+  panel.setAttribute("aria-hidden", "true");
+
+  var html = '<span class="fw-menu-title">Menu</span><ul class="fw-menu-list">';
+  LINKS.forEach(function (l) {
+    html += '<li><a href="' + l.href + '" data-event="nav_click" data-cta-label="mobile_' + slug(l.label) + '">' + l.label + "</a></li>";
+  });
+  html += '</ul><a class="fw-menu-cta" href="/survey" data-event="cta_click" data-cta-label="mobile_menu_cta">Claim my spot</a>';
+  panel.innerHTML = html;
+
+  var fab = document.createElement("button");
+  fab.type = "button";
+  fab.className = "fw-menu-fab";
+  fab.id = "fwMenuFab";
+  fab.setAttribute("aria-label", "Open menu");
+  fab.setAttribute("aria-expanded", "false");
+  fab.setAttribute("aria-controls", "fwMenuPanel");
+  fab.innerHTML = '<span class="fw-menu-bars" aria-hidden="true"><span></span><span></span><span></span></span>';
+
+  document.body.appendChild(backdrop);
+  document.body.appendChild(panel);
+  document.body.appendChild(fab);
+
+  var open = false;
+  var prevOverflow = "";
+
+  function setOpen(state) {
+    if (state === open) return;
+    open = state;
+    fab.classList.toggle("is-open", state);
+    fab.setAttribute("aria-expanded", state ? "true" : "false");
+    fab.setAttribute("aria-label", state ? "Close menu" : "Open menu");
+    panel.classList.toggle("open", state);
+    panel.setAttribute("aria-hidden", state ? "false" : "true");
+    backdrop.classList.toggle("show", state);
+    if (state) {
+      prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      var first = panel.querySelector("a");
+      if (first) first.focus();
+    } else {
+      document.body.style.overflow = prevOverflow;
+      fab.focus();
+    }
+  }
+
+  fab.addEventListener("click", function () { setOpen(!open); });
+  backdrop.addEventListener("click", function () { setOpen(false); });
+  panel.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && open) setOpen(false); });
+})();
