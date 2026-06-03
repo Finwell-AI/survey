@@ -17,7 +17,7 @@ netlify dev --offline           # serves on http://localhost:8888
 # Stop the background server
 pkill -f 'netlify dev'
 
-# Manual production deploy (until GitHub App is installed for auto-deploys)
+# Manual production deploy (auto-deploy on push to main is wired; use this for out-of-band deploys)
 netlify build                                # injects site env vars + runs build command
 netlify deploy --prod --dir . --message '…'  # uploads the built output
 
@@ -82,7 +82,7 @@ Tests: `npm test` runs Playwright (HTTP smoke + browser e2e). `npm run test:smok
 
 **GitHub email privacy is on.** Commits to this repo must use `6508597+valentinceaprazaru@users.noreply.github.com` (already set as the project-local `git config user.email`). Don't change it. GitHub rejects pushes that would expose `valentin.c@codingheads.com`.
 
-**Auto-deploy on push is NOT wired.** The Netlify GitHub App isn't installed on the `Finwell-AI` org yet. Until it is, every change requires a manual `netlify build && netlify deploy --prod --dir .` from this machine.
+**Auto-deploy via the Netlify GitHub App IS wired (confirmed 2026-06-03).** Pushing to `main` triggers a production build; feature-branch pushes build deploy-previews. So merging a PR to `main` deploys to production automatically — the build chain (including `check_links.py`) runs on Netlify, and a failed check fails the deploy. The manual two-step `netlify build && netlify deploy --prod --dir .` is now only needed for out-of-band deploys. Direct pushes to `main` are discouraged (feature-branch + PR is the norm).
 
 ## Conventions
 
@@ -124,11 +124,10 @@ If the function logs a 400 about an unknown property, add it in HubSpot and re-r
 - Netlify site ID: `cdb07751-3505-4c4d-a0ad-1211d71f9a06`
 - Admin: https://app.netlify.com/projects/finwellai-survey
 - Repo: https://github.com/Finwell-AI/survey
-- Default deploy URL (use until DNS): https://finwellai-survey.netlify.app
+- Production URL: https://finwellai.com.au (DNS live). Netlify alias still resolves: https://finwellai-survey.netlify.app (Playwright default `BASE_URL`)
 
 ## Outstanding
 
-- Install Netlify GitHub App on Finwell-AI org → unlocks auto-deploy on push
 - Real reCAPTCHA + Cookiebot keys → set env vars + redeploy
 - HubSpot Private App token + re-run `hubspot_setup.py` for v2 properties (segment, 4 price points, version, phase)
 - Resend API key + verify `finwellai.com.au` sending domain → set `RESEND_API_KEY` env var
