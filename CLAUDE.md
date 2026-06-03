@@ -21,9 +21,12 @@ pkill -f 'netlify dev'
 netlify build                                # injects site env vars + runs build command
 netlify deploy --prod --dir . --message '…'  # uploads the built output
 
-# Build steps (runs as part of `netlify build`)
+# Build steps (the `[build].command` chain in netlify.toml, run by `netlify build`)
 python3 scripts/build_legal_pages.py  # privacy/terms from content/*.md
-bash scripts/inject_env.sh            # sed-substitutes __VAR__ placeholders
+python3 scripts/build_blog.py         # blog listings + articles + sitemap-blog.xml
+bash scripts/inject_env.sh            # sed-substitutes __VAR__ placeholders (recurses into blog/)
+bash scripts/optimize_assets.sh       # minify + content-hash styles.css/app.js, rewrite HTML refs
+python3 scripts/check_links.py        # FAILS the build if any HTML references a missing local asset
 
 # Index, survey, thanks: hand-edited HTML, no build step.
 
@@ -61,17 +64,21 @@ Tests: `npm test` runs Playwright (HTTP smoke + browser e2e). `npm run test:smok
 
 ## Gotchas
 
+**`index.html` FAQPage JSON-LD must mirror the visible `#faq` section.** The `<head>` carries three JSON-LD blocks: `Organization`, `SoftwareApplication`, and `FAQPage` (added 2026-06-03). Google penalises FAQPage rich-result markup whose Q&As don't match the on-page text, so when you add/edit/remove a `<details>` in the `#faq` section, update the matching `Question`/`Answer` in the FAQPage block. There is no automated check — keep them in sync by hand.
+
 **Banner and footer live in 4 files.** When you change `URGENT_BANNER` markup or `SHARED_FOOTER` markup, update `index.html`, `survey.html`, `thanks.html`, AND the `URGENT_BANNER` / `SHARED_FOOTER` constants in `scripts/build_legal_pages.py`. Privacy and Terms read from those constants and will drift otherwise. There is no automated cross-page check — visually verify after the change.
 
 **`netlify deploy --build` does NOT inject site env vars.** Confirmed empirically — deployed with `--build` and got `MISSING_GA4_MEASUREMENT_ID` even with the env var set in the dashboard. Always use the two-step form: `netlify build && netlify deploy --prod --dir .`. The `netlify build` step is the one that pulls env vars from the dashboard into the local subprocess.
 
 **`inject_env.sh` is destructive — preserve `__VAR__` placeholders.** The HTMLs and `assets/js/app.js` carry placeholders like `__GA4_MEASUREMENT_ID__`, `__COOKIEBOT_CBID__`, `__RECAPTCHA_SITE_KEY__`. `inject_env.sh` sed-substitutes them on every deploy from Netlify env vars (or to literal `MISSING_<NAME>` if unset). Once a placeholder is gone from the committed file, `inject_env.sh` has nothing to replace. **Never commit the substituted output** — keep the placeholders in the repo. If a placeholder accidentally got replaced (look for `MISSING_*` or a baked GA4 ID), restore it with a global find-and-replace.
 
+**Never commit content-hashed assets — keep `styles.css` / `app.js` un-hashed in the repo.** `optimize_assets.sh` minifies + content-hashes `assets/css/styles.css` → `styles.<hash>.css` and `assets/js/app.js` → `app.<hash>.js` at build time, then rewrites every HTML reference. It has an idempotency guard: **if the un-hashed source is missing, it assumes "already hashed" and SKIPS the HTML-rewrite step.** Committing the hashed output (and deleting the un-hashed source) therefore silently breaks any freshly-generated page whose reference wasn't rewritten — this is exactly what 404'd the blog stylesheet (2026-06-03). The committed source-of-truth must always be `assets/css/styles.css` + `assets/js/app.js`, and HTML refs in the repo must point at the un-hashed paths. `scripts/check_links.py` (final build step) is the backstop: it fails the build if any HTML references a missing static asset.
+
 **The retired prototype build pipeline lives in `docs/_archive/`.** Don't import from it. Don't restore it without reading `docs/_archive/README.md` first. The archive is for rollback and historical context only.
 
 **Netlify Forms requires the form in the published HTML at deploy time.** That's why `survey.html` is statically built rather than rendered from JS. If a future change moves the form into a JS-rendered template, Netlify won't detect it. The current detection is verified — see `netlify api listSiteForms` returning `finwellai-waitlist` with 14 fields.
 
-**Custom domain finwellai.com.au is configured on the Netlify site but DNS is not cut over yet.** Use `https://finwellai-survey.netlify.app` for testing until DNS points to Netlify.
+**`finwellai.com.au` DNS is live (cut over to Netlify; confirmed 2026-06-03 — root returns 200).** Test against `https://finwellai.com.au` directly. The `https://finwellai-survey.netlify.app` URL still resolves and remains the Playwright default `BASE_URL`, but the custom domain is the production canonical (all canonical/OG/JSON-LD URLs already use `finwellai.com.au`).
 
 **GitHub email privacy is on.** Commits to this repo must use `6508597+valentinceaprazaru@users.noreply.github.com` (already set as the project-local `git config user.email`). Don't change it. GitHub rejects pushes that would expose `valentin.c@codingheads.com`.
 
@@ -126,6 +133,5 @@ If the function logs a 400 about an unknown property, add it in HubSpot and re-r
 - HubSpot Private App token + re-run `hubspot_setup.py` for v2 properties (segment, 4 price points, version, phase)
 - Resend API key + verify `finwellai.com.au` sending domain → set `RESEND_API_KEY` env var
 - Configure Form notification email in Netlify dashboard → Forms → finwellai-waitlist → Notifications → email to `info@finwellai.com.au`
-- DNS cutover for `finwellai.com.au`
 - Replace placeholder logo + OG image once founder supplies the assets folder
 - Legal review on `[REVIEW: …]` tags in `content/privacy.md` and `content/terms.md` — v2 changed the data being collected (added 4 price points + segment, removed salary_range and fair_price). The privacy policy text mentions "annual income range" and "preferred monthly price tier" which are now misaligned with the v2 form. Update needed before launch.
