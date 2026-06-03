@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+<title>About Finwell AI — who we are</title>
+<meta name="description" content="Finwell AI is building AI-powered receipt capture and tax-time automation for Australian PAYG employees and sole traders. Meet the team and what we stand for."/>
+<meta name="theme-color" content="#0B1F3B"/>
+<link rel="canonical" href="https://finwellai.com.au/about"/>
+
+<!-- DRAFT/PLACEHOLDER PAGE — kept noindex and deliberately NOT linked in nav,
+     mobile menu, footer, or sitemap-pages.xml until the founder fills in the
+     real bio/credentials below. When finalised: (1) replace every [REVIEW: …]
+     slot, (2) switch robots to index,follow, (3) add to header nav + footer +
+     sitemap-pages.xml, (4) flesh out the Person/Organization schema. -->
+<meta name="robots" content="noindex,follow"/>
+
+<!-- Favicon -->
+<link rel="icon" type="image/png" sizes="64x64" href="/assets/images/img-f5ef1fbf38.png"/>
+<link rel="apple-touch-icon" href="/assets/images/img-f5ef1fbf38.png"/>
+
+<!-- Open Graph -->
+<meta property="og:type" content="website"/>
+<meta property="og:site_name" content="Finwell AI"/>
+<meta property="og:title" content="About Finwell AI — who we are"/>
+<meta property="og:description" content="Finwell AI is building AI-powered receipt capture and tax-time automation for Australian PAYG employees and sole traders."/>
+<meta property="og:url" content="https://finwellai.com.au/about"/>
+<meta property="og:image" content="https://finwellai.com.au/assets/finwellai-og.jpeg"/>
+<meta property="og:image:type" content="image/jpeg"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:title" content="About Finwell AI — who we are"/>
+<meta name="twitter:description" content="Finwell AI is building AI-powered receipt capture and tax-time automation for Australian PAYG employees and sole traders."/>
+<meta name="twitter:image" content="https://finwellai.com.au/assets/finwellai-og.jpeg"/>
+
+<!-- JSON-LD AboutPage + Organization. NOTE: founder/team members go in the
+     Organization "founder"/"employee" arrays once real names are supplied. -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  "url": "https://finwellai.com.au/about",
+  "name": "About Finwell AI",
+  "mainEntity": {
+    "@type": "Organization",
+    "name": "Finwell AI",
+    "url": "https://finwellai.com.au",
+    "logo": "https://finwellai.com.au/assets/images/img-f5ef1fbf38.png",
+    "description": "AI-powered receipt capture and tax-time automation for Australian sole traders, PAYG earners and small business owners.",
+    "foundingLocation": "Melbourne, Australia",
+    "email": "info@finwellai.com.au",
+    "sameAs": []
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin/>
+<link rel="dns-prefetch" href="https://www.google-analytics.com"/>
+
+<link rel="preload" as="font" type="font/woff2" href="/assets/fonts/inter-var.woff2" crossorigin/>
+<link rel="preload" as="image" href="/assets/images/img-f5ef1fbf38.png" fetchpriority="high"/>
+
+<!-- Stylesheet — render-blocking by design. -->
+<link rel="stylesheet" href="/assets/css/styles.css"/>
+
+<!-- Google Analytics 4 — matches the pattern on index/survey/thanks. -->
+<!-- TODO_GA4: replace `G-FEXPCZFS0M` with the live G-XXXXXXXXXX -->
+<script>
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = function gtag(){ window.dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', 'G-FEXPCZFS0M', { anonymize_ip: true });
+  (function(){
+    var loaded = false;
+    function loadGA(){
+      if (loaded) return; loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=G-FEXPCZFS0M';
+      document.head.appendChild(s);
+    }
+    if (document.readyState === 'complete') loadGA();
+    else window.addEventListener('load', loadGA);
+  })();
+</script>
+
+<style>
+  .about-shell { background: linear-gradient(180deg, #02112e, #00091c); color: #fff; padding: 96px 24px 80px; }
+  .about-inner { max-width: 880px; margin: 0 auto; }
+  .about-eyebrow { display: inline-flex; align-items: center; padding: 7px 16px; border-radius: 999px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .18em; background: #2f80ed24; color: var(--light-blue); border: 1px solid rgba(47,128,237,.3); }
+  .about-shell h1 { font-size: clamp(36px, 5.5vw, 60px); font-weight: 800; letter-spacing: -.028em; line-height: 1.06; margin: 22px 0 18px; }
+  .about-shell h1 .accent { color: var(--ai-blue); }
+  .about-lede { font-size: clamp(17px, 2vw, 20px); line-height: 1.6; color: #dbeafecc; max-width: 60ch; margin: 0 0 28px; }
+  .about-section { margin-top: 64px; }
+  .about-section > h2 { font-size: clamp(24px, 3vw, 32px); font-weight: 800; letter-spacing: -.02em; margin: 0 0 16px; }
+  .about-section > p { font-size: 16px; line-height: 1.7; color: #dbeafeb3; max-width: 64ch; margin: 0 0 14px; }
+  .about-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-top: 24px; }
+  @media (min-width: 720px){ .about-grid { grid-template-columns: 1fr 1fr; } }
+  .about-card { background: #0f1e3c80; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border: 1px solid rgba(86,204,242,.18); border-radius: 18px; padding: 26px 24px; }
+  .about-card .person-photo { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, var(--ai-blue), var(--gradient-end)); margin-bottom: 16px; }
+  .about-card h3 { font-size: 18px; font-weight: 700; margin: 0 0 4px; }
+  .about-card .role { font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: var(--light-blue); margin: 0 0 12px; }
+  .about-card p { font-size: 14px; line-height: 1.6; color: #dbeafeb3; margin: 0; }
+  .about-trust { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 24px; }
+  @media (min-width: 600px){ .about-trust { grid-template-columns: repeat(3, 1fr); } }
+  .about-trust .item { background: #0f1e3c66; border: 1px solid rgba(86,204,242,.14); border-radius: 14px; padding: 18px 18px; }
+  .about-trust .item .label { font-size: 13px; font-weight: 700; color: #fff; margin: 0 0 6px; }
+  .about-trust .item .desc { font-size: 13px; color: #dbeafe99; line-height: 1.5; margin: 0; }
+  .about-review { display: block; margin: 6px 0 0; font-size: 12px; font-weight: 700; letter-spacing: .04em; color: var(--warning); }
+  .about-cta { margin-top: 64px; background: linear-gradient(135deg, #0B1F3B, #1E3A8A); border-radius: 18px; padding: 32px; text-align: center; }
+  .about-cta h2 { font-size: 24px; margin: 0 0 10px; }
+  .about-cta p { color: rgba(219,234,254,.85); margin: 0 0 18px; }
+  .about-cta a.btn { display: inline-block; max-width: 100%; padding: 14px 26px; background: #fff; color: #0B1F3B; border-radius: 999px; font-weight: 700; text-decoration: none; }
+</style>
+</head>
+<body data-page="about">
+<div class="urgent-banner" id="urgentBanner">
+<div class="urgent-banner-inner">
+<span class="pulse-dot"></span>
+<span><strong>Tax time is just around the corner.</strong> Be a founding member, join the waitlist, get 6 months free Premium.</span>
+<a class="banner-cta" href="/survey" data-event="cta_click" data-cta-label="urgent_banner">Claim my spot</a>
+</div>
+<button class="dismiss" onclick="window.fwDismissBanner()" aria-label="Dismiss banner">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+</button>
+</div>
+
+<header class="site-header dark" id="siteHeader">
+<div class="header-inner">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag">Financial Wellness</div>
+</div>
+</a>
+</div>
+</header>
+
+<main class="about-shell">
+  <div class="about-inner">
+    <span class="about-eyebrow">About Finwell AI</span>
+    <h1>Built for Australians who are tired of <span class="accent">guessing at tax time.</span></h1>
+    <p class="about-lede">Finwell AI turns every purchase into an item-level, tax-ready record — so PAYG employees and sole traders stop leaving money on the table and stop dreading the end of the financial year.</p>
+
+    <section class="about-section">
+      <h2>Why we're building this</h2>
+      <p>Bank apps show you "Coles, $87." They don't show you the milk, the bread, the tools, or the work expense buried inside that $87 — the detail that actually decides what you can claim. We're building the bookkeeper that lives in your pocket: AI receipt capture that reads the line items, categorises them against ATO rules, and keeps a live tax ledger so nothing gets lost between July and the next July.</p>
+      <p><!-- [REVIEW: founder to add the origin story — the specific moment/frustration that started Finwell AI. 2–3 sentences, first person reads best.] --><em>[REVIEW: Add the founder's origin story here.]</em><span class="about-review">PLACEHOLDER — founder to supply</span></p>
+    </section>
+
+    <section class="about-section">
+      <h2>The team</h2>
+      <p>Finwell AI is built in Melbourne by a small team across fintech, tax and software.</p>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="person-photo"></div>
+          <h3>[REVIEW: Founder name]</h3>
+          <p class="role">[REVIEW: Role — e.g. Founder &amp; CEO]</p>
+          <p>[REVIEW: 2–3 sentence bio. Highlight relevant background in fintech, tax, accounting, AI or software. Mention prior companies/roles and any qualifications.]</p>
+          <span class="about-review">PLACEHOLDER — founder to supply</span>
+        </div>
+        <div class="about-card">
+          <div class="person-photo"></div>
+          <h3>[REVIEW: Team member name]</h3>
+          <p class="role">[REVIEW: Role]</p>
+          <p>[REVIEW: 2–3 sentence bio. Remove this card if it's a solo founder for now.]</p>
+          <span class="about-review">PLACEHOLDER — founder to supply</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2>Trust &amp; credentials</h2>
+      <p>We handle financial data, so credibility isn't optional. As we approach launch we'll publish our accreditations and security posture here.</p>
+      <div class="about-trust">
+        <div class="item">
+          <p class="label">ATO DSP accreditation</p>
+          <p class="desc">In progress. <span class="about-review">[REVIEW: update status / add registration detail when granted]</span></p>
+        </div>
+        <div class="item">
+          <p class="label">Bank-grade security</p>
+          <p class="desc">Read-only transaction data, encrypted in transit and at rest. We never see card numbers and cannot move money. <span class="about-review">[REVIEW: add infra provider / certifications, e.g. SOC 2, ISO 27001, if applicable]</span></p>
+        </div>
+        <div class="item">
+          <p class="label">Partners</p>
+          <p class="desc">[REVIEW: add partner / integration logos and names — e.g. open-banking provider — when confirmed.]</p>
+        </div>
+      </div>
+    </section>
+
+    <div class="about-cta">
+      <h2>Help shape Finwell AI</h2>
+      <p>We're pre-launch. Founding 500 members get 6 months Premium free.</p>
+      <a class="btn" href="/survey" data-event="cta_click" data-cta-label="about_cta">Take the 2-minute survey</a>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+<div class="footer-inner">
+<div class="footer-brand">
+<a class="logo" href="/" data-event="nav_click" data-cta-label="footer_logo">
+<div class="logo-mark"><div class="brand-fmark-img" role="img" aria-label="Finwell AI"></div></div>
+<div class="logo-text">
+<div class="logo-name" style="color: white;">Finwell <span class="ai">AI</span></div>
+<div class="logo-tag" style="color: rgba(219, 234, 254, 0.7);">Financial Wellness</div>
+</div>
+</a>
+<p class="tagline">Financial Wellness. Smarter Future. Built in Melbourne for Australians dealing with the financial pressure of today.</p>
+</div>
+<div class="footer-links">
+<a href="/#what">What it does</a>
+<a href="/#how">How it works</a>
+<a href="/#tax">Tax automation</a>
+<a href="/#trust">Trust</a>
+<a href="/survey" data-event="cta_click" data-cta-label="footer_survey">Take the survey</a>
+<a href="/#faq">FAQ</a>
+<a href="/blog" data-event="nav_click" data-cta-label="footer_insights">Insights</a>
+<a href="/privacy">Privacy</a>
+<a href="/terms">Terms</a>
+</div>
+</div>
+<div class="footer-bottom">
+<span>&copy; 2026 Finwell AI. Made in Melbourne.</span>
+<span>ATO DSP accreditation in progress.</span>
+</div>
+</footer>
+
+<script src="/assets/js/app.js" defer></script>
+
+</body>
+</html>
