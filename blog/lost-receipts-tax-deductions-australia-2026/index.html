@@ -184,6 +184,16 @@
   .blog-cta p { color: rgba(219, 234, 254, 0.85); margin: 0 0 16px; }
   .blog-cta a.btn { display: inline-flex; align-items: center; padding: 12px 22px; background: #fff; color: #0B1F3B; border-radius: 999px; font-weight: 700; text-decoration: none; }
 
+  /* Related articles */
+  .blog-related { margin: 56px 0 0; padding-top: 28px; border-top: 1px solid #E2E8F0; }
+  .blog-related h2 { font-size: 20px; font-weight: 800; color: #0B1F3B; margin: 0 0 16px; }
+  .blog-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .blog-related li { margin: 0; }
+  .blog-related a { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border: 1px solid #E2E8F0; border-radius: 12px; text-decoration: none; transition: border-color 0.18s ease, transform 0.18s ease; }
+  .blog-related a:hover { border-color: #2F80ED; transform: translateX(2px); }
+  .blog-related .blog-related-cat { color: #2F80ED; text-transform: uppercase; font-size: 12px; letter-spacing: 0.06em; font-weight: 700; }
+  .blog-related .blog-related-title { color: #0B1F3B; font-size: 16px; font-weight: 700; line-height: 1.35; }
+
   /* Listings */
   .blog-list-shell { background: #fff; color: #0F172A; padding: 80px 24px 96px; }
   .blog-list-inner { max-width: 1100px; margin: 0 auto; }
@@ -225,6 +235,17 @@
 <div class="logo-tag">Financial Wellness</div>
 </div>
 </a>
+<nav class="nav-links">
+<a href="/#what" data-event="nav_click" data-cta-label="what">What it does</a>
+<a href="/#how" data-event="nav_click" data-cta-label="how">How it works</a>
+<a href="/#tax" data-event="nav_click" data-cta-label="tax">Tax automation</a>
+<a href="/#trust" data-event="nav_click" data-cta-label="trust">Trust</a>
+<a href="/blog/" data-event="nav_click" data-cta-label="blog">Insights</a>
+</nav>
+<div class="header-cta">
+<a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Claim my spot
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</div>
 </div>
 </header>
 
@@ -327,13 +348,6 @@
 <p><a href="/survey.html">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a></p>
 <h2>Sources</h2>
 <p>This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.</p>
-    
-<aside class="blog-cta">
-  <h3>Founding 500 early access</h3>
-  <p>Help shape Finwell AI before launch through one short survey.</p>
-  <a class="btn" href="/survey.html" data-event="cta_click" data-cta-label="blog_article_bottom">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a>
-</aside>
-
     <aside class="blog-footnotes" aria-label="Sources"><h2>Sources</h2><ol><li id="fn-1">myTax 2025 Other work-related expenses. Australian Taxation Office. https://www.ato.gov.au/individuals-and-families/your-tax-return/instructions-to-complete-your-tax-return/mytax-instructions/2025/deductions/work-related-expenses/other-work-related-expenses. Accessed 15 May 2026. <a href="#fnref-1" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-2">Records you need to keep. Australian Taxation Office. https://www.ato.gov.au/keepingtaxrecords. Accessed 15 May 2026. <a href="#fnref-2" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-3">Income Tax Assessment Act 1997, section 900-35, Exception for small total of expenses. ATO Legal database. https://www.ato.gov.au/law/view/document?DocID=PAC%2F19970038%2F900-35&PiT=99991231235958. Accessed 15 May 2026. <a href="#fnref-3" aria-label="Back to text">&#8617;</a></li>
@@ -351,6 +365,16 @@
 <li id="fn-15">Capture and back up records or disconnect from myDeductions. Australian Taxation Office. https://www.ato.gov.au/online-services/online-services-for-individuals-and-sole-traders/ato-app/using-mydeductions/capture-and-back-up-records-or-disconnect-from-mydeductions. Accessed 15 May 2026. <a href="#fnref-15" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-16">Instant tax deduction - exposure draft. The Treasury. https://consult.treasury.gov.au/c2026-757530. Accessed 15 May 2026. <a href="#fnref-16" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-17">$1,000 instant tax deduction to deliver lower, simpler taxes for 6.2 million workers. Treasury Ministers. https://ministers.treasury.gov.au/ministers/jim-chalmers-2022/media-releases/1000-instant-tax-deduction-deliver-lower-simpler-taxes. Accessed 15 May 2026. <a href="#fnref-17" aria-label="Back to text">&#8617;</a></li></ol></aside>
+    <aside class="blog-related" aria-label="Related articles"><h2>Related reading</h2><ul><li><a href="/blog/27-tax-deductions-most-australian-employees-miss-in-2026/" data-event="nav_click" data-cta-label="related_27-tax-deductions-most-australian-employees-miss-in-2026"><span class="blog-related-cat">deductions</span><span class="blog-related-title">27 Tax Deductions Most Australian Employees Miss in 2026</span></a></li>
+<li><a href="/blog/when-does-your-side-hustle-become-a-business-the-atos-actual-rules-2026/" data-event="nav_click" data-cta-label="related_when-does-your-side-hustle-become-a-business-the-atos-actual-rules-2026"><span class="blog-related-cat">side-hustle</span><span class="blog-related-title">When Does Your Side Hustle Become a Business? The ATO&#x27;s Actual Rules (2026)</span></a></li>
+<li><a href="/blog/2026-federal-budget-tax-changes-australia/" data-event="nav_click" data-cta-label="related_2026-federal-budget-tax-changes-australia"><span class="blog-related-cat">tax-policy</span><span class="blog-related-title">2026 Federal Budget: What It Means for Your Tax Return (and Your Next Five)</span></a></li></ul></aside>
+    
+<aside class="blog-cta">
+  <h3>Founding 500 early access</h3>
+  <p>Help shape Finwell AI before launch through one short survey.</p>
+  <a class="btn" href="/survey.html" data-event="cta_click" data-cta-label="blog_article_bottom">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a>
+</aside>
+
   </div>
 </main>
 

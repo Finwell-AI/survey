@@ -42,6 +42,100 @@
 }
 </script>
 
+<!-- JSON-LD SoftwareApplication -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Finwell AI",
+  "url": "https://finwellai.com.au",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "iOS, Android, Web",
+  "description": "AI-powered receipt capture and tax-time automation. Finwell AI captures item-level purchase data, categorises it for the ATO, and builds a live tax ledger for Australian PAYG employees and sole traders.",
+  "audience": {
+    "@type": "Audience",
+    "audienceType": "Australian PAYG employees and sole traders"
+  },
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "AUD",
+    "description": "Founding member early access — free to join the waitlist, with 6 months free Premium for founding members."
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Finwell AI",
+    "url": "https://finwellai.com.au"
+  }
+}
+</script>
+
+<!-- JSON-LD FAQPage (must mirror the visible #faq section) -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Why are you asking for survey responses instead of just launching?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Because we are not done building yet. The survey takes 3 minutes and the answers shape what we prioritise. Sole traders get one set of features ranked first. PAYG taxpayers another. We would rather hear from you now than guess and rebuild later."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does Finwell AI give me financial advice?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. We organise your spending and report it back. We will tell you what you bought, when, how often, and how it is categorised. We will not tell you what to buy, what to cut, or what to invest in. Decisions stay with you. For advice on your circumstances, see a registered tax agent or licensed financial adviser."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does it replace my accountant?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. It makes them faster and cheaper. You hand them a clean, pre-categorised dataset instead of a shoebox. Your accountant gets desktop access to fine-tune categories and prepare your lodgement. They focus on judgement calls, not data entry."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is it safe? Is my financial data protected?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, and this is not marketing speak. Account setup runs through licensed Australian infrastructure. We never see card numbers. We cannot move money. We receive transaction data only, encrypted in transit and at rest. You can disconnect anytime. You can export or delete everything you have given us, anytime."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What does “item-level” mean?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Bank apps see “Coles, $87.” Finwell AI sees the milk, the bread, the dog food, the chocolate bar that made up that $87. The difference is whether you actually know where the money goes, or just guess."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "I do not pay much tax. Is this still for me?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Plenty of people use Finwell AI just as a budget tool. You get taxable item breakdowns, the AI search bar to ask anything, and one clean record across everything you spend. The day your tax position changes, your history is already there."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When does it actually launch?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Public launch in 2026. Founding members who take the survey get early beta access before then. Take the survey, you are in line."
+      }
+    }
+  ]
+}
+</script>
+
 <!-- Preconnect to third-party origins so DNS + TLS happens in parallel with
      our own assets. Each preconnect saves ~100-300ms on a cold connection.
      Cookiebot preconnect is conditional on COOKIEBOT_ENABLED. -->
@@ -57,7 +151,7 @@
 
 <!-- Stylesheet — render-blocking by design. Async swap caused FOUC on
      hard reload (Cmd+Shift+R) where HTML paints before CSS arrives. -->
-<link rel="stylesheet" href="/assets/css/styles.0426bb70.css"/>
+<link rel="stylesheet" href="/assets/css/styles.css"/>
 
 <!-- Cookiebot consent banner is currently DISABLED. To re-enable: set
      COOKIEBOT_ENABLED = True in scripts/build_pages.py and provide a real
@@ -121,6 +215,7 @@ ATO accreditation in progress
 <a onclick="document.getElementById('tax').scrollIntoView({behavior:'smooth'})">Tax automation</a>
 <a onclick="document.getElementById('trust').scrollIntoView({behavior:'smooth'})">Trust</a>
 <a onclick="document.getElementById('faq').scrollIntoView({behavior:'smooth'})">FAQ</a>
+<a href="/blog/" data-event="nav_click" data-cta-label="blog">Insights</a>
 </nav>
 <div class="header-cta">
 <a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Claim my spot
@@ -899,7 +994,7 @@ Thank you for choosing Shell<br/>Drive safe
 </div>
 </div>
 
-<script src="/assets/js/app.e0f07480.js" defer></script>
+<script src="/assets/js/app.js" defer></script>
 
 </body>
 </html>

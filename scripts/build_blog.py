@@ -294,6 +294,16 @@ _BLOG_STYLES = """
   .blog-cta p { color: rgba(219, 234, 254, 0.85); margin: 0 0 16px; }
   .blog-cta a.btn { display: inline-flex; align-items: center; padding: 12px 22px; background: #fff; color: #0B1F3B; border-radius: 999px; font-weight: 700; text-decoration: none; }
 
+  /* Related articles */
+  .blog-related { margin: 56px 0 0; padding-top: 28px; border-top: 1px solid #E2E8F0; }
+  .blog-related h2 { font-size: 20px; font-weight: 800; color: #0B1F3B; margin: 0 0 16px; }
+  .blog-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .blog-related li { margin: 0; }
+  .blog-related a { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border: 1px solid #E2E8F0; border-radius: 12px; text-decoration: none; transition: border-color 0.18s ease, transform 0.18s ease; }
+  .blog-related a:hover { border-color: #2F80ED; transform: translateX(2px); }
+  .blog-related .blog-related-cat { color: #2F80ED; text-transform: uppercase; font-size: 12px; letter-spacing: 0.06em; font-weight: 700; }
+  .blog-related .blog-related-title { color: #0B1F3B; font-size: 16px; font-weight: 700; line-height: 1.35; }
+
   /* Listings */
   .blog-list-shell { background: #fff; color: #0F172A; padding: 80px 24px 96px; }
   .blog-list-inner { max-width: 1100px; margin: 0 auto; }
@@ -441,6 +451,17 @@ def page_shell(
 <div class="logo-tag">Financial Wellness</div>
 </div>
 </a>
+<nav class="nav-links">
+<a href="/#what" data-event="nav_click" data-cta-label="what">What it does</a>
+<a href="/#how" data-event="nav_click" data-cta-label="how">How it works</a>
+<a href="/#tax" data-event="nav_click" data-cta-label="tax">Tax automation</a>
+<a href="/#trust" data-event="nav_click" data-cta-label="trust">Trust</a>
+<a href="/blog/" data-event="nav_click" data-cta-label="blog">Insights</a>
+</nav>
+<div class="header-cta">
+<a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Claim my spot
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</div>
 </div>
 </header>
 
@@ -591,7 +612,36 @@ def render_listings(articles: list[ArticleMeta]) -> str:
 
 
 # ---------------------------------------------------------------- article page
-def render_article(art: ArticleMeta) -> str:
+def _render_related(art: ArticleMeta, all_articles: list[ArticleMeta], limit: int = 3) -> str:
+    """Build a "Related reading" block from the published article set.
+
+    Links are derived from real articles (same category first, then most
+    recent) rather than the frontmatter `internal_links` list, which contains
+    aspirational slugs for unwritten articles and would emit broken links.
+    """
+    others = [a for a in all_articles if a.slug != art.slug]
+    if not others:
+        return ""
+    same_category = [a for a in others if a.category == art.category]
+    other_category = [a for a in others if a.category != art.category]
+    picked = (same_category + other_category)[:limit]
+    if not picked:
+        return ""
+    items = "\n".join(
+        f'<li><a href="/blog/{a.slug}/" data-event="nav_click" data-cta-label="related_{a.slug}">'
+        f'<span class="blog-related-cat">{html.escape(a.category)}</span>'
+        f'<span class="blog-related-title">{html.escape(a.title)}</span></a></li>'
+        for a in picked
+    )
+    return (
+        '<aside class="blog-related" aria-label="Related articles">'
+        "<h2>Related reading</h2>"
+        f"<ul>{items}</ul>"
+        "</aside>"
+    )
+
+
+def render_article(art: ArticleMeta, all_articles: list[ArticleMeta]) -> str:
     rendered = md_to_html(art.md_body)
 
     # The markdown's first H1 becomes the page hero title; suppress duplicate H1
@@ -632,6 +682,8 @@ def render_article(art: ArticleMeta) -> str:
 </aside>
 """
 
+    related_html = _render_related(art, all_articles)
+
     body = f"""
 <main class="blog-shell">
   <div class="blog-inner">
@@ -646,8 +698,9 @@ def render_article(art: ArticleMeta) -> str:
     <h1>{html.escape(art.title)}</h1>
     <div class="blog-hero">{hero}</div>
     {body_html}
-    {cta_html}
     {footnotes_html}
+    {related_html}
+    {cta_html}
   </div>
 </main>
 """
@@ -718,7 +771,7 @@ def main() -> None:
         article_dir = BLOG_DIR / art.slug
         article_dir.mkdir(exist_ok=True)
         out_path = article_dir / "index.html"
-        out_path.write_text(render_article(art), encoding="utf-8")
+        out_path.write_text(render_article(art, articles), encoding="utf-8")
         print(f"  blog/{art.slug}/index.html  {out_path.stat().st_size:>9,} bytes")
 
     sitemap_path = ROOT / "sitemap-blog.xml"

@@ -219,6 +219,16 @@
   .blog-cta p { color: rgba(219, 234, 254, 0.85); margin: 0 0 16px; }
   .blog-cta a.btn { display: inline-flex; align-items: center; padding: 12px 22px; background: #fff; color: #0B1F3B; border-radius: 999px; font-weight: 700; text-decoration: none; }
 
+  /* Related articles */
+  .blog-related { margin: 56px 0 0; padding-top: 28px; border-top: 1px solid #E2E8F0; }
+  .blog-related h2 { font-size: 20px; font-weight: 800; color: #0B1F3B; margin: 0 0 16px; }
+  .blog-related ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 12px; }
+  .blog-related li { margin: 0; }
+  .blog-related a { display: flex; flex-direction: column; gap: 4px; padding: 16px 20px; border: 1px solid #E2E8F0; border-radius: 12px; text-decoration: none; transition: border-color 0.18s ease, transform 0.18s ease; }
+  .blog-related a:hover { border-color: #2F80ED; transform: translateX(2px); }
+  .blog-related .blog-related-cat { color: #2F80ED; text-transform: uppercase; font-size: 12px; letter-spacing: 0.06em; font-weight: 700; }
+  .blog-related .blog-related-title { color: #0B1F3B; font-size: 16px; font-weight: 700; line-height: 1.35; }
+
   /* Listings */
   .blog-list-shell { background: #fff; color: #0F172A; padding: 80px 24px 96px; }
   .blog-list-inner { max-width: 1100px; margin: 0 auto; }
@@ -260,6 +270,17 @@
 <div class="logo-tag">Financial Wellness</div>
 </div>
 </a>
+<nav class="nav-links">
+<a href="/#what" data-event="nav_click" data-cta-label="what">What it does</a>
+<a href="/#how" data-event="nav_click" data-cta-label="how">How it works</a>
+<a href="/#tax" data-event="nav_click" data-cta-label="tax">Tax automation</a>
+<a href="/#trust" data-event="nav_click" data-cta-label="trust">Trust</a>
+<a href="/blog/" data-event="nav_click" data-cta-label="blog">Insights</a>
+</nav>
+<div class="header-cta">
+<a class="btn btn-primary btn-arrow" href="/survey" data-event="cta_click" data-cta-label="primary_cta">Claim my spot
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg></a>
+</div>
 </div>
 </header>
 
@@ -363,13 +384,6 @@
 <h3>Q: Do I still need an accountant if I run a side hustle?</h3>
 <p>That depends on complexity. For a simple side hustle without GST registration, Finwell AI prepares lodgement-ready forms and runs a peer desktop review so you can lodge yourself. For GST-registered sole traders, multiple income streams, or ride-share drivers, an accountant may still add value. Either way, your accountant gets a clean, categorised dataset instead of rebuilding a year from a shoebox, and the bill comes down accordingly.</p>
 <p>This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.</p>
-    
-<aside class="blog-cta">
-  <h3>Founding 500 early access</h3>
-  <p>Help shape Finwell AI before launch through one short survey.</p>
-  <a class="btn" href="/survey.html" data-event="cta_click" data-cta-label="blog_article_bottom">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a>
-</aside>
-
     <aside class="blog-footnotes" aria-label="Sources"><h2>Sources</h2><ol><li id="fn-1">Tax rates - Australian resident. Australian Taxation Office. https://www.ato.gov.au/tax-rates-and-codes/tax-rates-australian-residents. Accessed 17 May 2026. <a href="#fnref-1" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-2">What you need to know about side hustles. business.gov.au. https://business.gov.au/news/what-you-need-to-know-about-side-hustles. Accessed 17 May 2026. <a href="#fnref-2" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-3">Are you in business? Australian Taxation Office. https://www.ato.gov.au/business/starting-your-own-business. Accessed 17 May 2026. <a href="#fnref-3" aria-label="Back to text">&#8617;</a></li>
@@ -383,6 +397,16 @@
 <li id="fn-11">Business deductions. Australian Taxation Office. https://www.ato.gov.au/businesses-and-organisations/income-deductions-and-concessions/income-and-deductions-for-business/deductions. Accessed 17 May 2026. <a href="#fnref-11" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-12">Home-based business expenses - sole trader or partnership. Australian Taxation Office. https://www.ato.gov.au/homebasedbusinessexpenses. Accessed 17 May 2026. <a href="#fnref-12" aria-label="Back to text">&#8617;</a></li>
 <li id="fn-13">Data matching. Australian Taxation Office. https://www.ato.gov.au/about-ato/commitments-and-reporting/information-and-privacy/data-matching. Accessed 17 May 2026. <a href="#fnref-13" aria-label="Back to text">&#8617;</a></li></ol></aside>
+    <aside class="blog-related" aria-label="Related articles"><h2>Related reading</h2><ul><li><a href="/blog/27-tax-deductions-most-australian-employees-miss-in-2026/" data-event="nav_click" data-cta-label="related_27-tax-deductions-most-australian-employees-miss-in-2026"><span class="blog-related-cat">deductions</span><span class="blog-related-title">27 Tax Deductions Most Australian Employees Miss in 2026</span></a></li>
+<li><a href="/blog/2026-federal-budget-tax-changes-australia/" data-event="nav_click" data-cta-label="related_2026-federal-budget-tax-changes-australia"><span class="blog-related-cat">tax-policy</span><span class="blog-related-title">2026 Federal Budget: What It Means for Your Tax Return (and Your Next Five)</span></a></li>
+<li><a href="/blog/lost-receipts-tax-deductions-australia-2026/" data-event="nav_click" data-cta-label="related_lost-receipts-tax-deductions-australia-2026"><span class="blog-related-cat">deductions</span><span class="blog-related-title">Lost Your Receipts? What You Can Still Claim on Your Australian Tax Return (2026)</span></a></li></ul></aside>
+    
+<aside class="blog-cta">
+  <h3>Founding 500 early access</h3>
+  <p>Help shape Finwell AI before launch through one short survey.</p>
+  <a class="btn" href="/survey.html" data-event="cta_click" data-cta-label="blog_article_bottom">Take the 2-minute survey. Founding 500 members get 6 months Premium free.</a>
+</aside>
+
   </div>
 </main>
 
