@@ -19,6 +19,8 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/sole-trader-vs-payg-employee-tax-deductions-australia-2026"
 og_title: "Sole Trader vs PAYG Employee: Tax Deductions Compared (2026)"
 og_description: "What sole traders and PAYG employees can each claim for 2025-26, side by side. Plus how to handle dual income, shared phone bills, and a home-based business in one return."
+hero_image: img-84c436e6
+hero_image_alt: "Sole trader vs PAYG tax deductions Australia 2026 comparison"
 ---
 
 # Sole Trader vs PAYG Employee: How Tax Deductions Actually Differ in Australia (2026)
@@ -181,8 +183,6 @@ Some do, some do not. For straightforward PAYG plus simple sole-trader income wi
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.
 
-## Sources
-
 [^1]: Business, partnership and trust income. Australian Taxation Office. https://www.ato.gov.au/individuals-and-families/income-deductions-offsets-and-records/income-you-must-declare/business-partnership-and-trust-income. Accessed 17 May 2026.
 [^2]: Work-related expenses. Australian Taxation Office. https://www.ato.gov.au/tax-and-super-professionals/your-practice/tax-and-bas-agents/working-with-you-to-manage-risk/work-related-expenses. Accessed 17 May 2026.
 [^3]: Business deductions. Australian Taxation Office. https://www.ato.gov.au/businesses-and-organisations/income-deductions-and-concessions/income-and-deductions-for-business/deductions. Accessed 17 May 2026.
@@ -234,32 +234,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags, Twitter Card tags
-4. Canonical URL
-5. JSON-LD schema (Article, FAQPage), uncomment block before publish
-6. Reading time indicator
-7. Featured image with alt text including "sole trader vs PAYG tax deductions Australia"
-8. Inline outbound link to ato.gov.au within body
-9. Inline internal links placed: 27 deductions, side hustle, audit triggers, survey
-10. Comparison table must render properly across mobile and desktop
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- Single CTA wording throughout
-- Anti-percentage-pricing framing without naming competitors
-- Dual-income accountant cost-saving angle emphasised
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 10 June 2026 morning
-- Update Blogs 1 and 2 with inline links back within 24 hours
