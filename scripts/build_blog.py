@@ -134,6 +134,49 @@ def _render_inline(text: str) -> str:
     return text
 
 
+_SEPARATOR_CELL_RE = re.compile(r"^:?-+:?$")
+
+
+def _split_table_row(line: str) -> list[str]:
+    """Split a GFM pipe-table row into its cell strings.
+
+    Tolerates the optional leading/trailing pipe. Cell contents are not
+    inline-rendered here — callers run `_render_inline` per cell.
+    """
+    line = line.strip()
+    if line.startswith("|"):
+        line = line[1:]
+    if line.endswith("|"):
+        line = line[:-1]
+    return [cell.strip() for cell in line.split("|")]
+
+
+def _is_separator_row(line: str) -> bool:
+    """True for the `| --- | :--: |` row that follows a GFM table header."""
+    cells = _split_table_row(line)
+    if not cells:
+        return False
+    return all(_SEPARATOR_CELL_RE.match(cell) for cell in cells)
+
+
+def _render_table(header: list[str], rows: list[list[str]]) -> str:
+    width = len(header)
+    head_html = "".join(f"<th>{_render_inline(cell)}</th>" for cell in header)
+    body_html: list[str] = []
+    for row in rows:
+        # Pad/truncate ragged rows to the header width so the layout holds.
+        cells = (row + [""] * width)[:width]
+        body_html.append(
+            "<tr>" + "".join(f"<td>{_render_inline(cell)}</td>" for cell in cells) + "</tr>"
+        )
+    return (
+        '<div class="blog-table-wrap">'
+        f"<table><thead><tr>{head_html}</tr></thead>"
+        f"<tbody>{''.join(body_html)}</tbody></table>"
+        "</div>"
+    )
+
+
 def md_to_html(md: str) -> RenderedArticle:
     # First sweep: pull out HTML comment blocks. Capture any JSON-LD scripts so
     # the article schema can be emitted into <head> rather than the body.
@@ -184,31 +227,51 @@ def md_to_html(md: str) -> RenderedArticle:
             out.append("</blockquote>")
             in_blockquote = False
 
-    for raw_line in body_lines:
+    i = 0
+    n = len(body_lines)
+    while i < n:
+        raw_line = body_lines[i]
         line = raw_line.rstrip()
         stripped = line.strip()
         if not stripped:
             flush_paragraph()
             close_list()
             close_blockquote()
+            i += 1
+            continue
+        # GFM pipe table: a `| col | col |` header row immediately followed by a
+        # `| --- | --- |` separator row, then consecutive body rows. Detected
+        # with one line of lookahead; falls through to paragraph otherwise.
+        if (
+            stripped.startswith("|")
+            and i + 1 < n
+            and _is_separator_row(body_lines[i + 1])
+        ):
+            flush_paragraph()
+            close_list()
+            close_blockquote()
+            header = _split_table_row(stripped)
+            rows: list[list[str]] = []
+            j = i + 2
+            while j < n and body_lines[j].strip().startswith("|"):
+                rows.append(_split_table_row(body_lines[j]))
+                j += 1
+            out.append(_render_table(header, rows))
+            i = j
             continue
         if line.startswith("# "):
             flush_paragraph(); close_list(); close_blockquote()
             out.append(f"<h1>{_render_inline(stripped[2:].strip())}</h1>")
-            continue
-        if line.startswith("## "):
+        elif line.startswith("## "):
             flush_paragraph(); close_list(); close_blockquote()
             out.append(f"<h2>{_render_inline(stripped[3:].strip())}</h2>")
-            continue
-        if line.startswith("### "):
+        elif line.startswith("### "):
             flush_paragraph(); close_list(); close_blockquote()
             out.append(f"<h3>{_render_inline(stripped[4:].strip())}</h3>")
-            continue
-        if stripped == "---":
+        elif stripped == "---":
             flush_paragraph(); close_list(); close_blockquote()
             out.append("<hr/>")
-            continue
-        if line.startswith(">"):
+        elif line.startswith(">"):
             flush_paragraph()
             if not in_blockquote:
                 close_list()
@@ -219,8 +282,7 @@ def md_to_html(md: str) -> RenderedArticle:
             if not quoted:
                 # Blank quote line — close any open list, paragraph break.
                 close_list()
-                continue
-            if quoted.startswith("- "):
+            elif quoted.startswith("- "):
                 if not in_ul:
                     out.append("<ul>")
                     in_ul = True
@@ -228,17 +290,17 @@ def md_to_html(md: str) -> RenderedArticle:
             else:
                 close_list()
                 out.append("<p>" + _render_inline(quoted) + "</p>")
-            continue
-        if stripped.startswith("- "):
+        elif stripped.startswith("- "):
             flush_paragraph(); close_blockquote()
             if not in_ul:
                 out.append("<ul>")
                 in_ul = True
             out.append("<li>" + _render_inline(stripped[2:]) + "</li>")
-            continue
-        # default paragraph buffer
-        close_list(); close_blockquote()
-        in_p_buf.append(stripped)
+        else:
+            # default paragraph buffer
+            close_list(); close_blockquote()
+            in_p_buf.append(stripped)
+        i += 1
 
     flush_paragraph(); close_list(); close_blockquote()
     return RenderedArticle(
@@ -283,6 +345,10 @@ _BLOG_STYLES = """
   .blog-inner blockquote.callout { background: #F0F9FF; border-left: 4px solid #2F80ED; padding: 20px 24px; margin: 28px 0; border-radius: 0 12px 12px 0; }
   .blog-inner blockquote.callout p { margin: 0 0 12px; }
   .blog-inner blockquote.callout p:last-child { margin-bottom: 0; }
+  .blog-inner .blog-table-wrap { overflow-x: auto; margin: 0 0 18px; -webkit-overflow-scrolling: touch; }
+  .blog-inner table { width: 100%; border-collapse: collapse; font-size: 15px; }
+  .blog-inner th, .blog-inner td { border: 1px solid #E2E8F0; padding: 10px 12px; text-align: left; vertical-align: top; line-height: 1.5; }
+  .blog-inner thead th { background: #F8FAFC; font-weight: 700; color: #0B1F3B; }
   .fn-ref a { text-decoration: none; color: #2F80ED; font-weight: 600; }
   .blog-footnotes { margin-top: 64px; padding-top: 28px; border-top: 1px solid #E2E8F0; }
   .blog-footnotes h2 { font-size: 20px; margin: 0 0 16px; }
