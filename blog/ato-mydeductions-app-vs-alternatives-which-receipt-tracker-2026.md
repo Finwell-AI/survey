@@ -19,6 +19,7 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/ato-mydeductions-app-vs-alternatives-which-receipt-tracker-2026"
 og_title: "ATO myDeductions vs Alternatives: Which Receipt Tracker Wins (2026)?"
 og_description: "Compared honestly: ATO myDeductions, H&R Block ReceiptHub, Etax Mobile, Dext, and Finwell AI. Which one actually saves you money at tax time?"
+hero_image: img-3f092e87
 ---
 
 # ATO myDeductions App vs Alternatives: Which Receipt Tracker Wins in 2026?
@@ -171,8 +172,6 @@ Finwell AI is a flat monthly subscription, not a percentage of your income and n
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.
 
-## Sources
-
 [^1]: myDeductions. Australian Taxation Office. https://www.ato.gov.au/online-services/online-services-for-individuals-and-sole-traders/ato-app/using-mydeductions/mydeductions. Accessed 17 May 2026.
 [^2]: Capture and back up records or disconnect from myDeductions. Australian Taxation Office. https://www.ato.gov.au/online-services/online-services-for-individuals-and-sole-traders/ato-app/mydeductions/using-mydeductions/capture-and-back-up-records-or-disconnect-from-mydeductions. Accessed 17 May 2026.
 [^3]: How to add expenses and trips in myDeductions. Australian Taxation Office. https://www.ato.gov.au/online-services/online-services-for-individuals-and-sole-traders/ato-app/mydeductions/using-mydeductions/how-to-add-expenses-and-trips-in-mydeductions. Accessed 17 May 2026.
@@ -225,33 +224,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags, Twitter Card tags
-4. Canonical URL
-5. JSON-LD schema (Article, SoftwareApplication, FAQPage), uncomment block before publish
-6. Reading time indicator
-7. Featured image with alt text including "ATO myDeductions alternatives Australia"
-8. Inline outbound links to ato.gov.au, hrblock.com.au, etax.com.au, dext.com. All linked from sources but worth adding inline
-9. Inline internal links placed: sole trader vs PAYG, 27 deductions, side hustle, lost receipts, survey
-10. Comparison table must render properly across mobile and desktop. Consider horizontal scroll on narrow viewports
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- Single CTA wording throughout
-- Finwell AI positioned as end-to-end category, not a receipt tracker
-- Anti-percentage-pricing framing without naming competitors
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 17 June 2026 morning
-- Update Blogs 1, 2, and 3 with inline links back within 24 hours
-- This blog should be heavily shared on LinkedIn because the comparison-style content drives the most engagement
