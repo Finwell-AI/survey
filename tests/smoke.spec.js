@@ -21,12 +21,23 @@ test.describe('smoke', () => {
     expect(await r.text()).toMatch(/Sitemap:\s+https?:/i);
   });
 
-  test('sitemap.xml is well-formed and includes the homepage', async ({ request }) => {
-    const r = await request.get('/sitemap.xml');
-    expect(r.status()).toBe(200);
-    const xml = await r.text();
-    expect(xml).toContain('<urlset');
-    expect(xml).toContain('https://finwellai.com.au/');
+  test('sitemap.xml is a sitemap index that resolves to the homepage', async ({ request }) => {
+    const indexRes = await request.get('/sitemap.xml');
+    expect(indexRes.status()).toBe(200);
+    const indexXml = await indexRes.text();
+    expect(indexXml).toContain('<sitemapindex');
+    const childLocs = [...indexXml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
+    expect(childLocs.length, 'sitemap index has no child <loc> entries').toBeGreaterThan(0);
+
+    const pagesUrl = childLocs.find((u) => /sitemap-pages\.xml$/.test(u));
+    expect(pagesUrl, 'sitemap-pages.xml not referenced by sitemap.xml').toBeTruthy();
+
+    const pagesPath = new URL(pagesUrl).pathname;
+    const pagesRes = await request.get(pagesPath);
+    expect(pagesRes.status()).toBe(200);
+    const pagesXml = await pagesRes.text();
+    expect(pagesXml).toContain('<urlset');
+    expect(pagesXml).toContain('https://finwellai.com.au/');
   });
 
   test('security headers are set on HTML', async ({ request }) => {
@@ -38,14 +49,23 @@ test.describe('smoke', () => {
     expect(h['strict-transport-security']).toMatch(/max-age=\d+/);
   });
 
-  test('CSS + JS use short cache; images + fonts are immutable', async ({ request }) => {
-    const css = await request.get('/assets/css/styles.css');
-    expect(css.status()).toBe(200);
-    expect(css.headers()['cache-control']).toContain('must-revalidate');
+  test('CSS, JS, images, and fonts are served with immutable long-lived cache', async ({ request }) => {
+    // Production serves content-hashed CSS/JS (e.g. styles.eaa16483.css) with the
+    // same 1y-immutable policy as images and fonts. Discover the deployed paths
+    // from the homepage rather than hard-coding the hash.
+    const homeHtml = await (await request.get('/')).text();
+    const cssMatch = homeHtml.match(/\/assets\/css\/styles(?:\.[a-f0-9]+)?\.css/);
+    const jsMatch = homeHtml.match(/\/assets\/js\/app(?:\.[a-f0-9]+)?\.js/);
+    expect(cssMatch, 'no styles.css reference on homepage').not.toBeNull();
+    expect(jsMatch, 'no app.js reference on homepage').not.toBeNull();
 
-    const js = await request.get('/assets/js/app.js');
+    const css = await request.get(cssMatch[0]);
+    expect(css.status()).toBe(200);
+    expect(css.headers()['cache-control']).toContain('immutable');
+
+    const js = await request.get(jsMatch[0]);
     expect(js.status()).toBe(200);
-    expect(js.headers()['cache-control']).toContain('must-revalidate');
+    expect(js.headers()['cache-control']).toContain('immutable');
 
     const img = await request.get('/assets/images/img-f5ef1fbf38.png');
     expect(img.status()).toBe(200);
