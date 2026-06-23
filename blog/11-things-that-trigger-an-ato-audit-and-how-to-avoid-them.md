@@ -19,6 +19,8 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/11-things-that-trigger-an-ato-audit-and-how-to-avoid-them"
 og_title: "11 Things That Trigger an ATO Audit (and How to Avoid Them in 2026)"
 og_description: "The 11 behaviours most likely to flag your return for ATO review in 2025-26, and how to lodge with confidence. Round numbers, copy-pasted claims, WFH inconsistencies, gig income, and more."
+hero_image: img-8dabc2a5
+hero_image_alt: "ATO audit triggers Australia 2026"
 ---
 
 # 11 Things That Trigger an ATO Audit (and How to Avoid Them in 2026)
@@ -188,8 +190,6 @@ Finwell AI is built to prevent audit triggers before lodgement by structuring re
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent.
 
-## Sources
-
 [^1]: Data matching. Australian Taxation Office. https://www.ato.gov.au/about-ato/commitments-and-reporting/information-and-privacy/data-matching. Accessed 17 May 2026.
 [^2]: How we use data and analytics. Australian Taxation Office. https://www.ato.gov.au/about-ato/commitments-and-reporting/information-and-privacy/how-we-use-data-and-analytics. Accessed 17 May 2026.
 [^3]: Rental bond data. Australian Taxation Office. https://www.ato.gov.au/about-ato/commitments-and-reporting/in-detail/privacy-and-information-gathering/how-we-use-data-matching/rental-bond-data-matching-program-protocol/rental-bond-data. Accessed 17 May 2026.
@@ -243,32 +243,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags, Twitter Card tags
-4. Canonical URL
-5. JSON-LD schema (Article, FAQPage), uncomment block before publish
-6. Reading time indicator
-7. Featured image with alt text including "ATO audit triggers Australia 2026"
-8. Inline outbound link to ato.gov.au within body
-9. Inline internal links placed: side hustle, 27 deductions, sole trader vs PAYG, survey
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- Single CTA wording throughout
-- Finwell AI compliance angle reframed as audit-prevention-by-design
-- All 11 triggers retained with strengthened formatting and "How to avoid it" pattern
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 24 June 2026 morning
-- This blog lands one week before 30 June 2026 EOFY. Highest fear-driven engagement window of the year. Push hard on LinkedIn and consider an email to the survey list the same day.
-- Update Blogs 1, 2, 3, and 4 with inline links back within 24 hours
