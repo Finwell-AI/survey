@@ -18,6 +18,8 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/investment-property-2026-budget-grandfathered-rules"
 og_title: "If You Already Own an Investment Property: What the 2026 Budget Changes"
 og_description: "Existing property investors are mostly grandfathered under the 2026 Budget. Here is exactly what stays the same, what changes, and what to do before 1 July 2027."
+hero_image: img-29b4c768
+hero_image_alt: "investment property 2026 budget grandfathered Australia"
 ---
 
 # If You Own an Investment Property Before 12 May 2026: What the Budget Changes (and What It Doesn't)
@@ -184,13 +186,11 @@ Super CGT treatment is unchanged. The 2026 Budget does not change the rules for 
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent. The measures described above are based on the 2026-27 Federal Budget announced on 12 May 2026 and may change during parliamentary passage. We will update this article when legislation passes or material changes are announced.
 
-## Sources
-
-1. Tax reform. Budget 2026-27. https://budget.gov.au/content/04-tax-reform.htm. Accessed 17 May 2026.
-2. Negative Gearing and Capital Gains Tax Reform. Budget 2026-27 Tax Explainer. https://budget.gov.au/content/factsheets/download/tax-explainers-negative-gearing-capital-gains-tax.pdf. Accessed 17 May 2026.
-3. Federal Budget Analysis 2026: Capital Gains Tax. William Buck Australia. https://williambuck.com/tools/federal-budget-2026/capital-gains-tax/. Accessed 17 May 2026.
-4. 2026 Federal Budget: What it means for Individuals. NAB. https://business.nab.com.au/tag/federal-budget/2026-federal-budget--what-it-means-for-individuals. Accessed 17 May 2026.
-5. 2026 Federal Budget Tax Changes in Australia. H&R Block. https://www.hrblock.com.au/tax-academy/2026-federal-budget-tax-updates. Accessed 17 May 2026.
+[^1]: Tax reform. Budget 2026-27. https://budget.gov.au/content/04-tax-reform.htm. Accessed 17 May 2026.
+[^2]: Negative Gearing and Capital Gains Tax Reform. Budget 2026-27 Tax Explainer. https://budget.gov.au/content/factsheets/download/tax-explainers-negative-gearing-capital-gains-tax.pdf. Accessed 17 May 2026.
+[^3]: Federal Budget Analysis 2026: Capital Gains Tax. William Buck Australia. https://williambuck.com/tools/federal-budget-2026/capital-gains-tax/. Accessed 17 May 2026.
+[^4]: 2026 Federal Budget: What it means for Individuals. NAB. https://business.nab.com.au/tag/federal-budget/2026-federal-budget--what-it-means-for-individuals. Accessed 17 May 2026.
+[^5]: 2026 Federal Budget Tax Changes in Australia. H&R Block. https://www.hrblock.com.au/tax-academy/2026-federal-budget-tax-updates. Accessed 17 May 2026.
 
 <!-- JSON-LD: do not edit by hand; regenerate from frontmatter
 <script type="application/ld+json">
@@ -223,37 +223,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Publish target: Tuesday 30 June 2026 morning AEST (EOFY day).**
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags, Twitter Card tags
-4. Canonical URL
-5. JSON-LD schema (Article, FAQPage), uncomment block before publish
-6. Reading time indicator
-7. Featured image with alt text "investment property 2026 budget grandfathered Australia"
-8. Inline outbound links to budget.gov.au and the Treasury tax explainer PDF
-9. Inline internal links placed: budget hub, audit triggers, survey
-
-**Special handling:**
-- Important "proposed legislation" disclaimer is visible at the top in a styled block
-- "Updated [date]" timestamp near the top so we can refresh as legislation progresses
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- All grandfathering rules verified against Treasury fact sheet
-- All numbers cross-checked against William Buck, NAB, H&R Block, AusTax explainers
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 1 July 2026 morning. EOFY day plus property investors is a strong combination on LinkedIn
-- This piece targets a higher-income demographic than the rest of the cluster. Expect higher conversion rate but lower volume
-- Update Budget Hub blog with an inline link back to this within 24 hours
