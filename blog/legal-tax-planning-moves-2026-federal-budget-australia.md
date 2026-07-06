@@ -19,6 +19,7 @@ internal_links:
 canonical: "https://finwellai.com.au/blog/legal-tax-planning-moves-2026-federal-budget-australia"
 og_title: "9 Legal Tax Planning Moves from the 2026 Federal Budget"
 og_description: "The budget created clear planning opportunities for workers, sole traders, investors, and small business owners. Here are the 9 moves worth knowing before 1 July 2027."
+hero_image: img-6cc37520
 ---
 
 # 9 Legal Tax Planning Moves from the 2026 Federal Budget Every Australian Should Know
@@ -231,16 +232,14 @@ Cars provided before 1 April 2029 keep the FBT treatment that applied at the tim
 
 This article is general information only and not personal tax advice. For your situation, consult a registered tax agent. The measures described above are based on the 2026-27 Federal Budget announced on 12 May 2026 and may change during parliamentary passage. We will update this article when legislation passes or material changes are announced.
 
-## Sources
-
-1. Tax reform. Budget 2026-27. https://budget.gov.au/content/04-tax-reform.htm. Accessed 17 May 2026.
-2. Cost of living. Budget 2026-27. https://budget.gov.au/content/02-cost-of-living.htm. Accessed 17 May 2026.
-3. Negative Gearing and Capital Gains Tax Reform. Budget 2026-27 Tax Explainer. https://budget.gov.au/content/factsheets/download/tax-explainers-negative-gearing-capital-gains-tax.pdf. Accessed 17 May 2026.
-4. Federal Budget Analysis 2026. William Buck Australia. https://williambuck.com/tools/federal-budget-2026/. Accessed 17 May 2026.
-5. 2026 Federal Budget: What it means for Individuals. NAB. https://business.nab.com.au/tag/federal-budget/2026-federal-budget--what-it-means-for-individuals. Accessed 17 May 2026.
-6. 2026 Federal Budget Tax Changes in Australia. H&R Block. https://www.hrblock.com.au/tax-academy/2026-federal-budget-tax-updates. Accessed 17 May 2026.
-7. Federal Budget 2026 overview. SuperGuide. https://www.superguide.com.au/super-booster/federal-budget-2026-overview. Accessed 17 May 2026.
-8. Small business CGT concessions. Australian Taxation Office. https://www.ato.gov.au/businesses-and-organisations/income-deductions-and-concessions/in-detail/small-business-cgt-concessions. Accessed 17 May 2026.
+[^1]: Tax reform. Budget 2026-27. https://budget.gov.au/content/04-tax-reform.htm. Accessed 17 May 2026.
+[^2]: Cost of living. Budget 2026-27. https://budget.gov.au/content/02-cost-of-living.htm. Accessed 17 May 2026.
+[^3]: Negative Gearing and Capital Gains Tax Reform. Budget 2026-27 Tax Explainer. https://budget.gov.au/content/factsheets/download/tax-explainers-negative-gearing-capital-gains-tax.pdf. Accessed 17 May 2026.
+[^4]: Federal Budget Analysis 2026. William Buck Australia. https://williambuck.com/tools/federal-budget-2026/. Accessed 17 May 2026.
+[^5]: 2026 Federal Budget: What it means for Individuals. NAB. https://business.nab.com.au/tag/federal-budget/2026-federal-budget--what-it-means-for-individuals. Accessed 17 May 2026.
+[^6]: 2026 Federal Budget Tax Changes in Australia. H&R Block. https://www.hrblock.com.au/tax-academy/2026-federal-budget-tax-updates. Accessed 17 May 2026.
+[^7]: Federal Budget 2026 overview. SuperGuide. https://www.superguide.com.au/super-booster/federal-budget-2026-overview. Accessed 17 May 2026.
+[^8]: Small business CGT concessions. Australian Taxation Office. https://www.ato.gov.au/businesses-and-organisations/income-deductions-and-concessions/in-detail/small-business-cgt-concessions. Accessed 17 May 2026.
 
 <!-- JSON-LD: do not edit by hand; regenerate from frontmatter
 <script type="application/ld+json">
@@ -272,38 +271,3 @@ This article is general information only and not personal tax advice. For your s
 }
 </script>
 -->
-
----
-
-## Notes for Val (delete before publish)
-
-**Publish target: Tuesday 7 July 2026 morning AEST.**
-
-**Required technical setup:**
-1. `<title>` matches H1
-2. `<meta description>` from frontmatter
-3. OG tags, Twitter Card tags
-4. Canonical URL
-5. JSON-LD schema (Article, FAQPage), uncomment block before publish
-6. Reading time indicator
-7. Featured image with alt text "tax planning 2026 federal budget Australia"
-8. Inline outbound links to budget.gov.au and Treasury fact sheets
-9. Inline internal links placed: budget hub, property investors, sole trader vs PAYG, survey
-
-**Special handling:**
-- Important "proposed legislation" disclaimer at the top
-- "Updated [date]" timestamp near the top
-- This is the highest-stakes piece for credibility. Multiple registered tax agent disclaimers throughout. Sasha may want to review before publish
-
-**Content rules applied:**
-- No em-dashes
-- "Finwell AI" in full
-- Australian English
-- Strong "what to avoid" section to prevent any reader treating this as aggressive tax minimisation advice
-- All claims verified against Treasury fact sheets and major accounting firm explainers
-
-**After publish:**
-- Submit URL to Google Search Console same day
-- Schedule LinkedIn post for Wednesday 8 July 2026 morning
-- This piece can drive significant high-value conversions because it targets readers actively planning their tax position
-- Update all preceding cluster blogs with an inline link back to this within 24 hours
